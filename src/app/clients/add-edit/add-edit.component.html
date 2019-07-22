@@ -1,0 +1,74 @@
+<mat-card class="card--margin">
+  <mat-card-title>Cadastrar novo cliente</mat-card-title>
+  <mat-card-subtitle>Preecha todas as informações marcadas como *</mat-card-subtitle>
+  <mat-card-content>
+    <div class="form-row">
+      <mat-form-field class="form-input" appearance="fill">
+        <mat-label>Nome *</mat-label>
+        <input matInput placeholder="Nome">
+        <mat-icon matSuffix>person_pin</mat-icon>
+        <mat-hint>Necessário o nome e pelo menos um sobrenome.</mat-hint>
+      </mat-form-field>
+      <mat-form-field class="form-input" appearance="fill">
+        <mat-label>CPF *</mat-label>
+        <input matInput placeholder="CPF">
+        <mat-icon matSuffix>vpn_key</mat-icon>
+        <mat-hint>Necessário ser um CPF válido</mat-hint>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field class="form-input" appearance="fill">
+        <mat-label>E-mail</mat-label>
+        <input matInput placeholder="E-mail">
+        <mat-icon matSuffix>mail</mat-icon>
+        <mat-hint>Necessário ser um e-mail válido</mat-hint>
+      </mat-form-field>
+      <mat-form-field class="form-input" appearance="fill">
+        <mat-label>Contato</mat-label>
+        <input matInput placeholder="Contato">
+        <mat-icon matSuffix>call</mat-icon>
+      </mat-form-field>
+    </div>
+
+  </mat-card-content>
+
+  <mat-card-subtitle style="font-weight: bold;">Endereço</mat-card-subtitle>
+
+  <mat-card-content>
+
+    <div class="form-row">
+      <mat-form-field class="form-input" appearance="fill">
+        <mat-label>CEP</mat-label>
+        <input matInput placeholder="CEP">
+      </mat-form-field>
+      <mat-form-field class="form-input" appearance="fill">
+        <mat-label>UF</mat-label>
+        <input matInput placeholder="UF">
+      </mat-form-field>
+    </div>
+
+
+    <div class="form-row">
+      <mat-form-field class="form-input" appearance="fill">
+        <mat-label>Cidade</mat-label>
+        <input matInput placeholder="Cidade">
+      </mat-form-field>
+      <mat-form-field class="form-input" appearance="fill">
+        <mat-label>Bairro</mat-label>
+        <input matInput placeholder="Bairro">
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field class="form-input" appearance="fill">
+        <mat-label>Logradouro</mat-label>
+        <input matInput placeholder="Logradouro">
+      </mat-form-field>
+      <mat-form-field class="form-input" appearance="fill">
+        <mat-label>Número</mat-label>
+        <input matInput placeholder="Número">
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+</mat-card>

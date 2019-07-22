@@ -1,0 +1,45 @@
+<mat-card class="card--margin">
+  <mat-card-title>Clientes</mat-card-title>
+  <mat-card-subtitle>Todos os clientes cadastrados</mat-card-subtitle>
+  <mat-form-field appearance="outline" style="width: 100%">
+    <mat-label>Pesquisar por nome</mat-label>
+    <input matInput placeholder="Nome">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+  <mat-list>
+    <mat-list-item class="mat-list-option ng-star-inserted" *ngFor="let client of clients">
+      <img matListAvatar src="./assets/images/man.png" alt="...">
+      <h3 matLine> {{client.name}} </h3>
+      <p matLine>
+        <span>CPF:</span>
+        <span class="demo-2"> 469.520.628-58 </span>
+      </p>
+      <button mat-icon-button aria-label="Adicionar veículos do cliente" matBadge="+" matBadgePosition="before"
+        matBadgeColor="warn">
+        <mat-icon>directions_car</mat-icon>
+      </button>
+      <button style="margin-left: 36px;" mat-icon-button aria-label="Criar ordem de serviço para o cliente" matBadge="+"
+        matBadgePosition="before" matBadgeColor="warn">
+        <mat-icon>build</mat-icon>
+      </button>
+      <button style="margin-left: 24px;" mat-icon-button aria-label="Editar cliente">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button style="margin-left: 24px;" mat-icon-button aria-label="Deletar cliente">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-list>
+
+</mat-card>
+
+<div class="fixed-bottom fixed-bottom--right">
+
+  <button mat-fab routerLink="/clients/:id" style="margin-right : 14px;">
+    <mat-icon>add</mat-icon>
+  </button>
+  <button mat-fab color="warn" style="margin-right : 14px;" (click)="goToTop()">
+    <mat-icon>keyboard_arrow_up</mat-icon>
+  </button>
+
+</div>

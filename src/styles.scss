@@ -1,0 +1,43 @@
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+// @import '~@angular/material/prebuilt-themes/indigo-pink.css';
+// @import '~@angular/material/prebuilt-themes/pink-bluegrey.css';
+// @import '~@angular/material/prebuilt-themes/purple-green.css';
+
+html,
+body {
+    height: 100vh;
+    font-family: "Roboto", "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    margin: 0;
+    padding: 0;
+    background-color: #d5e1df;
+}
+
+.active-link {
+    font-weight: bold;
+}
+
+.fixed-bottom {
+    z-index:5; 
+    position:fixed;
+    display:flex; 
+    align-self:flex-end;
+    bottom: 5%; 
+}
+
+.fixed-bottom--right {
+    right: 0; 
+    margin-right: 32px;
+}
+
+.card--margin {
+    margin: 16px;
+}
+
+.valid {
+    background-color: #64dd17 !important;
+}
+
+.valid--font-bold {
+    font-weight: bold;
+}
