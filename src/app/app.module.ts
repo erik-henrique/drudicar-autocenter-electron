@@ -7,20 +7,23 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
-import {NgModule} from '@angular/core';
-import {MatMenuModule} from '@angular/material/menu';
-import {AppComponent} from './app.component';
+import { NgModule } from '@angular/core';
+import { MatMenuModule } from '@angular/material/menu';
 import { MenuComponent } from './menu/menu.component';
 import { MatListModule } from '@angular/material/list';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatDividerModule } from '@angular/material/divider';
 
+import { AppComponent } from './app.component';
 import { ClientsComponent } from './clients/clients.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ServicesOrdersComponent } from './services-orders/services-orders.component';
 import { ClientAddEditComponent } from './clients/add-edit/add-edit.component';
+import { VehiclesComponent } from './vehicles/vehicles.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 const appRoutes: Routes = [
     { path: '', component: ClientsComponent },
@@ -35,7 +38,8 @@ const appRoutes: Routes = [
         MenuComponent,
         ClientsComponent,
         ServicesOrdersComponent,
-        ClientAddEditComponent
+        ClientAddEditComponent,
+        VehiclesComponent
     ],
     imports: [
         RouterModule.forRoot(
@@ -56,7 +60,9 @@ const appRoutes: Routes = [
         MatChipsModule,
         MatIconModule,
         MatTabsModule,
-        MatBadgeModule
+        MatBadgeModule,
+        MatDividerModule,
+        MatPaginatorModule
     ],
     providers: [],
     bootstrap: [AppComponent]

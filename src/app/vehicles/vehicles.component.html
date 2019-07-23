@@ -1,0 +1,78 @@
+<mat-card class="card--margin">
+    <mat-card-title>Veículos</mat-card-title>
+    <mat-card-subtitle>Todos os veículos cadastrados do cliente</mat-card-subtitle>
+    <mat-card-content>
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource">
+
+                <!-- modelo Column -->
+                <ng-container matColumnDef="modelo">
+                    <th mat-header-cell *matHeaderCellDef> Modelo </th>
+                    <td mat-cell *matCellDef="let element"> {{element.modelo}} </td>
+                </ng-container>
+
+                <!-- marca Column -->
+                <ng-container matColumnDef="marca">
+                    <th mat-header-cell *matHeaderCellDef> Marca </th>
+                    <td mat-cell *matCellDef="let element"> {{element.marca}} </td>
+                </ng-container>
+
+                <!-- cor Column -->
+                <ng-container matColumnDef="cor">
+                    <th mat-header-cell *matHeaderCellDef> Cor </th>
+                    <td mat-cell *matCellDef="let element"> {{element.cor}} </td>
+                </ng-container>
+
+                <!-- ano Column -->
+                <ng-container matColumnDef="ano">
+                    <th mat-header-cell *matHeaderCellDef> Ano </th>
+                    <td mat-cell *matCellDef="let element"> {{element.ano}} </td>
+                </ng-container>
+
+                <!-- anoModelo Column -->
+                <ng-container matColumnDef="anoModelo">
+                    <th mat-header-cell *matHeaderCellDef> Ano modelo </th>
+                    <td mat-cell *matCellDef="let element"> {{element.anoModelo}} </td>
+                </ng-container>
+
+                <!-- placa Column -->
+                <ng-container matColumnDef="placa">
+                    <th mat-header-cell *matHeaderCellDef> Placa </th>
+                    <td mat-cell *matCellDef="let element"> {{element.placa}} </td>
+                </ng-container>
+
+                <!-- uf Column -->
+                <ng-container matColumnDef="uf">
+                    <th mat-header-cell *matHeaderCellDef> UF </th>
+                    <td mat-cell *matCellDef="let element"> {{element.uf}} </td>
+                </ng-container>
+
+                <!-- municipio Column -->
+                <ng-container matColumnDef="municipio">
+                    <th mat-header-cell *matHeaderCellDef> Município </th>
+                    <td mat-cell *matCellDef="let element"> {{element.municipio}} </td>
+                </ng-container>
+
+                <!-- chassi Column -->
+                <ng-container matColumnDef="chassi">
+                    <th mat-header-cell *matHeaderCellDef> Chassi </th>
+                    <td mat-cell *matCellDef="let element"> {{element.chassi}} </td>
+                </ng-container>
+
+                <!-- edit Column -->
+                <ng-container matColumnDef="edit">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-icon>edit</mat-icon>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+
+    </mat-card-content>
+</mat-card>
