@@ -1,6 +1,6 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {FormsModule} from '@angular/forms';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,30 +16,34 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppComponent } from './app.component';
-import { ClientsComponent } from './clients/clients.component';
 import { RouterModule, Routes } from '@angular/router';
+import { ClientsListComponent } from './clients/clients-list.component';
 import { ServicesOrdersComponent } from './services-orders/services-orders.component';
-import { ClientAddEditComponent } from './clients/add-edit/add-edit.component';
-import { VehiclesComponent } from './vehicles/vehicles.component';
+import { ClientAddEditComponent } from './clients/client-add-edit/client-add-edit.component';
+import { VehiclesListComponent } from './vehicles/vehicles-list.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { VehicleAddEditComponent } from './vehicles/add-edit/vehicle-add-edit.component';
+import { MatStepperModule } from '@angular/material/stepper';
 
 const appRoutes: Routes = [
-    { path: '', component: ClientsComponent },
-    { path: 'clients', component: ClientsComponent },
+    { path: '', component: ClientsListComponent },
+    { path: 'clients', component: ClientsListComponent },
     { path: 'clients/:id', component: ClientAddEditComponent },
     { path: 'services-orders', component: ServicesOrdersComponent },
-  ];
+];
 
 @NgModule({
     declarations: [
         AppComponent,
         MenuComponent,
-        ClientsComponent,
+        ClientsListComponent,
         ServicesOrdersComponent,
         ClientAddEditComponent,
-        VehiclesComponent
+        VehiclesListComponent,
+        VehicleAddEditComponent
     ],
     imports: [
         RouterModule.forRoot(
@@ -49,6 +53,7 @@ const appRoutes: Routes = [
         BrowserModule,
         BrowserAnimationsModule,
         FormsModule,
+        ReactiveFormsModule,
         MatTableModule,
         MatCardModule,
         MatFormFieldModule,
@@ -62,10 +67,13 @@ const appRoutes: Routes = [
         MatTabsModule,
         MatBadgeModule,
         MatDividerModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        MatDialogModule,
+        MatStepperModule
     ],
     providers: [],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    entryComponents: [VehicleAddEditComponent],
 })
 export class AppModule {
 }

@@ -1,5 +1,6 @@
 <mat-card class="card--margin">
-    <mat-card-title>Veículos</mat-card-title>
+    <mat-card-title>Veículos <mat-icon matSuffix>directions_car</mat-icon>
+    </mat-card-title>
     <mat-card-subtitle>Todos os veículos cadastrados do cliente</mat-card-subtitle>
     <mat-card-content>
         <div class="mat-elevation-z8">
@@ -63,7 +64,19 @@
                 <ng-container matColumnDef="edit">
                     <th mat-header-cell *matHeaderCellDef></th>
                     <td mat-cell *matCellDef="let element">
-                        <mat-icon>edit</mat-icon>
+                        <span (click)="openDialog()">
+                            <mat-icon style="height: 20px;font-size: 20px; cursor: pointer;">edit</mat-icon>
+                        </span>
+                    </td>
+                </ng-container>
+
+                <!-- delete Column -->
+                <ng-container matColumnDef="delete">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element">
+                        <span (click)="openDialog()">
+                            <mat-icon style="height: 20px;font-size: 20px; cursor: pointer;">delete</mat-icon>
+                        </span>
                     </td>
                 </ng-container>
 

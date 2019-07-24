@@ -1,0 +1,82 @@
+<mat-card class="card--margin">
+  <mat-card-title>Cadastrar novo veículo <mat-icon matSuffix>directions_car</mat-icon>
+  </mat-card-title>
+  <mat-card-subtitle>Preecha todas as informações marcadas como *</mat-card-subtitle>
+  <mat-card-content>
+    <div class="form-row">
+      <mat-form-field class="form-input" appearance="fill">
+        <mat-label>Placa *</mat-label>
+        <input matInput placeholder="Placa">
+        <mat-hint>Obrigatório</mat-hint>
+      </mat-form-field>
+      <mat-form-field class="form-input" appearance="fill">
+        <mat-label>Cor</mat-label>
+        <input matInput placeholder="Cor">
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field class="form-input" appearance="fill">
+        <mat-label>Modelo</mat-label>
+        <input matInput placeholder="Modelo">
+      </mat-form-field>
+      <mat-form-field class="form-input" appearance="fill">
+        <mat-label>Marca</mat-label>
+        <input matInput placeholder="Marca">
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field class="form-input" appearance="fill">
+        <mat-label>Ano</mat-label>
+        <input matInput placeholder="Ano">
+      </mat-form-field>
+      <mat-form-field class="form-input" appearance="fill">
+        <mat-label>Ano modelo</mat-label>
+        <input matInput placeholder="Ano modelo">
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field class="form-input" appearance="fill">
+        <mat-label>Cidade</mat-label>
+        <input matInput placeholder="Cidade">
+      </mat-form-field>
+      <mat-form-field class="form-input" appearance="fill">
+        <mat-label>Bairro</mat-label>
+        <input matInput placeholder="Bairro">
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field class="form-input" appearance="fill">
+        <mat-label>UF</mat-label>
+        <input matInput placeholder="UF">
+      </mat-form-field>
+      <mat-form-field class="form-input" appearance="fill">
+        <mat-label>Município</mat-label>
+        <input matInput placeholder="Município">
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field class="form-input" appearance="fill">
+        <mat-label>Chassi</mat-label>
+        <input matInput placeholder="Chassi">
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+
+</mat-card>
+
+<mat-dialog-actions style="float: left;">
+  <button mat-icon-button class="mat-list-option" [mat-dialog-close]="true">
+    <mat-icon style="font-size: 28px;height: 28px; width: 28px;">close</mat-icon>
+  </button>
+</mat-dialog-actions>
+
+<mat-dialog-actions style="float: right;">
+  <button mat-icon-button class="mat-list-option">
+    <mat-icon style="font-size: 28px;height: 28px; width: 28px;">check</mat-icon>
+  </button>
+</mat-dialog-actions>
