@@ -26,6 +26,6 @@ export class Settings {
         }
 
         Settings.dbFolder = path.join(Settings.appPath, Settings.dataSubFolder);
-        Settings.dbPath = path.join(Settings.dbFolder, this.dbName)
+        Settings.dbPath = path.join(Settings.dbFolder, this.dbName);
     }
 }

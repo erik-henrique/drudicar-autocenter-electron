@@ -1,82 +1,92 @@
 <mat-card class="card--margin">
-  <mat-card-title>Cadastrar novo cliente <mat-icon matSuffix>person</mat-icon></mat-card-title>
+  <mat-card-title>Cadastrar novo cliente <mat-icon matSuffix>person</mat-icon>
+  </mat-card-title>
   <mat-card-subtitle>Preecha todas as informações marcadas como *</mat-card-subtitle>
-  <mat-card-content>
-    <div class="form-row">
-      <mat-form-field class="form-input" appearance="fill">
-        <mat-label>Nome *</mat-label>
-        <input matInput placeholder="Nome">
-        <mat-icon matSuffix>person_pin</mat-icon>
-        <mat-hint>Necessário o nome e pelo menos um sobrenome.</mat-hint>
-      </mat-form-field>
-      <mat-form-field class="form-input" appearance="fill">
-        <mat-label>CPF *</mat-label>
-        <input matInput placeholder="CPF">
-        <mat-icon matSuffix>vpn_key</mat-icon>
-        <mat-hint>Necessário ser um CPF válido</mat-hint>
-      </mat-form-field>
-    </div>
+  <form [formGroup]="clientForm">
+    <mat-card-content>
+      <div class="form-row">
+        <mat-form-field class="form-input" appearance="fill">
+          <mat-label>Nome *</mat-label>
+          <input matInput type="text" placeholder="Nome" formControlName="name">
+          <mat-icon matSuffix>person_pin</mat-icon>
+          <mat-error *ngIf="name.invalid && name.touched">Nome é obrigatório.</mat-error>
 
-    <div class="form-row">
-      <mat-form-field class="form-input" appearance="fill">
-        <mat-label>E-mail</mat-label>
-        <input matInput placeholder="E-mail">
-        <mat-icon matSuffix>mail</mat-icon>
-        <mat-hint>Necessário ser um e-mail válido</mat-hint>
-      </mat-form-field>
-      <mat-form-field class="form-input" appearance="fill">
-        <mat-label>Contato</mat-label>
-        <input matInput placeholder="Contato">
-        <mat-icon matSuffix>call</mat-icon>
-      </mat-form-field>
-    </div>
+        </mat-form-field>
+        <mat-form-field class="form-input" appearance="fill">
+          <mat-label>CPF *</mat-label>
+          <input matInput placeholder="CPF" formControlName="identifierKey" mask="000.000.000-00">
+          <mat-icon matSuffix>vpn_key</mat-icon>
+          <mat-error *ngIf="identifierKey.errors && identifierKey.errors.required && identifierKey.touched">CPF é
+            obrigatório.</mat-error>
+          <mat-error *ngIf="identifierKey.errors && identifierKey.errors.cpfInvalid && !identifierKey.errors.required">
+            CPF inválido.
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-  </mat-card-content>
+      <div class="form-row">
+        <mat-form-field class="form-input" appearance="fill">
+          <mat-label>E-mail</mat-label>
+          <input matInput type="email" placeholder="E-mail" formControlName="email">
+          <mat-icon matSuffix>mail</mat-icon>
+          <mat-error *ngIf="email.invalid && email.touched">Necessário ser um e-mail válido.</mat-error>
+        </mat-form-field>
+        <mat-form-field class="form-input" appearance="fill">
+          <mat-label>Contato</mat-label>
+          <input matInput placeholder="Contato" mask="(00) 000000000">
+          <mat-icon matSuffix>call</mat-icon>
+        </mat-form-field>
+      </div>
 
-  <mat-card-subtitle style="font-weight: bold;margin-left: 16px;">Endereço</mat-card-subtitle>
+    </mat-card-content>
 
-  <mat-card-content>
+    <mat-card-subtitle style="font-weight: bold;margin-left: 16px; font-size: 18px;">
+      Endereço <mat-icon>location_on</mat-icon>
+    </mat-card-subtitle>
 
-    <div class="form-row">
-      <mat-form-field class="form-input" appearance="fill">
-        <mat-label>CEP</mat-label>
-        <input matInput placeholder="CEP">
-      </mat-form-field>
-      <mat-form-field class="form-input" appearance="fill">
-        <mat-label>UF</mat-label>
-        <input matInput placeholder="UF">
-      </mat-form-field>
-    </div>
+    <mat-card-content>
+
+      <div class="form-row">
+        <mat-form-field class="form-input" appearance="fill">
+          <mat-label>CEP</mat-label>
+          <input matInput placeholder="CEP" mask="00000-000">
+        </mat-form-field>
+        <mat-form-field class="form-input" appearance="fill">
+          <mat-label>UF</mat-label>
+          <input matInput placeholder="UF" mask="SS" oninput="this.value = this.value.toUpperCase()">
+        </mat-form-field>
+      </div>
 
 
-    <div class="form-row">
-      <mat-form-field class="form-input" appearance="fill">
-        <mat-label>Cidade</mat-label>
-        <input matInput placeholder="Cidade">
-      </mat-form-field>
-      <mat-form-field class="form-input" appearance="fill">
-        <mat-label>Bairro</mat-label>
-        <input matInput placeholder="Bairro">
-      </mat-form-field>
-    </div>
+      <div class="form-row">
+        <mat-form-field class="form-input" appearance="fill">
+          <mat-label>Cidade</mat-label>
+          <input type="text" matInput placeholder="Cidade">
+        </mat-form-field>
+        <mat-form-field class="form-input" appearance="fill">
+          <mat-label>Bairro</mat-label>
+          <input type="text" matInput placeholder="Bairro">
+        </mat-form-field>
+      </div>
 
-    <div class="form-row">
-      <mat-form-field class="form-input" appearance="fill">
-        <mat-label>Logradouro</mat-label>
-        <input matInput placeholder="Logradouro">
-      </mat-form-field>
-      <mat-form-field class="form-input" appearance="fill">
-        <mat-label>Número</mat-label>
-        <input matInput placeholder="Número">
-      </mat-form-field>
-    </div>
-  </mat-card-content>
+      <div class="form-row">
+        <mat-form-field class="form-input" appearance="fill">
+          <mat-label>Logradouro</mat-label>
+          <input type="text" matInput placeholder="Logradouro">
+        </mat-form-field>
+        <mat-form-field class="form-input" appearance="fill">
+          <mat-label>Número</mat-label>
+          <input type="number" matInput placeholder="Número">
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </form>
 </mat-card>
 
 <app-vehicles-list></app-vehicles-list>
 
 <div class="fixed-bottom fixed-bottom--left">
-  <button mat-fab color="warn" (click)="goToTop()">
-    <mat-icon>save</mat-icon> 
+  <button mat-fab color="warn">
+    <mat-icon>save</mat-icon>
   </button>
 </div>

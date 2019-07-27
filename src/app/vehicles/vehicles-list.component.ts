@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { VehicleAddEditComponent } from './add-edit/vehicle-add-edit.component';
 
 export interface PeriodicElement {
@@ -49,7 +49,6 @@ export class VehiclesListComponent implements OnInit {
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
-    this.paginator._intl.itemsPerPageLabel = 'Itens por página';
   }
 
   openDialog(): void {

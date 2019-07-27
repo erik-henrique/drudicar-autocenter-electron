@@ -24,9 +24,14 @@ import { ClientsListComponent } from './clients/clients-list.component';
 import { ServicesOrdersComponent } from './services-orders/services-orders.component';
 import { ClientAddEditComponent } from './clients/client-add-edit/client-add-edit.component';
 import { VehiclesListComponent } from './vehicles/vehicles-list.component';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
 import { VehicleAddEditComponent } from './vehicles/add-edit/vehicle-add-edit.component';
 import { MatStepperModule } from '@angular/material/stepper';
+import { getPtBrPaginatorIntl } from 'src/shared/i18n/ptBr-paginator-intl';
+
+import { NgxMaskModule, IConfig} from 'ngx-mask';
+
+export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
 
 const appRoutes: Routes = [
     { path: '', component: ClientsListComponent },
@@ -50,6 +55,7 @@ const appRoutes: Routes = [
             appRoutes,
             { enableTracing: true } // <-- debugging purposes only
         ),
+        NgxMaskModule.forRoot(options),
         BrowserModule,
         BrowserAnimationsModule,
         FormsModule,
@@ -71,7 +77,9 @@ const appRoutes: Routes = [
         MatDialogModule,
         MatStepperModule
     ],
-    providers: [],
+    providers: [
+        { provide: MatPaginatorIntl, useValue: getPtBrPaginatorIntl() }
+      ],
     bootstrap: [AppComponent],
     entryComponents: [VehicleAddEditComponent],
 })

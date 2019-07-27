@@ -36,6 +36,7 @@
   },
   "private": true,
   "dependencies": {
+    "ngx-mask": "^8.0.2",
     "sqlite3": "^4.0.9",
     "typeorm": "^0.2.18"
   },
