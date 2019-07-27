@@ -7,18 +7,18 @@
       <div class="form-row">
         <mat-form-field class="form-input" appearance="fill">
           <mat-label>Nome *</mat-label>
-          <input matInput type="text" placeholder="Nome" formControlName="name">
+          <input matInput type="text" placeholder="Nome" formControlName="nome">
           <mat-icon matSuffix>person_pin</mat-icon>
-          <mat-error *ngIf="name.invalid && name.touched">Nome é obrigatório.</mat-error>
+          <mat-error *ngIf="nome.invalid && nome.touched">Nome é obrigatório.</mat-error>
 
         </mat-form-field>
         <mat-form-field class="form-input" appearance="fill">
           <mat-label>CPF *</mat-label>
-          <input matInput placeholder="CPF" formControlName="identifierKey" mask="000.000.000-00">
+          <input matInput placeholder="CPF" formControlName="cpf" mask="000.000.000-00">
           <mat-icon matSuffix>vpn_key</mat-icon>
-          <mat-error *ngIf="identifierKey.errors && identifierKey.errors.required && identifierKey.touched">CPF é
+          <mat-error *ngIf="cpf.errors && cpf.errors.required && cpf.touched">CPF é
             obrigatório.</mat-error>
-          <mat-error *ngIf="identifierKey.errors && identifierKey.errors.cpfInvalid && !identifierKey.errors.required">
+          <mat-error *ngIf="cpf.errors && cpf.errors.cpfInvalid && !cpf.errors.required">
             CPF inválido.
           </mat-error>
         </mat-form-field>
@@ -49,34 +49,35 @@
       <div class="form-row">
         <mat-form-field class="form-input" appearance="fill">
           <mat-label>CEP</mat-label>
-          <input matInput placeholder="CEP" mask="00000-000">
+          <input matInput placeholder="CEP" mask="00000-000" formControlName="cep">
+          <mat-error *ngIf="cep.errors && cep.touched">CEP inválido.</mat-error>
         </mat-form-field>
         <mat-form-field class="form-input" appearance="fill">
           <mat-label>UF</mat-label>
-          <input matInput placeholder="UF" mask="SS" oninput="this.value = this.value.toUpperCase()">
+          <input matInput placeholder="UF" mask="SS" oninput="this.value = this.value.toUpperCase()"
+            formControlName="uf">
         </mat-form-field>
       </div>
-
 
       <div class="form-row">
         <mat-form-field class="form-input" appearance="fill">
           <mat-label>Cidade</mat-label>
-          <input type="text" matInput placeholder="Cidade">
+          <input type="text" matInput placeholder="Cidade" formControlName="localidade">
         </mat-form-field>
         <mat-form-field class="form-input" appearance="fill">
           <mat-label>Bairro</mat-label>
-          <input type="text" matInput placeholder="Bairro">
+          <input type="text" matInput placeholder="Bairro" formControlName="bairro">
         </mat-form-field>
       </div>
 
       <div class="form-row">
         <mat-form-field class="form-input" appearance="fill">
           <mat-label>Logradouro</mat-label>
-          <input type="text" matInput placeholder="Logradouro">
+          <input type="text" matInput placeholder="Logradouro" formControlName="logradouro">
         </mat-form-field>
         <mat-form-field class="form-input" appearance="fill">
           <mat-label>Número</mat-label>
-          <input type="number" matInput placeholder="Número">
+          <input type="number" matInput placeholder="Número" formControlName="numero">
         </mat-form-field>
       </div>
     </mat-card-content>

@@ -7,32 +7,32 @@ export class Client extends BaseEntity {
     id: number;
 
     @Column()
-    name: string;
+    nome: string;
 
     @Column()
-    identifierKey: string;
+    cpf: string;
 
     @Column()
     email: string;
 
     @Column()
-    contact: string;
+    contato: string;
 
     @Column()
-    zipCode: string;
+    cep: string;
 
     @Column()
-    state: string;
+    uf: string;
 
     @Column()
-    city: string;
+    localidade: string;
 
     @Column()
-    district: string;
+    bairro: string;
 
     @Column()
-    street: string;
+    logradouro: string;
 
     @Column()
-    number: string;
+    numero: string;
 }

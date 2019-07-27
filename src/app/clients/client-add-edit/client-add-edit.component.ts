@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CpfCnpjValidator } from 'src/shared/validators/cpf-cnpj.validator';
+import IZipCode from 'src/shared/interfaces/zipCode.interface';
+import { HttpService } from 'src/shared/services/http.service';
+import { MatSnackBar } from '@angular/material';
+
 
 @Component({
   selector: 'app-client-add-edit',
@@ -11,24 +15,31 @@ export class ClientAddEditComponent implements OnInit {
 
   public clientForm: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private _fb: FormBuilder, private _httpService: HttpService) { }
 
   ngOnInit() {
-    this.clientForm = this.fb.group({
-      name: ['', [
+    this.clientForm = this._fb.group({
+      nome: ['', [
         Validators.required
       ]],
-      identifierKey: ['', [Validators.required, Validators.minLength(11),
+      cpf: ['', [Validators.required, Validators.minLength(11),
       Validators.maxLength(11), CpfCnpjValidator.CpfValidator]
       ],
       email: ['', [Validators.email]],
-      contact: ['', []],
-      zipCode: ['', []],
-      state: ['', []],
-      city: ['', []],
-      district: ['', []],
-      street: ['', []],
-      number: ['', []]
+      contato: ['', []],
+      cep: ['', [ Validators.minLength(8),
+        Validators.maxLength(8)]],
+      uf: ['', []],
+      localidade: ['', []],
+      bairro: ['', []],
+      logradouro: ['', []],
+      numero: ['', []]
+    });
+    this.clientForm.controls.cep.valueChanges.subscribe((value: string) => {
+      console.log(value.length);
+      if (value.length === 8) {
+        this.findClientZipCode(value);
+      }
     });
   }
 
@@ -36,12 +47,25 @@ export class ClientAddEditComponent implements OnInit {
     return this.clientForm.get('email');
   }
 
-  get name() {
-    return this.clientForm.get('name');
+  get nome() {
+    return this.clientForm.get('nome');
   }
 
-  get identifierKey() {
-    return this.clientForm.get('identifierKey');
+  get cpf() {
+    return this.clientForm.get('cpf');
   }
 
+  get cep() {
+    return this.clientForm.get('cep');
+  }
+
+  public async findClientZipCode(clientZipCode: string) {
+    try {
+      const cep: IZipCode = await this._httpService.getZipCode(clientZipCode).toPromise();
+      delete cep['cep'];
+      this.clientForm.patchValue(cep);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 }

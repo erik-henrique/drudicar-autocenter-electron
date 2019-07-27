@@ -17,6 +17,10 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatStepperModule } from '@angular/material/stepper';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -26,10 +30,11 @@ import { ClientAddEditComponent } from './clients/client-add-edit/client-add-edi
 import { VehiclesListComponent } from './vehicles/vehicles-list.component';
 import { MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
 import { VehicleAddEditComponent } from './vehicles/add-edit/vehicle-add-edit.component';
-import { MatStepperModule } from '@angular/material/stepper';
-import { getPtBrPaginatorIntl } from 'src/shared/i18n/ptBr-paginator-intl';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { NgxMaskModule, IConfig} from 'ngx-mask';
+import { getPtBrPaginatorIntl } from 'src/shared/i18n/ptBr-paginator-intl';
+import { HttpService } from 'src/shared/services/http.service';
+import { HttpConfigInterceptor } from 'src/shared/interceptors/http.token.interceptor';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
 
@@ -59,6 +64,7 @@ const appRoutes: Routes = [
         BrowserModule,
         BrowserAnimationsModule,
         FormsModule,
+        HttpClientModule,
         ReactiveFormsModule,
         MatTableModule,
         MatCardModule,
@@ -75,11 +81,15 @@ const appRoutes: Routes = [
         MatDividerModule,
         MatPaginatorModule,
         MatDialogModule,
-        MatStepperModule
+        MatStepperModule,
+        MatSnackBarModule,
+        MatProgressSpinnerModule
     ],
     providers: [
-        { provide: MatPaginatorIntl, useValue: getPtBrPaginatorIntl() }
-      ],
+        { provide: MatPaginatorIntl, useValue: getPtBrPaginatorIntl() },
+        HttpService,
+        { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true }
+    ],
     bootstrap: [AppComponent],
     entryComponents: [VehicleAddEditComponent],
 })

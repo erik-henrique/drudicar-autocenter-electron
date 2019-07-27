@@ -7,31 +7,31 @@ export class Vehicle extends BaseEntity {
     id: number;
 
     @Column()
-    plaque: string;
+    placa: string;
 
     @Column()
-    color: string;
+    cor: string;
 
     @Column()
-    model: string;
+    modelo: string;
 
     @Column()
-    brand: string;
+    marca: string;
 
     @Column()
-    year: string;
+    ano: string;
 
     @Column()
-    modelYear: string;
+    anoiModelo: string;
 
     @Column()
-    city: string;
+    localidade: string;
 
     @Column()
-    district: string;
+    bairro: string;
 
     @Column()
-    state: string;
+    uf: string;
 
     @Column()
     chassis: string;
