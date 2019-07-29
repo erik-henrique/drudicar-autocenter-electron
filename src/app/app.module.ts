@@ -21,6 +21,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -33,8 +34,8 @@ import { VehicleAddEditComponent } from './vehicles/add-edit/vehicle-add-edit.co
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { getPtBrPaginatorIntl } from 'src/shared/i18n/ptBr-paginator-intl';
-import { HttpService } from 'src/shared/services/http.service';
 import { HttpConfigInterceptor } from 'src/shared/interceptors/http.token.interceptor';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
 
@@ -83,12 +84,14 @@ const appRoutes: Routes = [
         MatDialogModule,
         MatStepperModule,
         MatSnackBarModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        MatDatepickerModule,
+        MatNativeDateModule
     ],
     providers: [
         { provide: MatPaginatorIntl, useValue: getPtBrPaginatorIntl() },
-        HttpService,
-        { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true }
+        { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true },
+        {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
     ],
     bootstrap: [AppComponent],
     entryComponents: [VehicleAddEditComponent],

@@ -2,65 +2,66 @@
   <mat-card-title>Cadastrar novo veículo <mat-icon matSuffix>directions_car</mat-icon>
   </mat-card-title>
   <mat-card-subtitle>Preecha todas as informações marcadas como *</mat-card-subtitle>
-  <mat-card-content>
-    <div class="form-row">
-      <mat-form-field class="form-input" appearance="fill">
-        <mat-label>Placa *</mat-label>
-        <input matInput placeholder="Placa">
-        <mat-hint>Obrigatório</mat-hint>
-      </mat-form-field>
-      <mat-form-field class="form-input" appearance="fill">
-        <mat-label>Cor</mat-label>
-        <input matInput placeholder="Cor">
-      </mat-form-field>
-    </div>
+  <form [formGroup]="vehicleForm">
+    <mat-card-content>
+      <div class="form-row">
+        <mat-form-field class="form-input" appearance="fill">
+          <mat-label>Placa *</mat-label>
+          <input type="text" matInput placeholder="Placa" formControlName="placa" mask="AAA-0000"
+            oninput="this.value = this.value.toUpperCase()">
+          <mat-error *ngIf="placa.invalid && placa.touched">Placa é obrigatório.</mat-error>
+        </mat-form-field>
+        <mat-form-field class="form-input" appearance="fill">
+          <mat-label>Cor</mat-label>
+          <input type="text" matInput placeholder="Cor">
+        </mat-form-field>
+      </div>
 
-    <div class="form-row">
-      <mat-form-field class="form-input" appearance="fill">
-        <mat-label>Modelo</mat-label>
-        <input matInput placeholder="Modelo">
-      </mat-form-field>
-      <mat-form-field class="form-input" appearance="fill">
-        <mat-label>Marca</mat-label>
-        <input matInput placeholder="Marca">
-      </mat-form-field>
-    </div>
+      <div class="form-row">
+        <mat-form-field class="form-input" appearance="fill">
+          <mat-label>Modelo</mat-label>
+          <input type="text" matInput placeholder="Modelo" formControlName="modelo">
+        </mat-form-field>
+        <mat-form-field class="form-input" appearance="fill">
+          <mat-label>Marca</mat-label>
+          <input type="text" matInput placeholder="Marca" formControlName="marca">
+        </mat-form-field>
+      </div>
 
-    <div class="form-row">
-      <mat-form-field class="form-input" appearance="fill">
-        <mat-label>Ano</mat-label>
-        <input matInput placeholder="Ano">
-      </mat-form-field>
-      <mat-form-field class="form-input" appearance="fill">
-        <mat-label>Ano modelo</mat-label>
-        <input matInput placeholder="Ano modelo">
-      </mat-form-field>
-    </div>
+      <div class="form-row">
+        <mat-form-field class="form-input" appearance="fill">
+          <input matInput [matDatepicker]="ano" placeholder="Ano" formControlName="ano">
+          <mat-datepicker-toggle matSuffix [for]="ano"></mat-datepicker-toggle>
+          <mat-datepicker #ano></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="form-input" appearance="fill">
+          <input matInput [matDatepicker]="anoModelo" placeholder="Ano modelo" formControlName="anoModelo">
+          <mat-datepicker-toggle matSuffix [for]="anoModelo"></mat-datepicker-toggle>
+          <mat-datepicker #anoModelo></mat-datepicker>
+        </mat-form-field>
+      </div>
 
-    <div class="form-row">
-      <mat-form-field class="form-input" appearance="fill">
-        <mat-label>UF</mat-label>
-        <input matInput placeholder="UF">
-      </mat-form-field>
-      <mat-form-field class="form-input" appearance="fill">
-        <mat-label>Município</mat-label>
-        <input matInput placeholder="Município">
-      </mat-form-field>
-    </div>
+      <div class="form-row">
+        <mat-form-field class="form-input" appearance="fill">
+          <mat-label>UF</mat-label>
+          <input type="text" matInput placeholder="UF" formControlName="uf" mask="SS"
+            oninput="this.value = this.value.toUpperCase()">
+        </mat-form-field>
+        <mat-form-field class="form-input" appearance="fill">
+          <mat-label>Município</mat-label>
+          <input type="text" matInput placeholder="Município" formControlName="municipio">
+        </mat-form-field>
+      </div>
 
-    <div class="form-row">
-      <mat-form-field class="form-input" appearance="fill">
-        <mat-label>Bairro</mat-label>
-        <input matInput placeholder="Bairro">
-      </mat-form-field>
-      <mat-form-field class="form-input" appearance="fill">
-        <mat-label>Chassi</mat-label>
-        <input matInput placeholder="Chassi">
-      </mat-form-field>
-    </div>
+      <div class="form-row">
+        <mat-form-field class="form-input" appearance="fill">
+          <mat-label>Chassi</mat-label>
+          <input type="text" style="text-transform: uppercase;" matInput placeholder="Chassi" formControlName="chassi">
+        </mat-form-field>
+      </div>
 
-  </mat-card-content>
-
+    </mat-card-content>
+  </form>
 </mat-card>
 
 <mat-dialog-actions style="float: left;">

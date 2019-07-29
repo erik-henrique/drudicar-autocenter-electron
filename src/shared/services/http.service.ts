@@ -5,7 +5,9 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import IZipCode from '../interfaces/zipCode.interface';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class HttpService {
     constructor(
         private http: HttpClient

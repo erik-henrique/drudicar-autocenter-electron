@@ -56,3 +56,7 @@ body {
 .form-row {
     display: flex;
 }
+
+input[type="text"] {
+    text-transform:capitalize;
+}

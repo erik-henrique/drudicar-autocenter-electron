@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CpfCnpjValidator } from 'src/shared/validators/cpf-cnpj.validator';
 import IZipCode from 'src/shared/interfaces/zipCode.interface';
 import { HttpService } from 'src/shared/services/http.service';
-import { MatSnackBar } from '@angular/material';
 
 
 @Component({
@@ -26,15 +25,16 @@ export class ClientAddEditComponent implements OnInit {
       Validators.maxLength(11), CpfCnpjValidator.CpfValidator]
       ],
       email: ['', [Validators.email]],
-      contato: ['', []],
+      contato: [''],
       cep: ['', [ Validators.minLength(8),
         Validators.maxLength(8)]],
-      uf: ['', []],
-      localidade: ['', []],
-      bairro: ['', []],
-      logradouro: ['', []],
-      numero: ['', []]
+      uf: [''],
+      localidade: [''],
+      bairro: [''],
+      logradouro: [''],
+      numero: ['']
     });
+
     this.clientForm.controls.cep.valueChanges.subscribe((value: string) => {
       console.log(value.length);
       if (value.length === 8) {
