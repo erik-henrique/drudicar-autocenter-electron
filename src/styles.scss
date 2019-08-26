@@ -60,3 +60,12 @@ body {
 input[type="text"] {
     text-transform:capitalize;
 }
+
+.text-uppercase {
+    text-transform: uppercase !important;
+}
+
+.mat-success {
+    background-color: #00A86B;
+    color: #fff;
+}

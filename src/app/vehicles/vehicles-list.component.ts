@@ -1,39 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { VehicleAddEditComponent } from './add-edit/vehicle-add-edit.component';
-
-export interface PeriodicElement {
-  marca: string;
-  modelo: string;
-  cor: string;
-  ano: number;
-  anoModelo: number;
-  placa: string;
-  uf: string;
-  municipio: string;
-  chassi: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    modelo: 'FIAT/UNO MILLE EP', marca: 'FIAT/UNO MILLE EP', cor: 'Azul', ano: 2012, anoModelo: 2011,
-    placa: 'FZC-6504', uf: 'SP', municipio: 'Americana', chassi: '99092'
-  },
-  {
-    modelo: 'FIAT/UNO MILLE EP', marca: 'FIAT/UNO MILLE EP', cor: 'Preto', ano: 2014, anoModelo: 2013,
-    placa: 'FZC-9504', uf: 'SP', municipio: 'Campinas', chassi: '99092'
-  },
-  {
-    modelo: 'FIAT/UNO MILLE EP', marca: 'FIAT/UNO MILLE EP', cor: 'Branco', ano: 2011, anoModelo: 2011,
-    placa: 'FZC-6804', uf: 'SP', municipio: 'Sumaré', chassi: '99092'
-  },
-  {
-    modelo: 'FIAT/UNO MILLE EP', marca: 'FIAT/UNO MILLE EP', cor: 'Cinza', ano: 2017, anoModelo: 2017,
-    placa: 'FZC-6594', uf: 'SP', municipio: 'Hortolândia', chassi: '99092'
-  }
-];
+import IVehicle from '../../shared/interfaces/vehicle.interface';
+import { DatabaseService } from '../../shared/services/data-access/database.service';
+import { VehicleEntity } from '../../shared/services/data-access/entities/vehicle.entity';
+import { ConfirmationComponent } from '../../shared/components/confirmation/confirmation.component';
 
 @Component({
   selector: 'app-vehicles-list',
@@ -41,24 +14,80 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./vehicles-list.component.scss']
 })
 export class VehiclesListComponent implements OnInit {
-  displayedColumns: string[] = ['modelo', 'marca', 'cor', 'ano', 'anoModelo', 'placa', 'uf', 'municipio', 'chassi', 'edit', 'delete'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  displayedColumns: string[] = ['placa', 'modelo', 'marca', 'cor', 'ano', 'anoModelo', 'uf', 'municipio', 'chassi', 'edit', 'delete'];
+  dataSource = new MatTableDataSource<IVehicle>();
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  constructor(public dialog: MatDialog) { }
+  @ViewChild(MatPaginator, null) paginator: MatPaginator;
 
-  ngOnInit() {
-    this.dataSource.paginator = this.paginator;
+  @Input() clientId: number;
+
+  constructor(private dialog: MatDialog, private _databaseService: DatabaseService) { }
+
+  async ngOnInit() {
+    await this.getVehicles();
+    console.log('clientId', this.clientId);
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(VehicleAddEditComponent, {
-      minWidth: '75%',
-      minHeight: '75%'
+  async getVehicles() {
+    await this._databaseService
+      .connection
+      .then(async () => {
+        const vehicles = await VehicleEntity.find();
+
+        console.log(vehicles);
+        this.dataSource.data = vehicles;
+        this.dataSource.paginator = this.paginator;
+      });
+  }
+
+  async deleteVehicle(vehicle: IVehicle) {
+    const confirmation = {
+      message: `Tem certeza que deseja desativar o veículo ${vehicle.placa.toUpperCase().substr(0, 3) + '-' + vehicle.placa.substr(3)} ?`,
+      confirmed: false };
+
+    const dialogRef = this.dialog.open(ConfirmationComponent, {
+      minWidth: '25%',
+      minHeight: '25%',
+      data: { ...confirmation }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+    dialogRef.afterClosed().subscribe(async (data) => {
+      if (data) {
+        await this._databaseService
+          .connection
+          .then(async () => {
+            await VehicleEntity.update({ id : vehicle.id}, {status: false});
+            await this.getVehicles();
+          });
+      }
     });
+  }
+
+  editOrAddVehicle(vehicle?: IVehicle): void {
+    const dialogRef = this.dialog.open(VehicleAddEditComponent, {
+      minWidth: '75%',
+      minHeight: '75%',
+      data: { ...vehicle, clientId: 1 }
+    });
+
+    dialogRef.afterClosed().subscribe(async () => {
+      await this.getVehicles();
+    });
+  }
+
+  delete(vehicle?: IVehicle): void {
+
+    // const confirmation  = { message: `Tem certeza que deseja deletar o veículo ${vehicle.placa} ? `, confirmed: false };
+
+    // const dialogRef = this.dialog.open(ConfirmationComponent, {
+    //   minWidth: '75%',
+    //   minHeight: '75%',
+    //   data: { ...confirmation }
+    // });
+
+    // dialogRef.afterClosed().subscribe(async (data) => {
+    //   console.log('data', data);
+    //     await this.getVehicles();
+    // });
   }
 }

@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
 
 @Entity({ name: 'tb_client' })
-export class Client extends BaseEntity {
+export class ClientEntity extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -12,27 +12,33 @@ export class Client extends BaseEntity {
     @Column()
     cpf: string;
 
-    @Column()
+    @Column({ nullable: true })
     email: string;
 
-    @Column()
+    @Column({ nullable: true })
     contato: string;
 
-    @Column()
+    @Column({ nullable: true })
     cep: string;
 
-    @Column()
+    @Column({ nullable: true })
     uf: string;
 
-    @Column()
+    @Column({ nullable: true })
     localidade: string;
 
-    @Column()
+    @Column({ nullable: true })
     bairro: string;
 
-    @Column()
+    @Column({ nullable: true })
     logradouro: string;
 
-    @Column()
-    numero: string;
+    @Column({ nullable: true })
+    numero: number;
+
+    @Column({ nullable: true })
+    dataNascimento: Date;
+
+    @Column({ default: true })
+    status: boolean;
 }

@@ -1,8 +1,10 @@
 <mat-card class="card--margin">
-  <mat-card-title>Cadastrar novo cliente <mat-icon matSuffix>person</mat-icon>
+  <mat-card-title *ngIf="!id">Cadastrar novo cliente <mat-icon matSuffix>person</mat-icon>
+  </mat-card-title>
+  <mat-card-title *ngIf="id">Editar cliente <mat-icon matSuffix>person</mat-icon>
   </mat-card-title>
   <mat-card-subtitle>Preecha todas as informações marcadas como *</mat-card-subtitle>
-  <form [formGroup]="clientForm">
+  <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
     <mat-card-content>
       <div class="form-row">
         <mat-form-field class="form-input" appearance="fill">
@@ -33,8 +35,18 @@
         </mat-form-field>
         <mat-form-field class="form-input" appearance="fill">
           <mat-label>Contato</mat-label>
-          <input type="text" matInput placeholder="Contato" mask="(00) 000000000">
+          <input type="text" matInput placeholder="Contato" formControlName="contato" mask="(00) 000000000">
           <mat-icon matSuffix>call</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field class="form-input" appearance="fill">
+          <mat-label>Data de nascimento</mat-label>
+          <input matInput [matDatepicker]="dataNascimento" placeholder="dataNascimento"
+            formControlName="dataNascimento">
+          <mat-datepicker-toggle matSuffix [for]="dataNascimento"></mat-datepicker-toggle>
+          <mat-datepicker #dataNascimento></mat-datepicker>
         </mat-form-field>
       </div>
 
@@ -84,10 +96,16 @@
   </form>
 </mat-card>
 
-<app-vehicles-list></app-vehicles-list>
+<app-vehicles-list *ngIf="id" [clientId]="id"></app-vehicles-list>
 
 <div class="fixed-bottom fixed-bottom--left">
-  <button mat-fab color="warn">
+  <button [disabled]="this.clientForm.invalid" (click)="onSubmit()" mat-fab [color]="'success'">
     <mat-icon>save</mat-icon>
+  </button>
+</div>
+
+<div class="fixed-bottom fixed-bottom--right">
+  <button [disabled]="this.clientForm.invalid" (click)="deleteClient()" mat-fab color="warn">
+    <mat-icon>close </mat-icon>
   </button>
 </div>

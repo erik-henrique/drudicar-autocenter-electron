@@ -20,8 +20,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatStepperModule } from '@angular/material/stepper';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -36,6 +37,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { getPtBrPaginatorIntl } from 'src/shared/i18n/ptBr-paginator-intl';
 import { HttpConfigInterceptor } from 'src/shared/interceptors/http.token.interceptor';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material';
+import { ConfirmationComponent } from '../shared/components/confirmation/confirmation.component';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
 
@@ -54,7 +56,8 @@ const appRoutes: Routes = [
         ServicesOrdersComponent,
         ClientAddEditComponent,
         VehiclesListComponent,
-        VehicleAddEditComponent
+        VehicleAddEditComponent,
+        ConfirmationComponent
     ],
     imports: [
         RouterModule.forRoot(
@@ -86,15 +89,16 @@ const appRoutes: Routes = [
         MatSnackBarModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
-        MatNativeDateModule
+        MatNativeDateModule,
+        MatSlideToggleModule
     ],
     providers: [
         { provide: MatPaginatorIntl, useValue: getPtBrPaginatorIntl() },
         { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true },
-        {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
+        { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
     ],
     bootstrap: [AppComponent],
-    entryComponents: [VehicleAddEditComponent],
+    entryComponents: [VehicleAddEditComponent, ConfirmationComponent],
 })
 export class AppModule {
 }

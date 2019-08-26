@@ -2,50 +2,50 @@
   <mat-card-title>Cadastrar novo veículo <mat-icon matSuffix>directions_car</mat-icon>
   </mat-card-title>
   <mat-card-subtitle>Preecha todas as informações marcadas como *</mat-card-subtitle>
-  <form [formGroup]="vehicleForm">
+  <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
     <mat-card-content>
       <div class="form-row">
         <mat-form-field class="form-input" appearance="fill">
           <mat-label>Placa *</mat-label>
-          <input type="text" matInput placeholder="Placa" formControlName="placa" mask="AAA-0000"
-            oninput="this.value = this.value.toUpperCase()">
+          <input type="text" class="text-uppercase" matInput placeholder="Placa" formControlName="placa" mask="AAA-0000">
           <mat-error *ngIf="placa.invalid && placa.touched">Placa é obrigatório.</mat-error>
         </mat-form-field>
         <mat-form-field class="form-input" appearance="fill">
           <mat-label>Cor</mat-label>
-          <input type="text" matInput placeholder="Cor">
+          <input type="text" class="text-uppercase" matInput placeholder="Cor" formControlName="cor">
         </mat-form-field>
       </div>
 
       <div class="form-row">
         <mat-form-field class="form-input" appearance="fill">
           <mat-label>Modelo</mat-label>
-          <input type="text" matInput placeholder="Modelo" formControlName="modelo">
+          <input type="text" class="text-uppercase" matInput placeholder="Modelo" formControlName="modelo">
         </mat-form-field>
         <mat-form-field class="form-input" appearance="fill">
           <mat-label>Marca</mat-label>
-          <input type="text" matInput placeholder="Marca" formControlName="marca">
+          <input type="text" class="text-uppercase" matInput placeholder="Marca" formControlName="marca">
         </mat-form-field>
       </div>
 
       <div class="form-row">
         <mat-form-field class="form-input" appearance="fill">
-          <input matInput [matDatepicker]="ano" placeholder="Ano" formControlName="ano">
+          <mat-label>Ano</mat-label>
+          <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="ano" placeholder="Ano" formControlName="ano">
           <mat-datepicker-toggle matSuffix [for]="ano"></mat-datepicker-toggle>
-          <mat-datepicker #ano></mat-datepicker>
+          <mat-datepicker #ano (yearSelected)="closeAnoDatePicker($event)" startView="multi-year"></mat-datepicker>
         </mat-form-field>
         <mat-form-field class="form-input" appearance="fill">
-          <input matInput [matDatepicker]="anoModelo" placeholder="Ano modelo" formControlName="anoModelo">
+          <mat-label>Ano Modelo</mat-label>
+          <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="anoModelo" placeholder="Ano modelo" formControlName="anoModelo">
           <mat-datepicker-toggle matSuffix [for]="anoModelo"></mat-datepicker-toggle>
-          <mat-datepicker #anoModelo></mat-datepicker>
+          <mat-datepicker #anoModelo (yearSelected)="closeAnoModeloDatePicker($event)" startView="multi-year"></mat-datepicker>
         </mat-form-field>
       </div>
 
       <div class="form-row">
         <mat-form-field class="form-input" appearance="fill">
           <mat-label>UF</mat-label>
-          <input type="text" matInput placeholder="UF" formControlName="uf" mask="SS"
-            oninput="this.value = this.value.toUpperCase()">
+          <input type="text" matInput placeholder="UF" formControlName="uf" mask="SS" class="text-uppercase">
         </mat-form-field>
         <mat-form-field class="form-input" appearance="fill">
           <mat-label>Município</mat-label>
@@ -56,7 +56,7 @@
       <div class="form-row">
         <mat-form-field class="form-input" appearance="fill">
           <mat-label>Chassi</mat-label>
-          <input type="text" style="text-transform: uppercase;" matInput placeholder="Chassi" formControlName="chassi">
+          <input type="text" class="text-uppercase" matInput placeholder="Chassi" formControlName="chassi">
         </mat-form-field>
       </div>
 
@@ -66,12 +66,12 @@
 
 <mat-dialog-actions style="float: left;">
   <button mat-icon-button class="mat-list-option" [mat-dialog-close]="true">
-    <mat-icon style="font-size: 28px;height: 28px; width: 28px;">close</mat-icon>
+    <mat-icon style="font-size: 28px;height: 28px; width: 28px;cursor: pointer;">close</mat-icon>
   </button>
 </mat-dialog-actions>
 
 <mat-dialog-actions style="float: right;">
-  <button mat-icon-button class="mat-list-option">
-    <mat-icon style="font-size: 28px;height: 28px; width: 28px;">check</mat-icon>
+  <button type="submit" (click)="onSubmit()" [disabled]="!vehicleForm.valid" mat-icon-button class="mat-list-option">
+    <mat-icon style="font-size: 28px;height: 28px; width: 28px;cursor: pointer;">check</mat-icon>
   </button>
 </mat-dialog-actions>

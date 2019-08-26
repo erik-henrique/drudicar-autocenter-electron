@@ -2,7 +2,7 @@ import * as path from 'path';
 import { remote } from 'electron';
 import { environment } from '../../../../environments/environment';
 
-export class Settings {
+export class DataAcessSettings {
 
     public static dbFolder: string;
     public static dbPath: string;
@@ -11,21 +11,21 @@ export class Settings {
     private static dbName = 'database.db';
 
     public static initialize(): void {
-        Settings.getPaths();
+        DataAcessSettings.getPaths();
     }
 
     private static getPaths() {
 
-        if(environment.production){
+        if (environment.production) {
             this.dataSubFolder = '/';
-            Settings.appPath = remote.app.getPath('userData');
+            DataAcessSettings.appPath = remote.app.getPath('userData');
         } else {
             // return folder where app is running
             this.dataSubFolder = 'dist/assets/data';
-            Settings.appPath = remote.app.getAppPath();
+            DataAcessSettings.appPath = remote.app.getAppPath();
         }
 
-        Settings.dbFolder = path.join(Settings.appPath, Settings.dataSubFolder);
-        Settings.dbPath = path.join(Settings.dbFolder, this.dbName);
+        DataAcessSettings.dbFolder = path.join(DataAcessSettings.appPath, DataAcessSettings.dataSubFolder);
+        DataAcessSettings.dbPath = path.join(DataAcessSettings.dbFolder, this.dbName);
     }
 }

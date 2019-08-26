@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { CpfCnpjValidator } from 'src/shared/validators/cpf-cnpj.validator';
-import IZipCode from 'src/shared/interfaces/zipCode.interface';
-import { HttpService } from 'src/shared/services/http.service';
-
+import { ActivatedRoute } from '@angular/router';
+import { CpfCnpjValidator } from '../../../shared/validators/cpf-cnpj.validator';
+import IZipCode from '../../../shared/interfaces/zipCode.interface';
+import { HttpService } from '../../../shared/services/http.service';
+import IClient from '../../../shared/interfaces/client.interface';
+import { DatabaseService } from '../../../shared/services/data-access/database.service';
+import { ClientEntity } from '../../../shared/services/data-access/entities/client.entity';
+import { ConfirmationComponent } from '../../../shared/components/confirmation/confirmation.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-client-add-edit',
@@ -13,11 +18,21 @@ import { HttpService } from 'src/shared/services/http.service';
 export class ClientAddEditComponent implements OnInit {
 
   public clientForm: FormGroup;
+  public id: number;
 
-  constructor(private _fb: FormBuilder, private _httpService: HttpService) { }
+  constructor(
+    private _fb: FormBuilder,
+    private _httpService: HttpService,
+    private _databaseService: DatabaseService,
+    private route: ActivatedRoute,
+    private dialog: MatDialog) {
 
-  ngOnInit() {
+    this.id = parseInt(this.route.snapshot.paramMap.get('id'), null);
+  }
+
+  async ngOnInit() {
     this.clientForm = this._fb.group({
+      id: '',
       nome: ['', [
         Validators.required
       ]],
@@ -25,18 +40,22 @@ export class ClientAddEditComponent implements OnInit {
       Validators.maxLength(11), CpfCnpjValidator.CpfValidator]
       ],
       email: ['', [Validators.email]],
-      contato: [''],
-      cep: ['', [ Validators.minLength(8),
-        Validators.maxLength(8)]],
-      uf: [''],
-      localidade: [''],
-      bairro: [''],
-      logradouro: [''],
-      numero: ['']
+      contato: '',
+      cep: ['', [Validators.minLength(8),
+      Validators.maxLength(8)]],
+      uf: '',
+      localidade: '',
+      bairro: '',
+      logradouro: '',
+      numero: '',
+      dataNascimento: ''
     });
 
+    if (this.id) {
+      await this.getClient(this.id);
+    }
+
     this.clientForm.controls.cep.valueChanges.subscribe((value: string) => {
-      console.log(value.length);
       if (value.length === 8) {
         this.findClientZipCode(value);
       }
@@ -66,6 +85,60 @@ export class ClientAddEditComponent implements OnInit {
       this.clientForm.patchValue(cep);
     } catch (err) {
       console.error(err);
+    }
+  }
+
+  async getClient(id: number) {
+    await this._databaseService
+      .connection
+      .then(async () => {
+         const client = await ClientEntity.findOne(id);
+         this.clientForm.patchValue(client);
+        }).catch(err => console.error(err));
+  }
+
+  async deleteClient() {
+    const client = this.clientForm.value as IClient;
+
+    const confirmation = {
+      message: `Tem certeza que deseja desativar o cliente ${client.nome.charAt(0).toUpperCase() + client.nome.slice(1)} ?`,
+      confirmed: false
+    };
+
+    const dialogRef = this.dialog.open(ConfirmationComponent, {
+      minWidth: '25%',
+      minHeight: '25%',
+      data: { ...confirmation }
+    });
+
+    dialogRef.afterClosed().subscribe(async (data) => {
+      if (data) {
+        await this._databaseService
+          .connection
+          .then(async () => {
+            await ClientEntity.update({ id: client.id }, { status: false });
+          });
+      }
+    });
+  }
+
+  async onSubmit() {
+    if (this.clientForm.valid) {
+      const formValue = this.clientForm.value as IClient;
+
+      const clientEntity = Object.assign(new ClientEntity(), formValue);
+
+      if (!this.id) {
+        delete clientEntity.id;
+      }
+
+      console.log(clientEntity);
+      await this._databaseService
+        .connection
+        .then(async () => {
+          const saveResult = await clientEntity.save();
+          this.id = saveResult.id;
+        }).catch(err => console.error(err));
     }
   }
 }

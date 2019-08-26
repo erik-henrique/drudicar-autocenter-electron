@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
 
 @Entity({ name: 'tb_vehicle' })
-export class Vehicle extends BaseEntity {
+export class VehicleEntity extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -9,30 +9,33 @@ export class Vehicle extends BaseEntity {
     @Column()
     placa: string;
 
-    @Column()
+    @Column({ nullable: true })
     cor: string;
 
-    @Column()
+    @Column({ nullable: true })
     modelo: string;
 
-    @Column()
+    @Column({ nullable: true })
     marca: string;
 
-    @Column()
-    ano: string;
+    @Column({ nullable: true })
+    ano: Date;
 
-    @Column()
-    anoiModelo: string;
+    @Column({ nullable: true })
+    anoModelo: Date;
 
-    @Column()
-    localidade: string;
+    @Column({ nullable: true })
+    municipio: string;
 
-    @Column()
-    bairro: string;
-
-    @Column()
+    @Column({ nullable: true })
     uf: string;
 
-    @Column()
-    chassis: string;
+    @Column({ nullable: true })
+    chassi: string;
+
+    @Column({ nullable: true })
+    clientId: number;
+
+    @Column({ default: true })
+    status: boolean;
 }

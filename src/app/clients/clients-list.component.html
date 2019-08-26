@@ -9,24 +9,28 @@
   <mat-list>
     <mat-list-item class="mat-list-option ng-star-inserted" *ngFor="let client of clients">
       <img matListAvatar src="./assets/images/man.png" alt="...">
-      <h3 matLine> {{client.name}} </h3>
+      <h3 matLine style="text-transform: capitalize"> {{client.nome}} </h3>
       <p matLine>
         <span>CPF:</span>
-        <span class="demo-2"> 469.520.628-58 </span>
+        <span class="demo-2"> {{client.cpf}} </span>
       </p>
-      <button mat-icon-button aria-label="Adicionar veículos do cliente" matBadge="+" matBadgePosition="before"
+      <mat-chip-list aria-label="Fish selection">
+        <mat-chip color="warn" *ngIf="!client.status" selected>Desativado</mat-chip>
+        <mat-chip *ngIf="client.status" [color]="'success'" selected>Ativo</mat-chip>
+      </mat-chip-list>
+      <!-- <button mat-icon-button aria-label="Adicionar veículos do cliente" matBadge="2" matBadgePosition="before"
         matBadgeColor="warn">
         <mat-icon>directions_car</mat-icon>
       </button>
-      <button style="margin-left: 36px;" mat-icon-button aria-label="Criar ordem de serviço para o cliente" matBadge="+"
+      <button style="margin-left: 36px;" mat-icon-button aria-label="Criar ordem de serviço para o cliente" matBadge="3"
         matBadgePosition="before" matBadgeColor="warn">
         <mat-icon>build</mat-icon>
-      </button>
-      <button style="margin-left: 24px;" mat-icon-button aria-label="Editar cliente">
+      </button> -->
+      <button routerLink="/clients/{{client.id}}" style="margin-left: 24px;" mat-icon-button aria-label="Editar cliente">
         <mat-icon>edit</mat-icon>
       </button>
       <button style="margin-left: 24px;" mat-icon-button aria-label="Deletar cliente">
-        <mat-icon>delete</mat-icon>
+        <mat-icon (click)="deleteClient(client)">delete</mat-icon>
       </button>
       <mat-divider></mat-divider>
     </mat-list-item>
@@ -36,8 +40,8 @@
 
 <div class="fixed-bottom fixed-bottom--right">
 
-  <button mat-fab routerLink="/clients/:id" style="margin-right : 14px;">
-    <mat-icon>add</mat-icon>
+  <button [color]="'success'" mat-fab routerLink="/clients/:id" style="margin-right : 14px;">
+    <mat-icon >add</mat-icon>
   </button>
   <button mat-fab color="warn" style="margin-right : 14px;" (click)="goToTop()">
     <mat-icon>keyboard_arrow_up</mat-icon>
