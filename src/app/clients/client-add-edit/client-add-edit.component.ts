@@ -39,8 +39,9 @@ export class ClientAddEditComponent implements OnInit {
       cpf: ['', [Validators.required, Validators.minLength(11),
       Validators.maxLength(11), CpfCnpjValidator.CpfValidator]
       ],
+      status: true,
       email: ['', [Validators.email]],
-      contato: '',
+      celular: '',
       cep: ['', [Validators.minLength(8),
       Validators.maxLength(8)]],
       uf: '',
@@ -78,6 +79,10 @@ export class ClientAddEditComponent implements OnInit {
     return this.clientForm.get('cep');
   }
 
+  get status() {
+    return this.clientForm.get('status');
+  }
+
   public async findClientZipCode(clientZipCode: string) {
     try {
       const cep: IZipCode = await this._httpService.getZipCode(clientZipCode).toPromise();
@@ -89,56 +94,100 @@ export class ClientAddEditComponent implements OnInit {
   }
 
   async getClient(id: number) {
-    await this._databaseService
-      .connection
-      .then(async () => {
-         const client = await ClientEntity.findOne(id);
-         this.clientForm.patchValue(client);
-        }).catch(err => console.error(err));
-  }
-
-  async deleteClient() {
-    const client = this.clientForm.value as IClient;
-
-    const confirmation = {
-      message: `Tem certeza que deseja desativar o cliente ${client.nome.charAt(0).toUpperCase() + client.nome.slice(1)} ?`,
-      confirmed: false
-    };
-
-    const dialogRef = this.dialog.open(ConfirmationComponent, {
-      minWidth: '25%',
-      minHeight: '25%',
-      data: { ...confirmation }
-    });
-
-    dialogRef.afterClosed().subscribe(async (data) => {
-      if (data) {
-        await this._databaseService
-          .connection
-          .then(async () => {
-            await ClientEntity.update({ id: client.id }, { status: false });
-          });
-      }
-    });
-  }
-
-  async onSubmit() {
-    if (this.clientForm.valid) {
-      const formValue = this.clientForm.value as IClient;
-
-      const clientEntity = Object.assign(new ClientEntity(), formValue);
-
-      if (!this.id) {
-        delete clientEntity.id;
-      }
-
-      console.log(clientEntity);
+    try {
       await this._databaseService
         .connection
         .then(async () => {
-          const saveResult = await clientEntity.save();
-          this.id = saveResult.id;
-        }).catch(err => console.error(err));
+          const client = await ClientEntity.findOne(id);
+          this.clientForm.patchValue(client);
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async deactivateClient() {
+    try {
+      const client = this.clientForm.value as IClient;
+
+      const confirmation = {
+        message: 'Tem certeza que deseja desativar o cliente',
+        data: client.nome,
+        action: 'Desativar'
+      };
+
+      const dialogRef = this.dialog.open(ConfirmationComponent, {
+        minWidth: '25%',
+        minHeight: '25%',
+        data: { ...confirmation }
+      });
+
+      dialogRef.afterClosed().subscribe(async (data) => {
+        if (data) {
+          await this._databaseService
+            .connection
+            .then(async () => {
+              await ClientEntity.update({ id: client.id }, { status: false });
+              this.clientForm.controls.status.setValue(false);
+            });
+        }
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async activateClient() {
+    try {
+      const client = this.clientForm.value as IClient;
+
+      const confirmation = {
+        message: 'Tem certeza que deseja ativar o cliente',
+        data: client.nome,
+        action: 'Ativar'
+      };
+
+      const dialogRef = this.dialog.open(ConfirmationComponent, {
+        minWidth: '25%',
+        minHeight: '25%',
+        data: { ...confirmation }
+      });
+
+      dialogRef.afterClosed().subscribe(async (data) => {
+        if (data) {
+          await this._databaseService
+            .connection
+            .then(async () => {
+              await ClientEntity.update({ id: client.id }, { status: true });
+              this.clientForm.controls.status.setValue(true);
+            }).catch(err => console.error(err));
+        }
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async onSubmit() {
+    try {
+      if (this.clientForm.valid) {
+        const formValue = this.clientForm.value as IClient;
+
+        const clientEntity = Object.assign(new ClientEntity(), formValue);
+
+        if (!this.id) {
+          delete clientEntity.id;
+        }
+
+        await this._databaseService
+          .connection
+          .then(async () => {
+            const saveResult = await clientEntity.save();
+            this.id = saveResult.id;
+          });
+      }
+    } catch (err) {
+      console.error(err);
     }
   }
 }

@@ -25,69 +25,64 @@ export class VehiclesListComponent implements OnInit {
 
   async ngOnInit() {
     await this.getVehicles();
-    console.log('clientId', this.clientId);
   }
 
   async getVehicles() {
-    await this._databaseService
-      .connection
-      .then(async () => {
-        const vehicles = await VehicleEntity.find();
-
-        console.log(vehicles);
-        this.dataSource.data = vehicles;
-        this.dataSource.paginator = this.paginator;
-      });
+    try {
+      await this._databaseService
+        .connection
+        .then(async () => {
+          const vehicles = await VehicleEntity.find();
+          this.dataSource.data = vehicles;
+          this.dataSource.paginator = this.paginator;
+        });
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   async deleteVehicle(vehicle: IVehicle) {
-    const confirmation = {
-      message: `Tem certeza que deseja desativar o veículo ${vehicle.placa.toUpperCase().substr(0, 3) + '-' + vehicle.placa.substr(3)} ?`,
-      confirmed: false };
+    try {
+      const confirmation = {
+        message: 'Tem certeza que deseja desativar o veículo',
+        data: vehicle.placa.toUpperCase().substr(0, 3) + '-' + vehicle.placa.substr(3),
+        action: 'Desativar'
+      };
 
-    const dialogRef = this.dialog.open(ConfirmationComponent, {
-      minWidth: '25%',
-      minHeight: '25%',
-      data: { ...confirmation }
-    });
+      const dialogRef = this.dialog.open(ConfirmationComponent, {
+        minWidth: '25%',
+        minHeight: '25%',
+        data: { ...confirmation }
+      });
 
-    dialogRef.afterClosed().subscribe(async (data) => {
-      if (data) {
-        await this._databaseService
-          .connection
-          .then(async () => {
-            await VehicleEntity.update({ id : vehicle.id}, {status: false});
-            await this.getVehicles();
-          });
-      }
-    });
+      dialogRef.afterClosed().subscribe(async (data) => {
+        if (data) {
+          await this._databaseService
+            .connection
+            .then(async () => {
+              await VehicleEntity.update({ id: vehicle.id }, { status: false });
+              await this.getVehicles();
+            });
+        }
+      });
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   editOrAddVehicle(vehicle?: IVehicle): void {
-    const dialogRef = this.dialog.open(VehicleAddEditComponent, {
-      minWidth: '75%',
-      minHeight: '75%',
-      data: { ...vehicle, clientId: 1 }
-    });
+    try {
+      const dialogRef = this.dialog.open(VehicleAddEditComponent, {
+        minWidth: '75%',
+        minHeight: '75%',
+        data: { ...vehicle, clientId: 1 }
+      });
 
-    dialogRef.afterClosed().subscribe(async () => {
-      await this.getVehicles();
-    });
-  }
-
-  delete(vehicle?: IVehicle): void {
-
-    // const confirmation  = { message: `Tem certeza que deseja deletar o veículo ${vehicle.placa} ? `, confirmed: false };
-
-    // const dialogRef = this.dialog.open(ConfirmationComponent, {
-    //   minWidth: '75%',
-    //   minHeight: '75%',
-    //   data: { ...confirmation }
-    // });
-
-    // dialogRef.afterClosed().subscribe(async (data) => {
-    //   console.log('data', data);
-    //     await this.getVehicles();
-    // });
+      dialogRef.afterClosed().subscribe(async () => {
+        await this.getVehicles();
+      });
+    } catch (err) {
+      console.error(err);
+    }
   }
 }

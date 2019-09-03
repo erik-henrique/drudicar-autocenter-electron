@@ -3,6 +3,7 @@ import { Connection, ConnectionOptions, createConnection } from 'typeorm';
 import { DataAcessSettings } from './repositories/settings';
 import { ClientEntity } from './entities/client.entity';
 import { VehicleEntity } from './entities/vehicle.entity';
+import { ServiceEntity } from './entities/service.entity';
 
 @Injectable({
     providedIn: 'root'
@@ -17,11 +18,14 @@ export class DatabaseService {
         this.options = {
             type: 'sqlite',
             database: DataAcessSettings.dbPath,
-            entities: [ClientEntity, VehicleEntity],
+            entities: [
+                ClientEntity,
+                VehicleEntity,
+                ServiceEntity
+            ],
             synchronize: true,
             logging: 'all',
         };
-        console.log('DataAcessSettings')
         this.connection = createConnection(this.options);
     }
 }

@@ -16,7 +16,7 @@ export class ClientEntity extends BaseEntity {
     email: string;
 
     @Column({ nullable: true })
-    contato: string;
+    celular: string;
 
     @Column({ nullable: true })
     cep: string;

@@ -56,6 +56,7 @@ export class VehicleAddEditComponent implements OnInit {
       uf: '',
       municipio: '',
       chassi: '',
+      status: true,
       id: '',
       clientId: ''
     });
@@ -84,32 +85,36 @@ export class VehicleAddEditComponent implements OnInit {
   }
 
   async onSubmit() {
-    if (this.vehicleForm.valid) {
-      const formValue = this.vehicleForm.value as IVehicle;
-      const vehicleEntity = Object.assign(new VehicleEntity(), formValue);
+    try {
+      if (this.vehicleForm.valid) {
+        const formValue = this.vehicleForm.value as IVehicle;
+        const vehicleEntity = Object.assign(new VehicleEntity(), formValue);
 
-      if (!vehicleEntity.id) {
-        delete vehicleEntity.id;
+        if (!vehicleEntity.id) {
+          delete vehicleEntity.id;
+        }
+
+        if (!vehicleEntity.ano) {
+          delete vehicleEntity.ano;
+        } else {
+          vehicleEntity.ano = new Date(vehicleEntity.ano);
+        }
+
+        if (!vehicleEntity.anoModelo) {
+          delete vehicleEntity.anoModelo;
+        } else {
+          vehicleEntity.anoModelo = new Date(vehicleEntity.anoModelo);
+        }
+
+        await this._databaseService
+          .connection
+          .then(async () => {
+            await vehicleEntity.save();
+            this.dialogRef.close();
+          }).catch(err => console.error(err));
       }
-
-      if (!vehicleEntity.ano) {
-        delete vehicleEntity.ano;
-      } else {
-        vehicleEntity.ano = new Date(vehicleEntity.ano);
-      }
-
-      if (!vehicleEntity.anoModelo) {
-        delete vehicleEntity.anoModelo;
-      } else {
-        vehicleEntity.anoModelo = new Date(vehicleEntity.anoModelo);
-      }
-
-      await this._databaseService
-        .connection
-        .then(async () => {
-          await vehicleEntity.save();
-          this.dialogRef.close();
-        }).catch(err => console.error(err));
+    } catch (err) {
+      console.error(err);
     }
   }
 }

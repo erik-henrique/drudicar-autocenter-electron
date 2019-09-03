@@ -3,7 +3,7 @@ export default interface IClient {
     nome: string;
     cpf: string;
     email: string;
-    contato: string;
+    celular: string;
     cep: string;
     uf: string;
     localidade: string;

@@ -1,0 +1,34 @@
+<mat-card class="card--margin">
+  <mat-card-title *ngIf="!id">Cadastrar novo serviço <mat-icon matSuffix>person</mat-icon>
+  </mat-card-title>
+  <mat-card-title *ngIf="id">Editar serviço <mat-icon matSuffix>person</mat-icon>
+  </mat-card-title>
+  <mat-card-subtitle>Preecha todas as informações marcadas como *</mat-card-subtitle>
+  <form [formGroup]="serviceForm" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+      <div class="form-row">
+        <mat-form-field class="form__input" appearance="fill">
+          <mat-label>Nome *</mat-label>
+          <input type="text" matInput placeholder="Nome" formControlName="nome">
+          <mat-error *ngIf="nome.invalid && nome.touched">Nome é obrigatório.</mat-error>
+        </mat-form-field>
+      </div>
+
+    </mat-card-content>
+  </form>
+</mat-card>
+
+<div class="fixed-bottom fixed-bottom--left">
+  <button [disabled]="this.serviceForm.invalid" (click)="onSubmit()" mat-fab [color]="'success'">
+    <mat-icon>save</mat-icon>
+  </button>
+</div>
+
+<div class="fixed-bottom fixed-bottom--right">
+  <button *ngIf="status.value && id" (click)="deactivateService()" mat-fab color="warn">
+    <mat-icon>close</mat-icon>
+  </button>
+  <button *ngIf="!status.value && id" (click)="activateService()" mat-fab [color]="'success'">
+    <mat-icon>check</mat-icon>
+  </button>
+</div>

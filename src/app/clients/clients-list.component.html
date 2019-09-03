@@ -1,22 +1,32 @@
+<ngx-spinner type="ball-clip-rotate" size="large"></ngx-spinner>
+
 <mat-card class="card--margin">
   <mat-card-title>Clientes</mat-card-title>
   <mat-card-subtitle>Todos os clientes cadastrados</mat-card-subtitle>
-  <mat-form-field appearance="outline" style="width: 100%">
-    <mat-label>Pesquisar por nome</mat-label>
-    <input matInput placeholder="Nome">
-    <mat-icon matSuffix>search</mat-icon>
-  </mat-form-field>
+  <form [formGroup]="clientFilterForm">
+    <mat-form-field appearance="outline" style="width: 49%">
+      <mat-label>Pesquisar por nome</mat-label>
+      <input matInput placeholder="Nome" formControlName="nome">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="width: 49%;float: right;">
+      <mat-label>Pesquisar por CPF</mat-label>
+      <input matInput placeholder="Nome" formControlName="cpf">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </form>
   <mat-list>
     <mat-list-item class="mat-list-option ng-star-inserted" *ngFor="let client of clients">
       <img matListAvatar src="./assets/images/man.png" alt="...">
-      <h3 matLine style="text-transform: capitalize"> {{client.nome}} </h3>
+      <h3 matLine style="text-transform: capitalize;margin-left: 0.5rem"> {{client.nome}} </h3>
       <p matLine>
-        <span>CPF:</span>
-        <span class="demo-2"> {{client.cpf}} </span>
+        <mat-chip-list aria-label="Status">
+          <mat-chip><span style="font-weight:bold">CPF:</span> {{ client.cpf | mask: '000.000.000-00' }}</mat-chip>
+        </mat-chip-list>
       </p>
-      <mat-chip-list aria-label="Fish selection">
+      <mat-chip-list aria-label="Status">
         <mat-chip color="warn" *ngIf="!client.status" selected>Desativado</mat-chip>
-        <mat-chip *ngIf="client.status" [color]="'success'" selected>Ativo</mat-chip>
+        <mat-chip *ngIf="client.status" style=" background-color: #00A86B;color: #fff;">Ativo</mat-chip>
       </mat-chip-list>
       <!-- <button mat-icon-button aria-label="Adicionar veículos do cliente" matBadge="2" matBadgePosition="before"
         matBadgeColor="warn">

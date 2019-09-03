@@ -5,36 +5,36 @@
   <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
     <mat-card-content>
       <div class="form-row">
-        <mat-form-field class="form-input" appearance="fill">
+        <mat-form-field class="form__input form__input--capitalize" appearance="fill">
           <mat-label>Placa *</mat-label>
           <input type="text" class="text-uppercase" matInput placeholder="Placa" formControlName="placa" mask="AAA-0000">
           <mat-error *ngIf="placa.invalid && placa.touched">Placa é obrigatório.</mat-error>
         </mat-form-field>
-        <mat-form-field class="form-input" appearance="fill">
+        <mat-form-field class="form__input form__input--capitalize" appearance="fill">
           <mat-label>Cor</mat-label>
           <input type="text" class="text-uppercase" matInput placeholder="Cor" formControlName="cor">
         </mat-form-field>
       </div>
 
       <div class="form-row">
-        <mat-form-field class="form-input" appearance="fill">
+        <mat-form-field class="form__input form__input--capitalize" appearance="fill">
           <mat-label>Modelo</mat-label>
           <input type="text" class="text-uppercase" matInput placeholder="Modelo" formControlName="modelo">
         </mat-form-field>
-        <mat-form-field class="form-input" appearance="fill">
+        <mat-form-field class="form__input form__input--capitalize" appearance="fill">
           <mat-label>Marca</mat-label>
           <input type="text" class="text-uppercase" matInput placeholder="Marca" formControlName="marca">
         </mat-form-field>
       </div>
 
       <div class="form-row">
-        <mat-form-field class="form-input" appearance="fill">
+        <mat-form-field class="form__input form__input--capitalize" appearance="fill">
           <mat-label>Ano</mat-label>
           <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="ano" placeholder="Ano" formControlName="ano">
           <mat-datepicker-toggle matSuffix [for]="ano"></mat-datepicker-toggle>
           <mat-datepicker #ano (yearSelected)="closeAnoDatePicker($event)" startView="multi-year"></mat-datepicker>
         </mat-form-field>
-        <mat-form-field class="form-input" appearance="fill">
+        <mat-form-field class="form__input form__input--capitalize" appearance="fill">
           <mat-label>Ano Modelo</mat-label>
           <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="anoModelo" placeholder="Ano modelo" formControlName="anoModelo">
           <mat-datepicker-toggle matSuffix [for]="anoModelo"></mat-datepicker-toggle>
@@ -43,18 +43,18 @@
       </div>
 
       <div class="form-row">
-        <mat-form-field class="form-input" appearance="fill">
+        <mat-form-field class="form__input form__input--capitalize" appearance="fill">
           <mat-label>UF</mat-label>
           <input type="text" matInput placeholder="UF" formControlName="uf" mask="SS" class="text-uppercase">
         </mat-form-field>
-        <mat-form-field class="form-input" appearance="fill">
+        <mat-form-field class="form__input form__input--capitalize" appearance="fill">
           <mat-label>Município</mat-label>
           <input type="text" matInput placeholder="Município" formControlName="municipio">
         </mat-form-field>
       </div>
 
       <div class="form-row">
-        <mat-form-field class="form-input" appearance="fill">
+        <mat-form-field class="form__input form__input--capitalize" appearance="fill">
           <mat-label>Chassi</mat-label>
           <input type="text" class="text-uppercase" matInput placeholder="Chassi" formControlName="chassi">
         </mat-form-field>

@@ -38,6 +38,9 @@ import { getPtBrPaginatorIntl } from 'src/shared/i18n/ptBr-paginator-intl';
 import { HttpConfigInterceptor } from 'src/shared/interceptors/http.token.interceptor';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material';
 import { ConfirmationComponent } from '../shared/components/confirmation/confirmation.component';
+import { ServicesListComponent } from './services/services-list.component';
+import { ServiceAddEditComponent } from './services/service-add-edit/service-add-edit.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
 
@@ -46,6 +49,8 @@ const appRoutes: Routes = [
     { path: 'clients', component: ClientsListComponent },
     { path: 'clients/:id', component: ClientAddEditComponent },
     { path: 'services-orders', component: ServicesOrdersComponent },
+    { path: 'services', component: ServicesListComponent },
+    { path: 'services/:id', component: ServiceAddEditComponent }
 ];
 
 @NgModule({
@@ -57,7 +62,9 @@ const appRoutes: Routes = [
         ClientAddEditComponent,
         VehiclesListComponent,
         VehicleAddEditComponent,
-        ConfirmationComponent
+        ConfirmationComponent,
+        ServicesListComponent,
+        ServiceAddEditComponent
     ],
     imports: [
         RouterModule.forRoot(
@@ -70,6 +77,7 @@ const appRoutes: Routes = [
         FormsModule,
         HttpClientModule,
         ReactiveFormsModule,
+        NgxSpinnerModule,
         MatTableModule,
         MatCardModule,
         MatFormFieldModule,
