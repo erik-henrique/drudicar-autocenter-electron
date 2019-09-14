@@ -27,7 +27,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ClientsListComponent } from './clients/clients-list.component';
-import { ServicesOrdersComponent } from './services-orders/services-orders.component';
+
 import { ClientAddEditComponent } from './clients/client-add-edit/client-add-edit.component';
 import { VehiclesListComponent } from './vehicles/vehicles-list.component';
 import { MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
@@ -41,6 +41,10 @@ import { ConfirmationComponent } from '../shared/components/confirmation/confirm
 import { ServicesListComponent } from './services/services-list.component';
 import { ServiceAddEditComponent } from './services/service-add-edit/service-add-edit.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { WorkOrdersComponent } from './work-orders/work-orders.component';
+import { FormatOnlyNamesPipe } from '../shared/pipes/format-only-name/format-only-names.pipe';
+import { WorkOrderAddEditComponent } from './work-orders/work-order-add-edit/work-order-add-edit.component';
+import { MatSelectModule } from '@angular/material/select';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
 
@@ -48,7 +52,8 @@ const appRoutes: Routes = [
     { path: '', component: ClientsListComponent },
     { path: 'clients', component: ClientsListComponent },
     { path: 'clients/:id', component: ClientAddEditComponent },
-    { path: 'services-orders', component: ServicesOrdersComponent },
+    { path: 'work-orders', component: WorkOrdersComponent },
+    { path: 'work-orders/:id', component: WorkOrderAddEditComponent },
     { path: 'services', component: ServicesListComponent },
     { path: 'services/:id', component: ServiceAddEditComponent }
 ];
@@ -58,13 +63,15 @@ const appRoutes: Routes = [
         AppComponent,
         MenuComponent,
         ClientsListComponent,
-        ServicesOrdersComponent,
+        WorkOrdersComponent,
+        WorkOrderAddEditComponent,
         ClientAddEditComponent,
         VehiclesListComponent,
         VehicleAddEditComponent,
         ConfirmationComponent,
         ServicesListComponent,
-        ServiceAddEditComponent
+        ServiceAddEditComponent,
+        FormatOnlyNamesPipe
     ],
     imports: [
         RouterModule.forRoot(
@@ -98,7 +105,8 @@ const appRoutes: Routes = [
         MatProgressSpinnerModule,
         MatDatepickerModule,
         MatNativeDateModule,
-        MatSlideToggleModule
+        MatSlideToggleModule,
+        MatSelectModule
     ],
     providers: [
         { provide: MatPaginatorIntl, useValue: getPtBrPaginatorIntl() },

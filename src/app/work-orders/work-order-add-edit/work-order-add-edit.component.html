@@ -1,0 +1,85 @@
+<mat-card class="card--margin">
+  <mat-card-title *ngIf="!id">Cadastrar novo orçamento <mat-icon matSuffix>person</mat-icon>
+  </mat-card-title>
+  <mat-card-title *ngIf="id">Editar orçamento <mat-icon matSuffix>person</mat-icon>
+  </mat-card-title>
+  <mat-card-subtitle>Preecha todas as informações marcadas como *</mat-card-subtitle>
+  <form [formGroup]="orcamentoForm" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+      <div class="form-row">
+
+        <mat-form-field class="form__input" appearance="fill">
+          <mat-label>Cliente</mat-label>
+          <mat-select formControlName="client" class="text-capitalize">
+            <mat-option *ngFor="let client of clients" [value]="client.id" class="text-capitalize">
+              {{client.nome}} ({{ client.cpf | mask: '000.000.000-00' }})
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="form__input" appearance="fill">
+          <mat-label>Veículo</mat-label>
+          <mat-select formControlName="vehicle" class="text-uppercase">
+            <mat-option *ngFor="let vehicle of vehicles" [value]="vehicle.id" class="text-uppercase">
+              {{ vehicle.placa | mask: 'AAA-0000'}} ({{vehicle.modelo}})
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </div>
+
+      <div class="form-row">
+
+        <mat-form-field class="form__input form__input--capitalize" appearance="fill">
+          <mat-label>Data do Pagamento</mat-label>
+          <input matInput [matDatepicker]="dataPagamento" placeholder="Data do Pagamento"
+            formControlName="dataPagamento">
+          <mat-datepicker-toggle matSuffix [for]="dataPagamento"></mat-datepicker-toggle>
+          <mat-datepicker #dataPagamento></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="form__input" appearance="fill">
+          <mat-label>Forma de pagamento</mat-label>
+          <mat-select formControlName="formaPagamento">
+            <mat-option *ngFor="let payment of payments" [value]="payment.value">
+              {{payment.label}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field class="form__input" appearance="fill">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status">
+            <mat-option *ngFor="let state of status" [value]="state.value">
+              {{state.label}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field class="form__input" style="width: 100%" appearance="fill">
+          <mat-label>Observações *</mat-label>
+          <textarea matInput placeholder="Observações" formControlName="observacoes">  </textarea>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </form>
+</mat-card>
+
+<div class="fixed-bottom fixed-bottom--left">
+  <button [disabled]="this.orcamentoForm.invalid" (click)="onSubmit()" mat-fab [color]="'success'">
+    <mat-icon>save</mat-icon>
+  </button>
+</div>
+
+<div class="fixed-bottom fixed-bottom--right">
+  <button *ngIf="status.value && id" (click)="deactivateService()" mat-fab color="warn">
+    <mat-icon>close</mat-icon>
+  </button>
+  <button *ngIf="!status.value && id" (click)="activateService()" mat-fab [color]="'success'">
+    <mat-icon>check</mat-icon>
+  </button>
+</div>

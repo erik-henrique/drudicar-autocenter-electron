@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import IZipCode from '../../../shared/interfaces/zipCode.interface';
-import { HttpService } from '../../../shared/services/http.service';
+import { MatDialog } from '@angular/material';
+
 import IService from '../../../shared/interfaces/service.interface';
 import { DatabaseService } from '../../../shared/services/data-access/database.service';
 import { ServiceEntity } from '../../../shared/services/data-access/entities/service.entity';
 import { ConfirmationComponent } from '../../../shared/components/confirmation/confirmation.component';
-import { MatDialog } from '@angular/material';
+
 
 @Component({
   selector: 'app-service-add-edit',
@@ -21,7 +21,6 @@ export class ServiceAddEditComponent implements OnInit {
 
   constructor(
     private _fb: FormBuilder,
-    private _httpService: HttpService,
     private _databaseService: DatabaseService,
     private route: ActivatedRoute,
     private dialog: MatDialog) {

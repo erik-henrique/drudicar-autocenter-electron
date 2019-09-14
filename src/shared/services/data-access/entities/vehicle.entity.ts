@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, JoinTable } from 'typeorm';
+import { ClientEntity } from './client.entity';
 
 @Entity({ name: 'tb_vehicle' })
 export class VehicleEntity extends BaseEntity {
@@ -33,7 +34,12 @@ export class VehicleEntity extends BaseEntity {
     @Column({ nullable: true })
     chassi: string;
 
-    @Column({ nullable: true })
+    @Column({
+        name: 'clientId',
+    })
+    @ManyToOne(type => ClientEntity)
+    @JoinTable()
+    client: ClientEntity;
     clientId: number;
 
     @Column({ default: true })

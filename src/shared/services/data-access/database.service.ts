@@ -4,6 +4,7 @@ import { DataAcessSettings } from './repositories/settings';
 import { ClientEntity } from './entities/client.entity';
 import { VehicleEntity } from './entities/vehicle.entity';
 import { ServiceEntity } from './entities/service.entity';
+import { WorkOrderEntity } from './entities/work-order.entity';
 
 @Injectable({
     providedIn: 'root'
@@ -21,7 +22,8 @@ export class DatabaseService {
             entities: [
                 ClientEntity,
                 VehicleEntity,
-                ServiceEntity
+                ServiceEntity,
+                WorkOrderEntity
             ],
             synchronize: true,
             logging: 'all',

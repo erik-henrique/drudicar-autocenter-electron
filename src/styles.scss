@@ -22,7 +22,7 @@ body {
     position:fixed;
     display:flex; 
     align-self:flex-end;
-    bottom: 2.5%; 
+    bottom: 2.5%;
 }
 
 .fixed-bottom--right {
@@ -63,6 +63,10 @@ body {
 
 .text-uppercase {
     text-transform: uppercase !important;
+}
+
+.text-capitalize {
+    text-transform:capitalize !important;
 }
 
 .mat-success {

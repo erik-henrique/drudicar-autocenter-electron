@@ -75,7 +75,7 @@ export class VehiclesListComponent implements OnInit {
       const dialogRef = this.dialog.open(VehicleAddEditComponent, {
         minWidth: '75%',
         minHeight: '75%',
-        data: { ...vehicle, clientId: 1 }
+        data: { ...vehicle, client: this.clientId }
       });
 
       dialogRef.afterClosed().subscribe(async () => {

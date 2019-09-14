@@ -1,6 +1,9 @@
+import IClient from './client.interface';
+
 export default interface IVehicle {
     id?: number;
     clientId?: number;
+    client?: IClient;
     placa: string;
     ano: Date;
     anoModelo: Date;

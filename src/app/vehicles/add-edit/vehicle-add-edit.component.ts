@@ -58,7 +58,7 @@ export class VehicleAddEditComponent implements OnInit {
       chassi: '',
       status: true,
       id: '',
-      clientId: ''
+      client: ''
     });
 
     if (this.data) {
@@ -111,7 +111,7 @@ export class VehicleAddEditComponent implements OnInit {
           .then(async () => {
             await vehicleEntity.save();
             this.dialogRef.close();
-          }).catch(err => console.error(err));
+          });
       }
     } catch (err) {
       console.error(err);
