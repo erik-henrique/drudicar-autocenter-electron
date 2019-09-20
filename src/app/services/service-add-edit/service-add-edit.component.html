@@ -18,13 +18,13 @@
   </form>
 </mat-card>
 
-<div class="fixed-bottom fixed-bottom--left">
-  <button [disabled]="this.serviceForm.invalid" (click)="onSubmit()" mat-fab [color]="'success'">
+<div class="fixed-bottom fixed-bottom--right">
+  <button [disabled]="this.serviceForm.invalid" (click)="onSubmit()" mat-fab [color]="'light-blue'">
     <mat-icon>save</mat-icon>
   </button>
 </div>
 
-<div class="fixed-bottom fixed-bottom--right">
+<div class="fixed-bottom fixed-bottom--left">
   <button *ngIf="status.value && id" (click)="deactivateService()" mat-fab color="warn">
     <mat-icon>close</mat-icon>
   </button>

@@ -12,7 +12,7 @@
     </form>
     <mat-list>
       <mat-list-item class="mat-list-option ng-star-inserted" *ngFor="let service of services">
-            <img matListAvatar src="./assets/images/service.png" alt="Serviço" style="border-radius:0%">
+        <img matListAvatar src="./assets/images/service.png" alt="Serviço" style="border-radius:0%">
         <h3 matLine style="margin-left: 0.5rem"> {{ service.nome }} </h3>
         <mat-chip-list aria-label="Status">
           <mat-chip color="warn" *ngIf="!service.status" selected>Desativado</mat-chip>
@@ -32,7 +32,7 @@
 
   <div class="fixed-bottom fixed-bottom--right">
 
-    <button [color]="'success'" mat-fab routerLink="/services/:id" style="margin-right : 14px;">
+    <button [color]="'light-blue'" mat-fab routerLink="/services/:id" style="margin-right : 14px;">
       <mat-icon >add</mat-icon>
     </button>
     <button mat-fab color="warn" style="margin-right : 14px;" (click)="goToTop()">

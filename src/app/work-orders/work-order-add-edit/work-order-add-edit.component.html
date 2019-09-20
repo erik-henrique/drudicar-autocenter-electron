@@ -1,10 +1,13 @@
-<mat-card class="card--margin">
-  <mat-card-title *ngIf="!id">Cadastrar novo orçamento <mat-icon matSuffix>person</mat-icon>
-  </mat-card-title>
-  <mat-card-title *ngIf="id">Editar orçamento <mat-icon matSuffix>person</mat-icon>
-  </mat-card-title>
-  <mat-card-subtitle>Preecha todas as informações marcadas como *</mat-card-subtitle>
-  <form [formGroup]="orcamentoForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="orcamentoForm" (ngSubmit)="onSubmit()">
+  <mat-card class="card--margin">
+    <mat-card-title *ngIf="!id">Cadastrar novo orçamento <mat-icon matSuffix>assignment</mat-icon>
+    </mat-card-title>
+    <div style="float:right;">
+      <p>Valor Total <span style="font-weight: bold;">{{valorTotal | currency:'BRL':true }}</span></p>
+    </div>
+    <mat-card-title *ngIf="id">Editar orçamento <mat-icon matSuffix>assignment</mat-icon>
+    </mat-card-title>
+    <mat-card-subtitle>Preecha todas as informações marcadas como *</mat-card-subtitle>
     <mat-card-content>
       <div class="form-row">
 
@@ -66,20 +69,86 @@
         </mat-form-field>
       </div>
     </mat-card-content>
-  </form>
-</mat-card>
+  </mat-card>
 
-<div class="fixed-bottom fixed-bottom--left">
-  <button [disabled]="this.orcamentoForm.invalid" (click)="onSubmit()" mat-fab [color]="'success'">
+  <mat-card class="card--margin">
+    <mat-card-title>Serviços <img matListAvatar src="./assets/images/service.png" alt="Serviço" width=22
+        style="border-radius:0%">
+      <button type="button" mat-icon-button aria-label="Adicionar serviço" style="float:right;" [color]="'light-blue'"
+        (click)="addService()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-card-title>
+    <mat-card-subtitle>Preecha todas as informações marcadas como *</mat-card-subtitle>
+
+    <div formArrayName="servicos">
+      <div class="form-row" *ngFor="let servicoForm of servicoForms.controls; let i=index" [formGroupName]="i">
+        <mat-form-field class="form__input" appearance="fill">
+          <mat-label>Serviço {{this.servicoForms.controls[i].value.nome}}</mat-label>
+          <mat-select formControlName="nome">
+            <mat-option
+              *ngIf="servicoForms.controls[i].value.nome && filterServices(servicoForms.controls[i].value.nome)"
+              [value]="this.servicoForms.controls[i].value.nome">
+              {{this.servicoForms.controls[i].value.nome}}
+            </mat-option>
+            <mat-option *ngFor="let servico of servicos" [value]="servico.nome">
+              {{servico.nome}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="form__input form__input--capitalize" appearance="fill">
+          <mat-label>Valor</mat-label>
+          <input type="number" formControlName="preco" matInput placeholder="Preço">
+        </mat-form-field>
+        <button type="button" mat-icon-button aria-label="Adicionar serviço" style="float:right;margin-top: 12px;"
+          [color]="'invalid--inverted'" (click)="deleteService(i)">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+
+  </mat-card>
+
+  <mat-card class="card--margin">
+    <mat-card-title>Produtos <mat-icon matSuffix>assignment_turned_in</mat-icon>
+      <button type="button" mat-icon-button aria-label="Adicionar produto" style="float:right;" [color]="'light-blue'"
+        (click)="addProduct()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-card-title>
+    <mat-card-subtitle>Preecha todas as informações marcadas como *</mat-card-subtitle>
+
+    <div formArrayName="produtos">
+      <div class="form-row" *ngFor="let produtoForm of produtoForms.controls; let i=index" [formGroupName]="i">
+        <mat-form-field class="form__input form__input--capitalize" appearance="fill">
+          <mat-label>Produto</mat-label>
+          <input type="text" formControlName="nome" matInput placeholder="Produto">
+        </mat-form-field>
+        <mat-form-field class="form__input form__input--capitalize" appearance="fill">
+          <mat-label>Valor</mat-label>
+          <input type="number" formControlName="preco" matInput placeholder="Preço">
+        </mat-form-field>
+        <button type="button" mat-icon-button aria-label="Adicionar serviço" style="float:right;margin-top: 12px;"
+          [color]="'invalid--inverted'" (click)="deleteProduct(i)">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+
+  </mat-card>
+</form>
+
+<div class="fixed-bottom fixed-bottom--right">
+  <button [disabled]="this.orcamentoForm.invalid" type="submit" (click)="onSubmit()" mat-fab [color]="'light-blue'">
     <mat-icon>save</mat-icon>
   </button>
 </div>
 
-<div class="fixed-bottom fixed-bottom--right">
-  <button *ngIf="status.value && id" (click)="deactivateService()" mat-fab color="warn">
+<div class="fixed-bottom fixed-bottom--left">
+  <button type="button" *ngIf="status.value && id" (click)="deactivateService()" mat-fab color="warn">
     <mat-icon>close</mat-icon>
   </button>
-  <button *ngIf="!status.value && id" (click)="activateService()" mat-fab [color]="'success'">
+  <button type="button" *ngIf="!status.value && id" (click)="activateService()" mat-fab [color]="'success'">
     <mat-icon>check</mat-icon>
   </button>
 </div>

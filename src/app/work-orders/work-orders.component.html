@@ -16,7 +16,7 @@
         <h3 matLine style="margin-left: 0.5rem;text-transform: uppercase;"> {{workOrder.vehicle.modelo}} ({{ workOrder.vehicle.placa | mask: 'AAA-0000'}}) </h3>
         <p matLine>
           <mat-chip-list aria-label="Status">
-            <mat-chip><span style="font-weight:bold;text-transform: capitalize;font-weight: bold;">{{ workOrder.vehicle.client.nome }} </span> &nbsp; ({{ workOrder.vehicle.client.cpf | mask: '000.000.000-00' }})</mat-chip>
+            <mat-chip><span style="font-weight:bold;text-transform: capitalize;font-weight: bold;">{{ workOrder.vehicle.client.nome }} </span></mat-chip>
           </mat-chip-list>
         </p>
         <p style="margin-right: 24px;width: 100%;"><span style="font-weight: bold;">Serviços:</span> {{ workOrder.servicos | formatOnlyNames }}</p>
@@ -39,7 +39,7 @@
 
   <div class="fixed-bottom fixed-bottom--right">
 
-    <button [color]="'success'" mat-fab routerLink="/work-orders/:id" style="margin-right : 14px;">
+    <button [color]="'light-blue'" mat-fab routerLink="/work-orders/:id" style="margin-right : 14px;">
       <mat-icon >add</mat-icon>
     </button>
     <button mat-fab color="warn" style="margin-right : 14px;" (click)="goToTop()">

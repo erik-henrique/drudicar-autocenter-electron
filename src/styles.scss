@@ -11,6 +11,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #d5e1df;
+    overflow-y: auto;
 }
 
 .active-link {
@@ -22,7 +23,7 @@ body {
     position:fixed;
     display:flex; 
     align-self:flex-end;
-    bottom: 2.5%;
+    bottom: 1%;
 }
 
 .fixed-bottom--right {
@@ -39,12 +40,58 @@ body {
     margin: 16px;
 }
 
-.valid {
-    background-color: #64dd17 !important;
+.mat-valid {
+    background-color: #1BB54E;
+    color: #fff;
+}
+
+.mat-invalid {
+    background-color: #ED5742;
+    color: #fff;
+}
+
+.mat-invalid--inverted {
+    background-color: #fff;
+    color: #ED5742;
+}
+
+.mat-dark-green {
+    background-color: #004F2D;
+    color: #fff;
+}
+
+.mat-light-grey {
+    background-color: #91AEC1;
+    color: #fff;
+}
+
+.mat-violet {
+    background-color: #2541B2;
+    color: #fff;
+}
+
+.mat-light-blue {
+    background-color: #2589BD;
+    color: #fff;
+}
+
+.mat-blue {
+    background-color: #1768AC;
+    color: #fff;
 }
 
 .valid--font-bold {
     font-weight: bold;
+}
+
+.mat-success {
+    background-color: #1BB54E;
+    color: #fff;
+}
+
+.mat-error {
+    background-color: #ED5742;
+    color: #fff;
 }
 
 .form__input {
@@ -67,9 +114,4 @@ body {
 
 .text-capitalize {
     text-transform:capitalize !important;
-}
-
-.mat-success {
-    background-color: #00A86B;
-    color: #fff;
 }
