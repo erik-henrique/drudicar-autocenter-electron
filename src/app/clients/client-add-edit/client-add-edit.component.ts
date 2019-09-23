@@ -27,7 +27,6 @@ export class ClientAddEditComponent implements OnInit {
     private route: ActivatedRoute,
     private dialog: MatDialog) {
 
-    this.id = parseInt(this.route.snapshot.paramMap.get('id'), null);
   }
 
   async ngOnInit() {
@@ -51,6 +50,8 @@ export class ClientAddEditComponent implements OnInit {
       numero: '',
       dataNascimento: ''
     });
+
+    this.id = parseInt(this.route.snapshot.paramMap.get('id'), null);
 
     if (this.id) {
       await this.getClient(this.id);

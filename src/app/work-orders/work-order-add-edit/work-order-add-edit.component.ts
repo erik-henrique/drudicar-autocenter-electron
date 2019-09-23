@@ -9,12 +9,14 @@ import { WorkOrderEntity } from '../../../shared/services/data-access/entities/w
 import { ConfirmationComponent } from '../../../shared/components/confirmation/confirmation.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { ClientEntity } from 'src/shared/services/data-access/entities/client.entity';
-import IClient from 'src/shared/interfaces/client.interface';
-import { VehicleEntity } from 'src/shared/services/data-access/entities/vehicle.entity';
-import IVehicle from 'src/shared/interfaces/vehicle.interface';
-import { ServiceEntity } from 'src/shared/services/data-access/entities/service.entity';
-import IService from 'src/shared/interfaces/service.interface';
+import { ClientEntity } from '../../../shared/services/data-access/entities/client.entity';
+import IClient from '../../../shared/interfaces/client.interface';
+import { VehicleEntity } from '../../../shared/services/data-access/entities/vehicle.entity';
+import IVehicle from '../../../shared/interfaces/vehicle.interface';
+import { ServiceEntity } from '../../../shared/services/data-access/entities/service.entity';
+import IService from '../../../shared/interfaces/service.interface';
+import { Status } from '../../../shared/enums/status.enum';
+import { WorkOrderTypes } from '../../../shared/enums/work-order-types.enum';
 
 @Component({
   selector: 'app-work-order-add-edit',
@@ -27,14 +29,14 @@ export class WorkOrderAddEditComponent implements OnInit {
       label: 'Dinheiro', value: 'Dinheiro'
     },
     {
-      label: 'Á vista', value: 'Á vista'
+      label: 'Cartão de Débito', value: 'Cartão de Débito'
+    },
+    {
+      label: 'Cartão de Crédito', value: 'Cartão de Crédito'
     }
   ];
 
   public status = [
-    {
-      label: 'Aguardando Aprovação', value: 'Aguardando Aprovação'
-    },
     {
       label: 'Em Andamento', value: 'Em Andamento'
     },
@@ -42,8 +44,8 @@ export class WorkOrderAddEditComponent implements OnInit {
       label: 'Finalizada', value: 'Finalizada'
     },
     {
-      label: 'Cancelada', value: 'Cancelada'
-    }
+      label: 'Disponível', value: 'Disponível'
+    },
   ];
 
   public orcamentoForm: FormGroup;
@@ -52,35 +54,37 @@ export class WorkOrderAddEditComponent implements OnInit {
   public vehicles: IVehicle[];
   public servicos: IService[];
 
+  public STATUS = Status;
+  public WORK_ORDER_TYPES = WorkOrderTypes;
+
   constructor(
     private _fb: FormBuilder,
     private _databaseService: DatabaseService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private spinner: NgxSpinnerService) {
-
-    this.id = parseInt(this.route.snapshot.paramMap.get('id'), null);
   }
 
   async ngOnInit() {
-
     this.orcamentoForm = this._fb.group({
-      id: '',
+      id: null,
       vehicle: [null, [
         Validators.required
       ]],
       client: [null, [
         Validators.required
       ]],
-      servicos: this._fb.array([]),
+      servicos: this._fb.array([], Validators.required),
       produtos: this._fb.array([]),
-      status: '',
-      observacoes: '',
-      dataPagamento: '',
-      formaPagamento: '',
+      status: 'Aguardando Aprovação',
+      tipo: ['Orçamento', Validators.required],
+      observacoes: null,
+      dataPagamento: null,
+      formaPagamento: null,
       valor: null
     });
 
+    this.id = parseInt(this.route.snapshot.paramMap.get('id'), null);
     // setInterval(() => {
     //   console.log(this.servicoForms.controls[0].value)
     // }, 1000)
@@ -154,6 +158,11 @@ export class WorkOrderAddEditComponent implements OnInit {
   get statusFromForm() {
     return this.orcamentoForm.get('status');
   }
+
+  get typeFromForm() {
+    return this.orcamentoForm.get('tipo');
+  }
+
 
   filterServices(value: string): Boolean {
     return this.servicos.find(s => s.nome === value) ? false : true;
@@ -247,73 +256,81 @@ export class WorkOrderAddEditComponent implements OnInit {
 
           this.orcamentoForm.controls.client.patchValue(workOrder.vehicle.client.id);
           this.orcamentoForm.controls.vehicle.patchValue(workOrder.vehicle.id);
+
+          if (this.orcamentoForm.controls.status.value === this.STATUS.Cancelada
+            || this.orcamentoForm.controls.status.value === this.STATUS.Finalizada) {
+            this.orcamentoForm.disable();
+          }
         });
     } catch (err) {
       console.error(err);
     }
   }
 
-  // async deactivateWorkOrder() {
-  //   try {
-  //     const servico = this.orcamentoForm.value as IWorkOrder;
+  async cancelWorkOrder() {
+    try {
+      const orcamento = this.orcamentoForm.value as IWorkOrder;
 
-  //     const confirmation = {
-  //       message: 'Tem certeza que deseja desativar o serviço',
-  //       data: servico.,
-  //       action: 'Desativar'
-  //     };
+      const confirmation = {
+        message: 'Tem certeza que deseja cancelar o',
+        data: `${orcamento.tipo} Nº ${orcamento.id}`,
+        action: 'Sim'
+      };
 
-  //     const dialogRef = this.dialog.open(ConfirmationComponent, {
-  //       minWidth: '25%',
-  //       minHeight: '25%',
-  //       data: { ...confirmation }
-  //     });
+      const dialogRef = this.dialog.open(ConfirmationComponent, {
+        minWidth: '25%',
+        minHeight: '25%',
+        data: { ...confirmation }
+      });
 
-  //     dialogRef.afterClosed().subscribe(async (data) => {
-  //       if (data) {
-  //         await this._databaseService
-  //           .connection
-  //           .then(async () => {
-  //             await WorkOrderEntity.update({ id: servico.id }, { status: false });
-  //             this.orcamentoForm.controls.status.setValue(false);
-  //           });
-  //       }
-  //     });
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // }
+      dialogRef.afterClosed().subscribe(async (data) => {
+        if (data) {
+          await this._databaseService
+            .connection
+            .then(async () => {
+              await WorkOrderEntity.update({ id: orcamento.id }, { status: this.STATUS.Cancelada });
+              this.orcamentoForm.controls.status.setValue(this.STATUS.Cancelada);
+              this.orcamentoForm.disable();
+            });
+        }
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
-  // async activateService() {
-  //   try {
-  //     const servico = this.orcamentoForm.value as IWorkOrder;
+  async transformIntoWorkOrder() {
+    try {
+      const orcamento = this.orcamentoForm.value as IWorkOrder;
 
-  //     const confirmation = {
-  //       message: 'Tem certeza que deseja ativar o serviço',
-  //       data: servico.nome,
-  //       action: 'Ativar'
-  //     };
+      const confirmation = {
+        message: 'Transformar em Ordem de Serviço o ',
+        data: `Orçamento Nº ${orcamento.id}`,
+        action: 'Sim'
+      };
 
-  //     const dialogRef = this.dialog.open(ConfirmationComponent, {
-  //       minWidth: '25%',
-  //       minHeight: '25%',
-  //       data: { ...confirmation }
-  //     });
+      const dialogRef = this.dialog.open(ConfirmationComponent, {
+        minWidth: '25%',
+        minHeight: '25%',
+        data: { ...confirmation }
+      });
 
-  //     dialogRef.afterClosed().subscribe(async (data) => {
-  //       if (data) {
-  //         await this._databaseService
-  //           .connection
-  //           .then(async () => {
-  //             await WorkOrderEntity.update({ id: servico.id }, { status: true });
-  //             this.orcamentoForm.controls.status.setValue(true);
-  //           });
-  //       }
-  //     });
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // }
+      dialogRef.afterClosed().subscribe(async (data) => {
+        if (data) {
+          await this._databaseService
+            .connection
+            .then(async () => {
+              await WorkOrderEntity
+                .update({ id: orcamento.id }, { status: this.STATUS.Disponivel, tipo: this.WORK_ORDER_TYPES.OrdemDeServico });
+              this.orcamentoForm.controls.status.setValue(this.STATUS.Disponivel);
+              this.orcamentoForm.controls.tipo.setValue(this.WORK_ORDER_TYPES.OrdemDeServico);
+            });
+        }
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   async onSubmit() {
     try {

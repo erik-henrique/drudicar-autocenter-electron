@@ -9,6 +9,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Like } from 'typeorm';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Status } from '../../shared/enums/status.enum';
+import { WorkOrderTypes } from '../..//shared/enums/work-order-types.enum';
 
 @Component({
   selector: 'app-work-orders',
@@ -18,22 +19,23 @@ import { Status } from '../../shared/enums/status.enum';
 export class WorkOrdersComponent implements OnInit {
   public serviceFilterForm: FormGroup;
   public workOrders: IWorkOrder[];
-  public Status = Status;
+  public STATUS = Status;
+  public WORK_ORDER_TYPES = WorkOrderTypes;
 
   constructor(
     private _fb: FormBuilder,
     private _databaseService: DatabaseService,
     private dialog: MatDialog,
     private spinner: NgxSpinnerService) {
+  }
+
+  async ngOnInit() {
     this.serviceFilterForm = this._fb.group({
       id: '',
       vehicleId: '',
       tipo: '',
-
       status: '',
-
       dataPagamento: '',
-
       produtos: '',
       servicos: '',
       observacoes: '',
@@ -57,9 +59,7 @@ export class WorkOrdersComponent implements OnInit {
         console.error(err);
       }
     });
-  }
 
-  async ngOnInit() {
     await this.getWorkOrders();
   }
 
@@ -69,7 +69,8 @@ export class WorkOrdersComponent implements OnInit {
       await this._databaseService
         .connection
         .then(async () => {
-          const workOrders = await WorkOrderEntity.find({relations: ['vehicle', 'vehicle.client']});
+          const workOrders = await WorkOrderEntity
+          .find({relations: ['vehicle', 'vehicle.client'], where: { tipo: this.WORK_ORDER_TYPES.Orcamento }});
           console.log(workOrders);
           this.workOrders = workOrders as IWorkOrder[];
         }).finally(() => {
@@ -83,9 +84,9 @@ export class WorkOrdersComponent implements OnInit {
   async deleteService(service: IWorkOrder) {
     try {
       const confirmation = {
-        message: 'Tem certeza que deseja desativar o serviço',
+        message: 'Tem certeza que deseja Cancelar',
         data: service.id,
-        action: 'Desativar'
+        action: 'Cancelar'
       };
 
       const dialogRef = this.dialog.open(ConfirmationComponent, {
@@ -99,7 +100,7 @@ export class WorkOrdersComponent implements OnInit {
           await this._databaseService
             .connection
             .then(async () => {
-              await WorkOrderEntity.update({ id: service.id }, { status: Status.Cancelada });
+              await WorkOrderEntity.update({ id: service.id }, { status: this.STATUS.Cancelada });
               await this.getWorkOrders();
             });
         }

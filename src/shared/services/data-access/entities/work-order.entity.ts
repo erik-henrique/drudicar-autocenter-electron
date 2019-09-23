@@ -23,7 +23,7 @@ export class WorkOrderEntity extends BaseEntity {
     @Column()
     status: Status;
 
-    @Column({})
+    @Column({ nullable: true })
     dataPagamento: Date;
 
     @Column({ nullable: true })

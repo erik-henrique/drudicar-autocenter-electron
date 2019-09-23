@@ -23,7 +23,9 @@ export class ClientsListComponent implements OnInit {
     private dialog: MatDialog,
     private _fb: FormBuilder,
     private spinner: NgxSpinnerService) {
+  }
 
+  async ngOnInit() {
     this.clientFilterForm = this._fb.group({
       nome: '',
       cpf: ''
@@ -66,9 +68,7 @@ export class ClientsListComponent implements OnInit {
         console.error(err);
       }
     });
-  }
 
-  async ngOnInit() {
     await this.getClients();
   }
 

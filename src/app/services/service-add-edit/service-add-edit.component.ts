@@ -24,8 +24,6 @@ export class ServiceAddEditComponent implements OnInit {
     private _databaseService: DatabaseService,
     private route: ActivatedRoute,
     private dialog: MatDialog) {
-
-    this.id = parseInt(this.route.snapshot.paramMap.get('id'), null);
   }
 
   async ngOnInit() {
@@ -37,6 +35,7 @@ export class ServiceAddEditComponent implements OnInit {
       status: true
     });
 
+    this.id = parseInt(this.route.snapshot.paramMap.get('id'), null);
     if (this.id) {
       await this.getService(this.id);
     }

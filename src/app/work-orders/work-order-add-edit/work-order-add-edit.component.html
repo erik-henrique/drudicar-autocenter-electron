@@ -1,11 +1,16 @@
 <form [formGroup]="orcamentoForm" (ngSubmit)="onSubmit()">
   <mat-card class="card--margin">
+    <div style="float:right;margin: 0px;">
+      <p style="margin: 0px;float:right;"><span style="font-weight: bold;" *ngIf="id"> Nº {{id}} -</span> Valor
+        Total <span style="font-weight: bold;">{{valorTotal | currency:'BRL':true }}</span></p>
+    </div>
     <mat-card-title *ngIf="!id">Cadastrar novo orçamento <mat-icon matSuffix>assignment</mat-icon>
     </mat-card-title>
-    <div style="float:right;">
-      <p>Valor Total <span style="font-weight: bold;">{{valorTotal | currency:'BRL':true }}</span></p>
-    </div>
-    <mat-card-title *ngIf="id">Editar orçamento <mat-icon matSuffix>assignment</mat-icon>
+    <mat-card-title *ngIf="id && typeFromForm.value === WORK_ORDER_TYPES.Orcamento">Editar Orçamento
+      <mat-icon matSuffix>assignment</mat-icon>
+    </mat-card-title>
+    <mat-card-title *ngIf="id && typeFromForm.value === WORK_ORDER_TYPES.OrdemDeServico">Editar Ordem de Serviço
+      <mat-icon matSuffix>assignment</mat-icon>
     </mat-card-title>
     <mat-card-subtitle>Preecha todas as informações marcadas como *</mat-card-subtitle>
     <mat-card-content>
@@ -31,7 +36,8 @@
 
       </div>
 
-      <div class="form-row">
+      <div class="form-row"
+        *ngIf="statusFromForm.value !== STATUS.Cancelada && statusFromForm.value !== STATUS.AguardandoAprovacao">
 
         <mat-form-field class="form__input form__input--capitalize" appearance="fill">
           <mat-label>Data do Pagamento</mat-label>
@@ -51,13 +57,19 @@
         </mat-form-field>
       </div>
 
-      <div class="form-row">
+      <div class="form-row" *ngIf="statusFromForm.value !== STATUS.AguardandoAprovacao">
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Status</mat-label>
           <mat-select formControlName="status">
             <mat-option *ngFor="let state of status" [value]="state.value">
               {{state.label}}
             </mat-option>
+            <mat-option *ngIf="statusFromForm.value === STATUS.Cancelada" [value]="STATUS.Cancelada">
+              {{ STATUS.Cancelada }}
+            </mat-option>
+            <mat-option *ngIf="statusFromForm.value === STATUS.AguardandoAprovacao" [value]="STATUS.AguardandoAprovacao">
+                {{ STATUS.AguardandoAprovacao }}
+              </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -74,8 +86,9 @@
   <mat-card class="card--margin">
     <mat-card-title>Serviços <img matListAvatar src="./assets/images/service.png" alt="Serviço" width=22
         style="border-radius:0%">
-      <button type="button" mat-icon-button aria-label="Adicionar serviço" style="float:right;" [color]="'light-blue'"
-        (click)="addService()">
+      <button type="button" mat-icon-button aria-label="Adicionar serviço" style="float:right;"
+        *ngIf="statusFromForm.value !== STATUS.Cancelada"
+        [color]="statusFromForm.value === STATUS.Cancelada ? '' : 'light-blue'" (click)="addService()">
         <mat-icon>add</mat-icon>
       </button>
     </mat-card-title>
@@ -101,7 +114,8 @@
           <input type="number" formControlName="preco" matInput placeholder="Preço">
         </mat-form-field>
         <button type="button" mat-icon-button aria-label="Adicionar serviço" style="float:right;margin-top: 12px;"
-          [color]="'invalid--inverted'" (click)="deleteService(i)">
+          [disabled]="statusFromForm.value === STATUS.Cancelada"
+          [color]="statusFromForm.value === STATUS.Cancelada ? '' : 'invalid--inverted'" (click)="deleteService(i)">
           <mat-icon>close</mat-icon>
         </button>
       </div>
@@ -111,8 +125,10 @@
 
   <mat-card class="card--margin">
     <mat-card-title>Produtos <mat-icon matSuffix>assignment_turned_in</mat-icon>
-      <button type="button" mat-icon-button aria-label="Adicionar produto" style="float:right;" [color]="'light-blue'"
-        (click)="addProduct()">
+      <button type="button" mat-icon-button aria-label="Adicionar produto" style="float:right;"
+        *ngIf="statusFromForm.value !== STATUS.Cancelada"
+        [color]="statusFromForm.value === STATUS.Cancelada ? '' : 'light-blue'" (click)="addProduct()"
+        [disabled]="statusFromForm.value === STATUS.Cancelada">
         <mat-icon>add</mat-icon>
       </button>
     </mat-card-title>
@@ -129,7 +145,8 @@
           <input type="number" formControlName="preco" matInput placeholder="Preço">
         </mat-form-field>
         <button type="button" mat-icon-button aria-label="Adicionar serviço" style="float:right;margin-top: 12px;"
-          [color]="'invalid--inverted'" (click)="deleteProduct(i)">
+          [disabled]="statusFromForm.value === STATUS.Cancelada"
+          [color]="statusFromForm.value === STATUS.Cancelada ? '' : 'invalid--inverted'" (click)="deleteProduct(i)">
           <mat-icon>close</mat-icon>
         </button>
       </div>
@@ -139,16 +156,20 @@
 </form>
 
 <div class="fixed-bottom fixed-bottom--right">
-  <button [disabled]="this.orcamentoForm.invalid" type="submit" (click)="onSubmit()" mat-fab [color]="'light-blue'">
+  <button [disabled]="this.orcamentoForm.invalid || statusFromForm.value === STATUS.Cancelada" type="submit"
+    (click)="onSubmit()" mat-fab [color]="statusFromForm.value === STATUS.Cancelada ? 'light-grey' : 'light-blue'">
     <mat-icon>save</mat-icon>
   </button>
 </div>
 
 <div class="fixed-bottom fixed-bottom--left">
-  <button type="button" *ngIf="status.value && id" (click)="deactivateService()" mat-fab color="warn">
+  <button type="button" style="margin-right: 1rem;"
+    *ngIf="statusFromForm.value !== STATUS.Cancelada && id"
+    (click)="cancelWorkOrder()" mat-fab color="warn">
     <mat-icon>close</mat-icon>
   </button>
-  <button type="button" *ngIf="!status.value && id" (click)="activateService()" mat-fab [color]="'success'">
+  <button type="button" *ngIf="statusFromForm.value === STATUS.AguardandoAprovacao && id"
+    (click)="transformIntoWorkOrder()" mat-fab [color]="'success'">
     <mat-icon>check</mat-icon>
   </button>
 </div>

@@ -23,6 +23,9 @@ export class ServicesListComponent implements OnInit {
     private _databaseService: DatabaseService,
     private dialog: MatDialog,
     private spinner: NgxSpinnerService) {
+  }
+
+  async ngOnInit() {
     this.serviceFilterForm = this._fb.group({
       nome: ''
     });
@@ -44,9 +47,7 @@ export class ServicesListComponent implements OnInit {
         console.error(err);
       }
     });
-  }
 
-  async ngOnInit() {
     await this.getServices();
   }
 
