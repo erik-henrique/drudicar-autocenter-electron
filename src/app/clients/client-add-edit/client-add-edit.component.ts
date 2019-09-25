@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material';
+
 import { CpfCnpjValidator } from '../../../shared/validators/cpf-cnpj.validator';
 import IZipCode from '../../../shared/interfaces/zipCode.interface';
 import { HttpService } from '../../../shared/services/http.service';
@@ -8,7 +10,6 @@ import IClient from '../../../shared/interfaces/client.interface';
 import { DatabaseService } from '../../../shared/services/data-access/database.service';
 import { ClientEntity } from '../../../shared/services/data-access/entities/client.entity';
 import { ConfirmationComponent } from '../../../shared/components/confirmation/confirmation.component';
-import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-client-add-edit',
@@ -51,11 +52,10 @@ export class ClientAddEditComponent implements OnInit {
       dataNascimento: ''
     });
 
-    this.id = parseInt(this.route.snapshot.paramMap.get('id'), null);
-
-    if (this.id) {
+    this.route.paramMap.subscribe(async params => {
+      this.id = parseInt(params['params'].id, null);
       await this.getClient(this.id);
-    }
+    });
 
     this.clientForm.controls.cep.valueChanges.subscribe((value: string) => {
       if (value.length === 8) {

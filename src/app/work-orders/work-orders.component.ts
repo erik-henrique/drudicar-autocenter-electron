@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
+import { Like, In } from 'typeorm';
+import { NgxSpinnerService } from 'ngx-spinner';
+
+import { Status } from '../../shared/enums/status.enum';
+import { WorkOrderTypes } from '../..//shared/enums/work-order-types.enum';
+import { ClientEntity } from '../../shared/services/data-access/entities/client.entity';
 import IWorkOrder from '../../shared/interfaces/work-order.interface';
 import { DatabaseService } from '../../shared/services/data-access/database.service';
 import { WorkOrderEntity } from '../../shared/services/data-access/entities/work-order.entity';
 import { VehicleEntity } from '../../shared/services/data-access/entities/vehicle.entity';
 import { ConfirmationComponent } from '../../shared/components/confirmation/confirmation.component';
-import { MatDialog } from '@angular/material';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { Like, In } from 'typeorm';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { Status } from '../../shared/enums/status.enum';
-import { WorkOrderTypes } from '../..//shared/enums/work-order-types.enum';
-import { ClientEntity } from 'src/shared/services/data-access/entities/client.entity';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-work-orders',
@@ -24,7 +25,8 @@ export class WorkOrdersComponent implements OnInit {
   public workOrders: IWorkOrder[];
   public STATUS = Status;
   public WORK_ORDER_TYPES = WorkOrderTypes;
-  public type: string = '';
+  public type: string = this.WORK_ORDER_TYPES.Orcamento;
+
   constructor(
     private _fb: FormBuilder,
     private _databaseService: DatabaseService,

@@ -30,7 +30,7 @@
         {{ workOrder.servicos | formatOnlyNames }}</p>
       <p style="margin-right: 24px;">
         <mat-chip-list aria-label="Pagamento">
-          <mat-chip *ngIf="!workOrder.dataPagamento && workOrder.status !== STATUS.Cancelada"><span style="font-weight: bold;">Não Pago</span></mat-chip>
+          <mat-chip *ngIf="!workOrder.dataPagamento && workOrder.status !== STATUS.Cancelada && workOrder.tipo !== WORK_ORDER_TYPES.Orcamento"><span style="font-weight: bold;">Não Pago</span></mat-chip>
           <mat-chip *ngIf="workOrder.dataPagamento" style="background-color: #1BB54E;color: #fff;"><span style="font-weight: bold;">Pago em: {{workOrder.dataPagamento | date: 'dd/MM/yyyy' }}</span></mat-chip>
         </mat-chip-list>
       </p>

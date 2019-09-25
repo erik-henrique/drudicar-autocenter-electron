@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { DatabaseService } from '../../shared/services/data-access/database.service';
-import { ClientEntity } from '../../shared/services/data-access/entities/client.entity';
-import IClient from '../../shared/interfaces/client.interface';
 import { MatDialog } from '@angular/material';
-import { ConfirmationComponent } from '../../shared/components/confirmation/confirmation.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Like } from 'typeorm';
 import { NgxSpinnerService } from 'ngx-spinner';
+
+import { ConfirmationComponent } from '../../shared/components/confirmation/confirmation.component';
+import { DatabaseService } from '../../shared/services/data-access/database.service';
+import { ClientEntity } from '../../shared/services/data-access/entities/client.entity';
+import IClient from '../../shared/interfaces/client.interface';
 
 @Component({
   selector: 'app-clients-list',

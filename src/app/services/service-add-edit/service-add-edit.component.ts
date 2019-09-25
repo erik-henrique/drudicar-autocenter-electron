@@ -35,10 +35,11 @@ export class ServiceAddEditComponent implements OnInit {
       status: true
     });
 
-    this.id = parseInt(this.route.snapshot.paramMap.get('id'), null);
-    if (this.id) {
+
+    this.route.paramMap.subscribe(async params => {
+      this.id = parseInt(params['params'].id, null);
       await this.getService(this.id);
-    }
+    });
   }
 
   get nome() {

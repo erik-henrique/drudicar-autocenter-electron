@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 import IWorkOrder from '../../../shared/interfaces/work-order.interface';
 import { DatabaseService } from '../../../shared/services/data-access/database.service';
 import { WorkOrderEntity } from '../../../shared/services/data-access/entities/work-order.entity';
 import { ConfirmationComponent } from '../../../shared/components/confirmation/confirmation.component';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ClientEntity } from '../../../shared/services/data-access/entities/client.entity';
 import IClient from '../../../shared/interfaces/client.interface';
 import { VehicleEntity } from '../../../shared/services/data-access/entities/vehicle.entity';
@@ -84,11 +84,6 @@ export class WorkOrderAddEditComponent implements OnInit {
       valor: null
     });
 
-    this.id = parseInt(this.route.snapshot.paramMap.get('id'), null);
-    // setInterval(() => {
-    //   console.log(this.servicoForms.controls[0].value)
-    // }, 1000)
-
     this.orcamentoForm.controls.client.valueChanges
       .pipe(distinctUntilChanged()).subscribe(async (value: number) => {
         try {
@@ -112,9 +107,10 @@ export class WorkOrderAddEditComponent implements OnInit {
     await this.getClients();
     await this.getServices();
 
-    if (this.id) {
+    this.route.paramMap.subscribe(async params => {
+      this.id = parseInt(params['params'].id, null);
       await this.getWorkOrder(this.id);
-    }
+    });
   }
 
   get servicoForms() {
