@@ -38,7 +38,7 @@
         <mat-chip color="warn" *ngIf="workOrder.status === STATUS.Cancelada" selected>Cancelada</mat-chip>
         <mat-chip *ngIf="workOrder.status !== STATUS.Cancelada">{{workOrder.status}}</mat-chip>
       </mat-chip-list>
-      <button routerLink="/work-orders/{{workOrder.id}}" style="margin-left: 24px;" mat-icon-button
+      <button routerLink="{{workOrder.id}}"  preserveQueryParams preserveFragment style="margin-left: 24px;" mat-icon-button
         aria-label="Editar Serviço">
         <mat-icon>edit</mat-icon>
       </button>
@@ -53,7 +53,7 @@
 
 <div class="fixed-bottom fixed-bottom--right">
 
-  <button [color]="'light-blue'" mat-fab routerLink="/work-orders/:id" style="margin-right : 14px;">
+  <button [color]="'light-blue'" mat-fab routerLink="/work-orders/:type/:id" style="margin-right : 14px;">
     <mat-icon>add</mat-icon>
   </button>
   <button mat-fab color="warn" style="margin-right : 14px;" (click)="goToTop()">

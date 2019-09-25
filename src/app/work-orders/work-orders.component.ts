@@ -12,6 +12,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Status } from '../../shared/enums/status.enum';
 import { WorkOrderTypes } from '../..//shared/enums/work-order-types.enum';
 import { ClientEntity } from 'src/shared/services/data-access/entities/client.entity';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-work-orders',
@@ -23,11 +24,12 @@ export class WorkOrdersComponent implements OnInit {
   public workOrders: IWorkOrder[];
   public STATUS = Status;
   public WORK_ORDER_TYPES = WorkOrderTypes;
-
+  public type: string = '';
   constructor(
     private _fb: FormBuilder,
     private _databaseService: DatabaseService,
     private dialog: MatDialog,
+    private route: ActivatedRoute,
     private spinner: NgxSpinnerService) {
   }
 
@@ -54,7 +56,7 @@ export class WorkOrdersComponent implements OnInit {
                     relations: ['vehicle', 'vehicle.client'],
                     where: {
                       vehicle: In(vehicleIds),
-                      tipo: this.WORK_ORDER_TYPES.Orcamento
+                      tipo: this.type
                     }
                   });
 
@@ -84,7 +86,7 @@ export class WorkOrdersComponent implements OnInit {
                   .innerJoinAndSelect('work.vehicle', 'vehicle')
                   .innerJoinAndSelect('vehicle.client', 'client')
                   .where('vehicle.client.id IN (:...ids)', { ids: clientIds })
-                  .andWhere('work.tipo = :tipo', { tipo: this.WORK_ORDER_TYPES.Orcamento })
+                  .andWhere('work.tipo = :tipo', { tipo: this.type })
                   .getMany();
 
                 console.log(workOrders);
@@ -98,7 +100,11 @@ export class WorkOrdersComponent implements OnInit {
         }
       });
 
-    await this.getWorkOrders();
+    this.route.paramMap.subscribe(async params => {
+      this.type = params['params'].type === 'orcamento'
+        ? this.WORK_ORDER_TYPES.Orcamento : this.WORK_ORDER_TYPES.OrdemDeServico;
+      await this.getWorkOrders();
+    });
   }
 
   async getWorkOrders() {
@@ -108,7 +114,7 @@ export class WorkOrdersComponent implements OnInit {
         .connection
         .then(async () => {
           const workOrders = await WorkOrderEntity
-            .find({ relations: ['vehicle', 'vehicle.client'], where: { tipo: this.WORK_ORDER_TYPES.Orcamento } });
+            .find({ relations: ['vehicle', 'vehicle.client'], where: { tipo: this.type } });
           console.log(workOrders);
           this.workOrders = workOrders as IWorkOrder[];
         }).finally(() => {

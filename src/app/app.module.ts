@@ -59,7 +59,8 @@ const appRoutes: Routes = [
     { path: 'clients', component: ClientsListComponent },
     { path: 'clients/:id', component: ClientAddEditComponent },
     { path: 'work-orders', component: WorkOrdersComponent },
-    { path: 'work-orders/:id', component: WorkOrderAddEditComponent },
+    { path: 'work-orders/:type', component: WorkOrdersComponent },
+    { path: 'work-orders/:type/:id', component: WorkOrderAddEditComponent },
     { path: 'services', component: ServicesListComponent },
     { path: 'services/:id', component: ServiceAddEditComponent }
 ];
