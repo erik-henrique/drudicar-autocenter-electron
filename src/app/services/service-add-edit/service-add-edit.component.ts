@@ -38,7 +38,9 @@ export class ServiceAddEditComponent implements OnInit {
 
     this.route.paramMap.subscribe(async params => {
       this.id = parseInt(params['params'].id, null);
-      await this.getService(this.id);
+      if (this.id) {
+        await this.getService(this.id);
+      }
     });
   }
 

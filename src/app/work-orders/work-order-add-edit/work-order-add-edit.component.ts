@@ -109,7 +109,9 @@ export class WorkOrderAddEditComponent implements OnInit {
 
     this.route.paramMap.subscribe(async params => {
       this.id = parseInt(params['params'].id, null);
-      await this.getWorkOrder(this.id);
+      if (this.id) {
+        await this.getWorkOrder(this.id);
+      }
     });
   }
 
@@ -158,7 +160,6 @@ export class WorkOrderAddEditComponent implements OnInit {
   get typeFromForm() {
     return this.orcamentoForm.get('tipo');
   }
-
 
   filterServices(value: string): Boolean {
     return this.servicos.find(s => s.nome === value) ? false : true;

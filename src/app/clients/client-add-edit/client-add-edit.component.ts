@@ -54,7 +54,10 @@ export class ClientAddEditComponent implements OnInit {
 
     this.route.paramMap.subscribe(async params => {
       this.id = parseInt(params['params'].id, null);
-      await this.getClient(this.id);
+
+      if (this.id) {
+        await this.getClient(this.id);
+      }
     });
 
     this.clientForm.controls.cep.valueChanges.subscribe((value: string) => {
