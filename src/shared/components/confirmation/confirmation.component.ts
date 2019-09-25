@@ -4,6 +4,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 interface Data {
   confirmed: boolean;
   message: string;
+  action: string;
+  data: string;
 }
 
 @Component({
