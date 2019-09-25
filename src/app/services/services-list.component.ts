@@ -51,6 +51,13 @@ export class ServicesListComponent implements OnInit {
     await this.getServices();
   }
 
+  public goToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }
+
   async getServices() {
     try {
       this.spinner.show();

@@ -109,6 +109,13 @@ export class WorkOrdersComponent implements OnInit {
     });
   }
 
+  public goToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }
+
   async getWorkOrders() {
     try {
       this.spinner.show();
