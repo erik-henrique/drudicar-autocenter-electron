@@ -1,7 +1,7 @@
 <form [formGroup]="orcamentoForm" (ngSubmit)="onSubmit()">
   <mat-card class="card--margin">
     <div style="float:right;margin: 0px;">
-      <p style="margin: 0px;float:right;"><span style="font-weight: bold;" *ngIf="id"> Nº {{id}} -</span> Valor
+      <p style="margin: 0px;float:right;"><span style="font-weight: bold;" *ngIf="id.value"> Nº {{id}} -</span> Valor
         Total <span style="font-weight: bold;">{{valorTotal | currency:'BRL':true }}</span></p>
     </div>
     <mat-card-title *ngIf="!id">Cadastrar novo orçamento <mat-icon matSuffix>assignment</mat-icon>
@@ -84,7 +84,7 @@
   </mat-card>
 
   <mat-card class="card--margin">
-    <mat-card-title>Serviços <img matListAvatar src="./assets/images/service.png" alt="Serviço" width=22
+    <mat-card-title>Serviços <img matListAvatar src="assets/images/service.png" alt="Serviço" width=22
         style="border-radius:0%">
       <button type="button" mat-icon-button aria-label="Adicionar serviço" style="float:right;"
         *ngIf="statusFromForm.value !== STATUS.Cancelada"

@@ -6,18 +6,18 @@
   <form [formGroup]="serviceFilterForm">
     <mat-form-field appearance="outline" style="width: 49%">
       <mat-label>Pesquisar por modelo de veículo</mat-label>
-      <input matInput placeholder="Modelo" formControlName="veiculo">
+      <input matInput placeholder="Modelo" formControlName="veiculo" class="text-capitalize">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
     <mat-form-field appearance="outline" style="width: 49%;float: right;">
       <mat-label>Pesquisar por cliente</mat-label>
-      <input matInput placeholder="Nome" formControlName="cliente">
+      <input matInput placeholder="Nome" formControlName="cliente" class="text-capitalize">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
   </form>
   <mat-list>
     <mat-list-item class="mat-list-option ng-star-inserted" *ngFor="let workOrder of workOrders">
-      <img matListAvatar src="./assets/images/car_repair.png" alt="Serviço" style="border-radius:0%">
+      <img matListAvatar src="assets/images/car_repair.png" alt="Serviço" style="border-radius:0%">
       <h3 matLine style="margin-left: 0.5rem;text-transform: uppercase;"> {{workOrder.vehicle.modelo}}
         ({{ workOrder.vehicle.placa | mask: 'AAA-0000'}}) </h3>
       <p matLine>

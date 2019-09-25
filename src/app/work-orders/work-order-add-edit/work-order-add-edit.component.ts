@@ -49,7 +49,6 @@ export class WorkOrderAddEditComponent implements OnInit {
   ];
 
   public orcamentoForm: FormGroup;
-  public id: number;
   public clients: IClient[];
   public vehicles: IVehicle[];
   public servicos: IService[];
@@ -108,9 +107,10 @@ export class WorkOrderAddEditComponent implements OnInit {
     await this.getServices();
 
     this.route.paramMap.subscribe(async params => {
-      this.id = parseInt(params['params'].id, null);
-      if (this.id) {
-        await this.getWorkOrder(this.id);
+      this.id.patchValue(parseInt(params['params'].id, null));
+
+      if (this.id.value) {
+        await this.getWorkOrder(this.id.value);
       }
     });
   }
@@ -151,6 +151,10 @@ export class WorkOrderAddEditComponent implements OnInit {
 
   get vehicleId() {
     return this.orcamentoForm.get('vehicle');
+  }
+
+  get id() {
+    return this.orcamentoForm.get('id');
   }
 
   get statusFromForm() {
@@ -338,7 +342,7 @@ export class WorkOrderAddEditComponent implements OnInit {
         workOrderEntity.produtos = JSON.stringify(workOrderEntity.produtos);
         workOrderEntity.servicos = JSON.stringify(workOrderEntity.servicos);
 
-        if (!this.id) {
+        if (!this.id.value) {
           delete workOrderEntity.id;
         }
 
@@ -346,7 +350,7 @@ export class WorkOrderAddEditComponent implements OnInit {
           .connection
           .then(async () => {
             const saveResult = await workOrderEntity.save();
-            this.id = saveResult.id;
+            this.id.patchValue(saveResult.id);
           });
       }
     } catch (err) {

@@ -1,7 +1,7 @@
 <mat-card class="card--margin">
-  <mat-card-title *ngIf="!id">Cadastrar novo cliente <mat-icon matSuffix>person</mat-icon>
+  <mat-card-title *ngIf="!id.value">Cadastrar novo cliente <mat-icon matSuffix>person</mat-icon>
   </mat-card-title>
-  <mat-card-title *ngIf="id">Editar cliente <mat-icon matSuffix>person</mat-icon>
+  <mat-card-title *ngIf="id.value">Editar cliente <mat-icon matSuffix>person</mat-icon>
   </mat-card-title>
   <mat-card-subtitle>Preecha todas as informações marcadas como *</mat-card-subtitle>
   <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
@@ -96,7 +96,7 @@
   </form>
 </mat-card>
 
-<app-vehicles-list *ngIf="id" [clientId]="id"></app-vehicles-list>
+<app-vehicles-list *ngIf="id.value" [clientId]="id.value"></app-vehicles-list>
 
 <div class="fixed-bottom fixed-bottom--right">
   <button [disabled]="this.clientForm.invalid" (click)="onSubmit()" mat-fab [color]="'light-blue'">

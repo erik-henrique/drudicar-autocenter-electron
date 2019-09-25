@@ -17,7 +17,6 @@ import { ConfirmationComponent } from '../../../shared/components/confirmation/c
 export class ServiceAddEditComponent implements OnInit {
 
   public serviceForm: FormGroup;
-  public id: number;
 
   constructor(
     private _fb: FormBuilder,
@@ -28,8 +27,8 @@ export class ServiceAddEditComponent implements OnInit {
 
   async ngOnInit() {
     this.serviceForm = this._fb.group({
-      id: '',
-      nome: ['', [
+      id: null,
+      nome: [null, [
         Validators.required
       ]],
       status: true
@@ -37,15 +36,19 @@ export class ServiceAddEditComponent implements OnInit {
 
 
     this.route.paramMap.subscribe(async params => {
-      this.id = parseInt(params['params'].id, null);
-      if (this.id) {
-        await this.getService(this.id);
+      this.id.patchValue(parseInt(params['params'].id, null));
+      if (this.id.value) {
+        await this.getService(this.id.value);
       }
     });
   }
 
   get nome() {
     return this.serviceForm.get('nome');
+  }
+
+  get id() {
+    return this.serviceForm.get('id');
   }
 
   get status() {
@@ -134,7 +137,7 @@ export class ServiceAddEditComponent implements OnInit {
 
         const serviceEntity = Object.assign(new ServiceEntity(), formValue);
 
-        if (!this.id) {
+        if (!this.id.value) {
           delete serviceEntity.id;
         }
 
@@ -142,7 +145,7 @@ export class ServiceAddEditComponent implements OnInit {
           .connection
           .then(async () => {
             const saveResult = await serviceEntity.save();
-            this.id = saveResult.id;
+            this.id.patchValue(saveResult.id);
           });
       }
     } catch (err) {

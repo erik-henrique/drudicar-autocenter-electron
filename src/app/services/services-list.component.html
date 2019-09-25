@@ -6,13 +6,13 @@
     <form [formGroup]="serviceFilterForm">
       <mat-form-field appearance="outline" style="width: 49%">
         <mat-label>Pesquisar</mat-label>
-        <input matInput placeholder="Digite o serviço" formControlName="nome">
+        <input matInput placeholder="Digite o serviço" formControlName="nome" class="text-capitalize">
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
     </form>
     <mat-list>
       <mat-list-item class="mat-list-option ng-star-inserted" *ngFor="let service of services">
-        <img matListAvatar src="./assets/images/service.png" alt="Serviço" style="border-radius:0%">
+        <img matListAvatar src="assets/images/service.png" alt="Serviço" style="border-radius:0%">
         <h3 matLine style="margin-left: 0.5rem"> {{ service.nome }} </h3>
         <mat-chip-list aria-label="Status">
           <mat-chip color="warn" *ngIf="!service.status" selected>Desativado</mat-chip>

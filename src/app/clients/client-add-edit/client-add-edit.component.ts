@@ -19,7 +19,6 @@ import { ConfirmationComponent } from '../../../shared/components/confirmation/c
 export class ClientAddEditComponent implements OnInit {
 
   public clientForm: FormGroup;
-  public id: number;
 
   constructor(
     private _fb: FormBuilder,
@@ -32,31 +31,31 @@ export class ClientAddEditComponent implements OnInit {
 
   async ngOnInit() {
     this.clientForm = this._fb.group({
-      id: '',
-      nome: ['', [
+      id: null,
+      nome: [null, [
         Validators.required
       ]],
-      cpf: ['', [Validators.required, Validators.minLength(11),
+      cpf: [null, [Validators.required, Validators.minLength(11),
       Validators.maxLength(11), CpfCnpjValidator.CpfValidator]
       ],
       status: true,
-      email: ['', [Validators.email]],
-      celular: '',
-      cep: ['', [Validators.minLength(8),
+      email: [null, [Validators.email]],
+      celular: null,
+      cep: [null, [Validators.minLength(8),
       Validators.maxLength(8)]],
-      uf: '',
-      localidade: '',
-      bairro: '',
-      logradouro: '',
-      numero: '',
-      dataNascimento: ''
+      uf: null,
+      localidade: null,
+      bairro: null,
+      logradouro: null,
+      numero: null,
+      dataNascimento: null
     });
 
     this.route.paramMap.subscribe(async params => {
-      this.id = parseInt(params['params'].id, null);
+      this.id.patchValue(parseInt(params['params'].id, null));
 
-      if (this.id) {
-        await this.getClient(this.id);
+      if (this.id.value) {
+        await this.getClient(this.id.value);
       }
     });
 
@@ -69,6 +68,10 @@ export class ClientAddEditComponent implements OnInit {
 
   get email() {
     return this.clientForm.get('email');
+  }
+
+  get id() {
+    return this.clientForm.get('id');
   }
 
   get nome() {
@@ -179,7 +182,7 @@ export class ClientAddEditComponent implements OnInit {
 
         const clientEntity = Object.assign(new ClientEntity(), formValue);
 
-        if (!this.id) {
+        if (!this.id.value) {
           delete clientEntity.id;
         }
 
@@ -187,7 +190,7 @@ export class ClientAddEditComponent implements OnInit {
           .connection
           .then(async () => {
             const saveResult = await clientEntity.save();
-            this.id = saveResult.id;
+            this.id.patchValue(saveResult.id);
           });
       }
     } catch (err) {

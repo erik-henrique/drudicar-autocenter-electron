@@ -1,7 +1,7 @@
 <mat-card class="card--margin">
   <mat-card-title *ngIf="!id">Cadastrar novo serviço <mat-icon matSuffix>person</mat-icon>
   </mat-card-title>
-  <mat-card-title *ngIf="id">Editar serviço <mat-icon matSuffix>person</mat-icon>
+  <mat-card-title *ngIf="id.value">Editar serviço <mat-icon matSuffix>person</mat-icon>
   </mat-card-title>
   <mat-card-subtitle>Preecha todas as informações marcadas como *</mat-card-subtitle>
   <form [formGroup]="serviceForm" (ngSubmit)="onSubmit()">

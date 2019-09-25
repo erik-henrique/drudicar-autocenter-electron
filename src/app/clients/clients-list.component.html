@@ -6,7 +6,7 @@
   <form [formGroup]="clientFilterForm">
     <mat-form-field appearance="outline" style="width: 49%">
       <mat-label>Pesquisar por nome</mat-label>
-      <input matInput placeholder="Digite o nome" formControlName="nome">
+      <input matInput placeholder="Digite o nome" formControlName="nome" class="text-capitalize">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
     <mat-form-field appearance="outline" style="width: 49%;float: right;">
@@ -17,7 +17,7 @@
   </form>
   <mat-list>
     <mat-list-item class="mat-list-option ng-star-inserted" *ngFor="let client of clients">
-      <img matListAvatar src="./assets/images/man.png" alt="...">
+      <img matListAvatar src="assets/images/man.png" alt="...">
       <h3 matLine style="text-transform: capitalize;margin-left: 0.5rem"> {{client.nome}} </h3>
       <p matLine>
         <mat-chip-list aria-label="Status">

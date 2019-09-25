@@ -32,7 +32,7 @@ export class VehiclesListComponent implements OnInit {
       await this._databaseService
         .connection
         .then(async () => {
-          const vehicles = await VehicleEntity.find();
+          const vehicles = await VehicleEntity.find({ where: { client: this.clientId } });
           this.dataSource.data = vehicles;
           this.dataSource.paginator = this.paginator;
         });
