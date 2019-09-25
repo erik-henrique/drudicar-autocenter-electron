@@ -27,8 +27,8 @@ export class ClientsListComponent implements OnInit {
 
   async ngOnInit() {
     this.clientFilterForm = this._fb.group({
-      nome: '',
-      cpf: ''
+      nome: null,
+      cpf: null
     });
 
     this.clientFilterForm.controls.nome.valueChanges.pipe(debounceTime(2000), distinctUntilChanged()).subscribe(async (value: string) => {
