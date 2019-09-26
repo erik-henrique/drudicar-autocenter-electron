@@ -30,16 +30,19 @@
         {{ workOrder.servicos | formatOnlyNames }}</p>
       <p style="margin-right: 24px;">
         <mat-chip-list aria-label="Pagamento">
-          <mat-chip *ngIf="!workOrder.dataPagamento && workOrder.status !== STATUS.Cancelada && workOrder.tipo !== WORK_ORDER_TYPES.Orcamento"><span style="font-weight: bold;">Não Pago</span></mat-chip>
-          <mat-chip *ngIf="workOrder.dataPagamento" style="background-color: #1BB54E;color: #fff;"><span style="font-weight: bold;">Pago em: {{workOrder.dataPagamento | date: 'dd/MM/yyyy' }}</span></mat-chip>
+          <mat-chip
+            *ngIf="!workOrder.dataPagamento && workOrder.status !== STATUS.Cancelada && workOrder.tipo !== WORK_ORDER_TYPES.Orcamento">
+            <span style="font-weight: bold;">Não Pago</span></mat-chip>
+          <mat-chip *ngIf="workOrder.dataPagamento" style="background-color: #1BB54E;color: #fff;"><span
+              style="font-weight: bold;">Pago em: {{workOrder.dataPagamento | date: 'dd/MM/yyyy' }}</span></mat-chip>
         </mat-chip-list>
       </p>
       <mat-chip-list aria-label="Status">
         <mat-chip color="warn" *ngIf="workOrder.status === STATUS.Cancelada" selected>Cancelada</mat-chip>
         <mat-chip *ngIf="workOrder.status !== STATUS.Cancelada">{{workOrder.status}}</mat-chip>
       </mat-chip-list>
-      <button routerLink="{{workOrder.id}}"  preserveQueryParams preserveFragment style="margin-left: 24px;" mat-icon-button
-        aria-label="Editar Serviço">
+      <button routerLink="{{workOrder.id}}" preserveQueryParams preserveFragment style="margin-left: 24px;"
+        mat-icon-button aria-label="Editar Serviço">
         <mat-icon>edit</mat-icon>
       </button>
       <button style="margin-left: 24px;" mat-icon-button aria-label="Deletar serviço">
@@ -60,4 +63,4 @@
     <mat-icon>keyboard_arrow_up</mat-icon>
   </button>
 
-</div>\
+</div>

@@ -43,7 +43,7 @@ import { VehicleAddEditComponent } from './vehicles/add-edit/vehicle-add-edit.co
 import { ConfirmationComponent } from '../shared/components/confirmation/confirmation.component';
 import { ServicesListComponent } from './services/services-list.component';
 import { ServiceAddEditComponent } from './services/service-add-edit/service-add-edit.component';
-import { WorkOrdersComponent } from './work-orders/work-orders.component';
+import { WorkOrdersComponent } from './work-orders/work-orders-list.component';
 import { WorkOrderAddEditComponent } from './work-orders/work-order-add-edit/work-order-add-edit.component';
 
 import { getPtBrPaginatorIntl } from '../shared/i18n/ptBr-paginator-intl';

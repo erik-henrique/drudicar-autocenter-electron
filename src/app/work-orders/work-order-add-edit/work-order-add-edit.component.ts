@@ -86,13 +86,12 @@ export class WorkOrderAddEditComponent implements OnInit {
     this.orcamentoForm.controls.client.valueChanges
       .pipe(distinctUntilChanged()).subscribe(async (value: number) => {
         try {
-          console.log('client', value);
           this.spinner.show();
           await this._databaseService
             .connection
             .then(async () => {
               if (typeof value === 'number') {
-                const vechicles = await VehicleEntity.find({ where: { clientId: value } });
+                const vechicles = await VehicleEntity.find({ where: { client: value, status: true } });
                 this.vehicles = vechicles as IVehicle[];
               }
             }).finally(() => {
@@ -103,16 +102,16 @@ export class WorkOrderAddEditComponent implements OnInit {
         }
       });
 
-    await this.getClients();
-    await this.getServices();
+      await this.getClients();
+      await this.getServices();
 
-    this.route.paramMap.subscribe(async params => {
-      this.id.patchValue(parseInt(params['params'].id, null));
+      this.route.paramMap.subscribe(async params => {
+        this.id.patchValue(parseInt(params['params'].id, null));
 
-      if (this.id.value) {
-        await this.getWorkOrder(this.id.value);
-      }
-    });
+        if (this.id.value) {
+          await this.getWorkOrder(this.id.value);
+        }
+      });
   }
 
   get servicoForms() {
@@ -149,7 +148,7 @@ export class WorkOrderAddEditComponent implements OnInit {
     this.produtoForms.removeAt(i);
   }
 
-  get vehicleId() {
+  get vehicle() {
     return this.orcamentoForm.get('vehicle');
   }
 
@@ -204,7 +203,7 @@ export class WorkOrderAddEditComponent implements OnInit {
         .connection
         .then(async () => {
           const clients = await ClientEntity.find();
-          this.clients = clients as IClient[];
+          this.clients = clients;
         }).finally(() => {
           this.spinner.hide();
         });
@@ -220,7 +219,7 @@ export class WorkOrderAddEditComponent implements OnInit {
       await this._databaseService
         .connection
         .then(async () => {
-          const clients = await ServiceEntity.find();
+          const clients = await ServiceEntity.find({ status: true });
           this.servicos = clients as IService[];
         }).finally(() => {
           this.spinner.hide();
@@ -255,7 +254,17 @@ export class WorkOrderAddEditComponent implements OnInit {
           console.log(workOrder);
           this.orcamentoForm.patchValue(workOrder);
 
+          if (!workOrder.vehicle.client.status) {
+            this.clients.push(workOrder.vehicle.client);
+          }
+
+          if (!workOrder.vehicle.status) {
+            this.vehicles.push(workOrder.vehicle);
+          }
+
           this.orcamentoForm.controls.client.patchValue(workOrder.vehicle.client.id);
+
+          this.orcamentoForm.controls.client.disable();
           this.orcamentoForm.controls.vehicle.patchValue(workOrder.vehicle.id);
 
           if (this.orcamentoForm.controls.status.value === this.STATUS.Cancelada
@@ -351,6 +360,11 @@ export class WorkOrderAddEditComponent implements OnInit {
           .then(async () => {
             const saveResult = await workOrderEntity.save();
             this.id.patchValue(saveResult.id);
+
+            if (this.orcamentoForm.controls.status.value === this.STATUS.Cancelada
+              || this.orcamentoForm.controls.status.value === this.STATUS.Finalizada) {
+              this.orcamentoForm.disable();
+            }
           });
       }
     } catch (err) {

@@ -1,8 +1,9 @@
 <form [formGroup]="orcamentoForm" (ngSubmit)="onSubmit()">
   <mat-card class="card--margin">
     <div style="float:right;margin: 0px;">
-      <p style="margin: 0px;float:right;"><span style="font-weight: bold;" *ngIf="id.value"> Nº {{id}} -</span> Valor
-        Total <span style="font-weight: bold;">{{valorTotal | currency:'BRL':true }}</span></p>
+      <p style="margin: 0px;float:right;"><span style="font-weight: bold;" *ngIf="id.value"> Nº {{id.value}} -</span>
+        Valor
+        Total <span style="font-weight: bold;">{{valorTotal | currency:'BRL' }}</span></p>
     </div>
     <mat-card-title *ngIf="!id">Cadastrar novo orçamento <mat-icon matSuffix>assignment</mat-icon>
     </mat-card-title>
@@ -67,9 +68,10 @@
             <mat-option *ngIf="statusFromForm.value === STATUS.Cancelada" [value]="STATUS.Cancelada">
               {{ STATUS.Cancelada }}
             </mat-option>
-            <mat-option *ngIf="statusFromForm.value === STATUS.AguardandoAprovacao" [value]="STATUS.AguardandoAprovacao">
-                {{ STATUS.AguardandoAprovacao }}
-              </mat-option>
+            <mat-option *ngIf="statusFromForm.value === STATUS.AguardandoAprovacao"
+              [value]="STATUS.AguardandoAprovacao">
+              {{ STATUS.AguardandoAprovacao }}
+            </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -87,8 +89,9 @@
     <mat-card-title>Serviços <img matListAvatar src="assets/images/service.png" alt="Serviço" width=22
         style="border-radius:0%">
       <button type="button" mat-icon-button aria-label="Adicionar serviço" style="float:right;"
-        *ngIf="statusFromForm.value !== STATUS.Cancelada"
-        [color]="statusFromForm.value === STATUS.Cancelada ? '' : 'light-blue'" (click)="addService()">
+        [attr.disabled]="statusFromForm.value !== STATUS.Cancelada && statusFromForm.value !== this.STATUS.Finalizada"
+        [color]="statusFromForm.value !== STATUS.Cancelada && statusFromForm.value !== this.STATUS.Finalizada ? 'light-blue' : ''"
+        (click)="addService()">
         <mat-icon>add</mat-icon>
       </button>
     </mat-card-title>
@@ -114,8 +117,9 @@
           <input type="number" formControlName="preco" matInput placeholder="Preço">
         </mat-form-field>
         <button type="button" mat-icon-button aria-label="Adicionar serviço" style="float:right;margin-top: 12px;"
-          [disabled]="statusFromForm.value === STATUS.Cancelada"
-          [color]="statusFromForm.value === STATUS.Cancelada ? '' : 'invalid--inverted'" (click)="deleteService(i)">
+          [attr.disabled]="statusFromForm.value !== STATUS.Cancelada && statusFromForm.value !== this.STATUS.Finalizada"
+          [color]="statusFromForm.value !== STATUS.Cancelada && statusFromForm.value !== this.STATUS.Finalizada ? 'invalid--inverted' : ''"
+          (click)="deleteService(i)">
           <mat-icon>close</mat-icon>
         </button>
       </div>
@@ -126,31 +130,32 @@
   <mat-card class="card--margin">
     <mat-card-title>Produtos <mat-icon matSuffix>assignment_turned_in</mat-icon>
       <button type="button" mat-icon-button aria-label="Adicionar produto" style="float:right;"
-        *ngIf="statusFromForm.value !== STATUS.Cancelada"
-        [color]="statusFromForm.value === STATUS.Cancelada ? '' : 'light-blue'" (click)="addProduct()"
-        [disabled]="statusFromForm.value === STATUS.Cancelada">
+        [attr.disabled]="statusFromForm.value !== STATUS.Cancelada && statusFromForm.value !== this.STATUS.Finalizada"
+        [color]="statusFromForm.value !== STATUS.Cancelada && statusFromForm.value !== this.STATUS.Finalizada ? 'light-blue' : ''"
+        (click)="addProduct()">
         <mat-icon>add</mat-icon>
       </button>
     </mat-card-title>
     <mat-card-subtitle>Preecha todas as informações marcadas como *</mat-card-subtitle>
 
     <div formArrayName="produtos">
-      <div class="form-row" *ngFor="let produtoForm of produtoForms.controls; let i=index" [formGroupName]="i">
-        <mat-form-field class="form__input form__input--capitalize" appearance="fill">
-          <mat-label>Produto</mat-label>
-          <input type="text" formControlName="nome" matInput placeholder="Produto">
-        </mat-form-field>
-        <mat-form-field class="form__input form__input--capitalize" appearance="fill">
-          <mat-label>Valor</mat-label>
-          <input type="number" formControlName="preco" matInput placeholder="Preço">
-        </mat-form-field>
-        <button type="button" mat-icon-button aria-label="Adicionar serviço" style="float:right;margin-top: 12px;"
-          [disabled]="statusFromForm.value === STATUS.Cancelada"
-          [color]="statusFromForm.value === STATUS.Cancelada ? '' : 'invalid--inverted'" (click)="deleteProduct(i)">
-          <mat-icon>close</mat-icon>
-        </button>
-      </div>
-    </div>
+        <div class="form-row" *ngFor="let produtoForm of produtoForms.controls; let i=index" [formGroupName]="i">
+          <mat-form-field class="form__input form__input--capitalize" appearance="fill">
+            <mat-label>Produto</mat-label>
+            <input type="text" formControlName="nome" matInput placeholder="Produto">
+          </mat-form-field>
+          <mat-form-field class="form__input form__input--capitalize" appearance="fill">
+            <mat-label>Valor</mat-label>
+            <input type="number" formControlName="preco" matInput placeholder="Preço">
+          </mat-form-field>
+          <button type="button" mat-icon-button aria-label="Adicionar serviço" style="float:right;margin-top: 12px;"
+            [attr.disabled]="statusFromForm.value !== STATUS.Cancelada && statusFromForm.value !== this.STATUS.Finalizada"
+            [color]="statusFromForm.value !== STATUS.Cancelada && statusFromForm.value !== this.STATUS.Finalizada ? 'invalid--inverted' : ''"
+            (click)="deleteProduct(i)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        </div>
 
   </mat-card>
 </form>
@@ -163,12 +168,11 @@
 </div>
 
 <div class="fixed-bottom fixed-bottom--left">
-  <button type="button" style="margin-right: 1rem;"
-    *ngIf="statusFromForm.value !== STATUS.Cancelada && id"
+  <button type="button" style="margin-right: 1rem;" *ngIf="statusFromForm.value !== STATUS.Cancelada && id.value"
     (click)="cancelWorkOrder()" mat-fab color="warn">
     <mat-icon>close</mat-icon>
   </button>
-  <button type="button" *ngIf="statusFromForm.value === STATUS.AguardandoAprovacao && id"
+  <button type="button" *ngIf="statusFromForm.value === STATUS.AguardandoAprovacao && id.value"
     (click)="transformIntoWorkOrder()" mat-fab [color]="'success'">
     <mat-icon>check</mat-icon>
   </button>

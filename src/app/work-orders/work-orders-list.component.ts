@@ -7,7 +7,7 @@ import { Like, In } from 'typeorm';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 import { Status } from '../../shared/enums/status.enum';
-import { WorkOrderTypes } from '../..//shared/enums/work-order-types.enum';
+import { WorkOrderTypes } from '../../shared/enums/work-order-types.enum';
 import { ClientEntity } from '../../shared/services/data-access/entities/client.entity';
 import IWorkOrder from '../../shared/interfaces/work-order.interface';
 import { DatabaseService } from '../../shared/services/data-access/database.service';
@@ -16,9 +16,9 @@ import { VehicleEntity } from '../../shared/services/data-access/entities/vehicl
 import { ConfirmationComponent } from '../../shared/components/confirmation/confirmation.component';
 
 @Component({
-  selector: 'app-work-orders',
-  templateUrl: './work-orders.component.html',
-  styleUrls: ['./work-orders.component.scss']
+  selector: 'app-work-orders-list',
+  templateUrl: './work-orders-list.component.html',
+  styleUrls: ['./work-orders-list.component.scss']
 })
 export class WorkOrdersComponent implements OnInit {
   public serviceFilterForm: FormGroup;
