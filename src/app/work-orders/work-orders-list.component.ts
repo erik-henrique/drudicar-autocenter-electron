@@ -14,6 +14,7 @@ import { DatabaseService } from '../../shared/services/data-access/database.serv
 import { WorkOrderEntity } from '../../shared/services/data-access/entities/work-order.entity';
 import { VehicleEntity } from '../../shared/services/data-access/entities/vehicle.entity';
 import { ConfirmationComponent } from '../../shared/components/confirmation/confirmation.component';
+import { WorkOrderPreviewComponent } from './work-order-preview/work-order-preview.component';
 
 @Component({
   selector: 'app-work-orders-list',
@@ -109,6 +110,13 @@ export class WorkOrdersComponent implements OnInit {
     });
   }
 
+  public showPreview() {
+    this.dialog.open(WorkOrderPreviewComponent, {
+      minWidth: '90%',
+      minHeight: '90%'
+    });
+  }
+
   public goToTop() {
     window.scrollTo({
       top: 0,
@@ -137,7 +145,8 @@ export class WorkOrdersComponent implements OnInit {
   async deleteService(service: IWorkOrder) {
     try {
       const confirmation = {
-        message: 'Tem certeza que deseja Cancelar',
+        message: `Tem certeza que deseja cancelar ${
+          this.type === this.WORK_ORDER_TYPES.Orcamento ? 'o orçamento' : 'a ordem de serviço'} nº`,
         data: service.id,
         action: 'Cancelar'
       };

@@ -49,6 +49,7 @@ import { WorkOrderAddEditComponent } from './work-orders/work-order-add-edit/wor
 import { getPtBrPaginatorIntl } from '../shared/i18n/ptBr-paginator-intl';
 import { HttpConfigInterceptor } from '../shared/interceptors/http.token.interceptor';
 import { FormatOnlyNamesPipe } from '../shared/pipes/format-only-name/format-only-names.pipe';
+import { WorkOrderPreviewComponent } from './work-orders/work-order-preview/work-order-preview.component';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -62,7 +63,7 @@ const appRoutes: Routes = [
     { path: 'work-orders/:type', component: WorkOrdersComponent },
     { path: 'work-orders/:type/:id', component: WorkOrderAddEditComponent },
     { path: 'services', component: ServicesListComponent },
-    { path: 'services/:id', component: ServiceAddEditComponent }
+    { path: 'services/:id', component: ServiceAddEditComponent },
 ];
 
 @NgModule({
@@ -78,7 +79,8 @@ const appRoutes: Routes = [
         ConfirmationComponent,
         ServicesListComponent,
         ServiceAddEditComponent,
-        FormatOnlyNamesPipe
+        FormatOnlyNamesPipe,
+        WorkOrderPreviewComponent
     ],
     imports: [
         RouterModule.forRoot(
@@ -119,10 +121,14 @@ const appRoutes: Routes = [
         { provide: MatPaginatorIntl, useValue: getPtBrPaginatorIntl() },
         { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true },
         { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
-        { provide: LOCALE_ID, useValue: 'pt-BR'}
+        { provide: LOCALE_ID, useValue: 'pt-BR' }
     ],
     bootstrap: [AppComponent],
-    entryComponents: [VehicleAddEditComponent, ConfirmationComponent],
+    entryComponents: [
+        VehicleAddEditComponent,
+        ConfirmationComponent,
+        WorkOrderPreviewComponent
+    ],
 })
 export class AppModule {
 }

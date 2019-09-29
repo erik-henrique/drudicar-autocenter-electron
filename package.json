@@ -1,9 +1,9 @@
 {
-  "name": "autocenter-drudicar",
+  "name": "drudicar-auto-desktop",
   "version": "0.0.0",
   "main": "main.js",
   "description": "Angular 6(+) and Electron (Typescript + SCSS + Hot Reload) for creating cross platform applications.",
-  "homepage": "https://github.com/erikhenriq/autocenter-drudicar",
+  "homepage": "https://github.com/erikhenriq/drudicar-auto-desktop",
   "author": {
     "name": "Erik Henrique",
     "email": "vlad.gaidei@gmail.com"

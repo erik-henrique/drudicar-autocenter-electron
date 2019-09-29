@@ -1,0 +1,75 @@
+<mat-card class="card--margin">
+    <div style="float:right;margin: 0px;">
+        <p style="margin: 0px;float:right;">
+            Valor Total: <span style="font-weight: bold;">31312</span></p>
+    </div>
+
+    <mat-card-title>Pre-visualização da ordem de serviço</mat-card-title>
+    <mat-card-subtitle>Ordem de serviço Nº 2 <mat-chip color="warn">Finalizada</mat-chip>
+    </mat-card-subtitle>
+
+    <p><b>Cliente: </b> Ruberval da Silva</p>
+
+    <mat-list>
+        <h3 mat-subheader>Veículo</h3>
+        <mat-grid-list cols="3" rowHeight="3rem">
+            <mat-grid-tile>
+                <p><b>Placa: </b> FZC-6504</p>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <p><b>Cor: </b> BRANCA</p>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <p><b>Modelo: </b> FAZER SED 150 UBS</p>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <p><b>Marca: </b> YAMAHA</p>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <p><b>Ano: </b> 2018</p>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <p><b>Ano Modelo: </b> 2019</p>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <p><b>UF: </b> SP</p>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <p><b>Município: </b> Sumaré </p>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <p><b>Chassi: </b> 3214323FDSADA </p>
+            </mat-grid-tile>
+        </mat-grid-list>
+
+    </mat-list>
+
+    <mat-divider></mat-divider>
+    <mat-list>
+        <h3 mat-subheader>Serviços</h3>
+        <mat-list-item *ngFor="let servico of servicos">
+            <img matListAvatar src="assets/images/car_repair.png" alt="Serviço" style="border-radius:0%">
+            <h4 mat-line>{{servico.nome}}</h4>
+            <p mat-line> {{servico.preco | currency:'BRL'}} </p>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <h3 mat-subheader>Produtos</h3>
+        <mat-list-item *ngFor="let produto of produtos">
+            <mat-icon mat-list-icon>assignment_turned_in</mat-icon>
+            <h4 mat-line>{{produto.nome}}</h4>
+            <p mat-line> {{produto.preco | currency:'BRL'}} </p>
+        </mat-list-item>
+    </mat-list>
+</mat-card>
+
+<mat-dialog-actions style="float: left;">
+    <button mat-icon-button class="mat-list-option" [mat-dialog-close]="true">
+        <mat-icon style="font-size: 28px;height: 28px; width: 28px;cursor: pointer;">close</mat-icon>
+    </button>
+</mat-dialog-actions>
+
+<mat-dialog-actions style="float: right;">
+    <button (click)="download()" mat-button class="mat-list-option" [color]="'success'">
+        <b>Baixar</b>
+    </button>
+</mat-dialog-actions>

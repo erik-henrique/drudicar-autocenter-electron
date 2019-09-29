@@ -12,7 +12,7 @@
 
 # Quickstart
 ``` bash
-git clone https://github.com/erikhenriq/autocenter-drudicar.git
+git clone https://github.com/erikhenriq/drudicar-auto-desktop.git
 npm install
 npm start
 ```
@@ -41,7 +41,7 @@ With this start kit, you can :
 Clone this repository locally :
 
 ``` bash
-git clone https://github.com/erikhenriq/autocenter-drudicar.git
+git clone https://github.com/erikhenriq/drudicar-auto-desktop.git
 ```
 
 Install dependencies with npm :
@@ -84,7 +84,7 @@ You can desactivate "Developer Tools" by commenting `win.webContents.openDevTool
 1. **Browser mode.** You can't use TypeORM in browser so it is not possible.If you need to run app in browser and don't need TypeORM you can use [angular-electron](https://github.com/maximegris/angular-electron) for that.
 1. **Windows Build.** You cannot make build for `windows` if path to project folder contains spaces or not latin letters.
  
-[github-watch-badge]: https://img.shields.io/github/watchers/erikhenriq/autocenter-drudicar.svg?style=social
-[github-watch]: https://github.com/erikhenriq/autocenter-drudicar/watchers
-[github-star-badge]: https://img.shields.io/github/stars/erikhenriq/autocenter-drudicar.svg?style=social
-[github-star]: https://github.com/erikhenriq/autocenter-drudicar/stargazers
+[github-watch-badge]: https://img.shields.io/github/watchers/erikhenriq/drudicar-auto-desktop.svg?style=social
+[github-watch]: https://github.com/erikhenriq/drudicar-auto-desktop/watchers
+[github-star-badge]: https://img.shields.io/github/stars/erikhenriq/drudicar-auto-desktop.svg?style=social
+[github-star]: https://github.com/erikhenriq/drudicar-auto-desktop/stargazers
