@@ -6,8 +6,8 @@ import { Like } from 'typeorm';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 import { ConfirmationComponent } from '../../shared/components/confirmation/confirmation.component';
-import { DatabaseService } from '../../shared/services/data-access/database.service';
-import { ClientEntity } from '../../shared/services/data-access/entities/client.entity';
+import { DatabaseService } from '../../shared/services/database/database.service';
+import { ClientEntity } from '../../shared/services/database/entities/client.entity';
 import IClient from '../../shared/interfaces/client.interface';
 
 @Component({

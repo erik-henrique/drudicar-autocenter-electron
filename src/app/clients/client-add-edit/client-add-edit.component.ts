@@ -5,10 +5,10 @@ import { MatDialog } from '@angular/material';
 
 import { CpfCnpjValidator } from '../../../shared/validators/cpf-cnpj.validator';
 import IZipCode from '../../../shared/interfaces/zipCode.interface';
-import { HttpService } from '../../../shared/services/http.service';
+import { HttpService } from '../../../shared/services/http/http.service';
 import IClient from '../../../shared/interfaces/client.interface';
-import { DatabaseService } from '../../../shared/services/data-access/database.service';
-import { ClientEntity } from '../../../shared/services/data-access/entities/client.entity';
+import { DatabaseService } from '../../../shared/services/database/database.service';
+import { ClientEntity } from '../../../shared/services/database/entities/client.entity';
 import { ConfirmationComponent } from '../../../shared/components/confirmation/confirmation.component';
 
 @Component({
@@ -17,17 +17,16 @@ import { ConfirmationComponent } from '../../../shared/components/confirmation/c
   styleUrls: ['./client-add-edit.component.scss']
 })
 export class ClientAddEditComponent implements OnInit {
-
   public clientForm: FormGroup;
+  private ZIP_SERVICE_URL = 'https://viacep.com.br/ws';
+  private ZIP_RETURN_TYPE = 'json';
 
   constructor(
     private _fb: FormBuilder,
     private _httpService: HttpService,
     private _databaseService: DatabaseService,
     private route: ActivatedRoute,
-    private dialog: MatDialog) {
-
-  }
+    private dialog: MatDialog) { }
 
   async ngOnInit() {
     this.clientForm = this._fb.group({
@@ -90,9 +89,9 @@ export class ClientAddEditComponent implements OnInit {
     return this.clientForm.get('status');
   }
 
-  public async findClientZipCode(clientZipCode: string) {
+  public async findClientZipCode(zipcode: string) {
     try {
-      const cep: IZipCode = await this._httpService.getZipCode(clientZipCode).toPromise();
+      const cep = await this._httpService.get(this.ZIP_SERVICE_URL, this.ZIP_RETURN_TYPE, zipcode).toPromise() as IZipCode;
       delete cep['cep'];
       this.clientForm.patchValue(cep);
     } catch (err) {

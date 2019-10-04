@@ -46,9 +46,9 @@ import { ServiceAddEditComponent } from './services/service-add-edit/service-add
 import { WorkOrdersComponent } from './work-orders/work-orders-list.component';
 import { WorkOrderAddEditComponent } from './work-orders/work-order-add-edit/work-order-add-edit.component';
 
-import { getPtBrPaginatorIntl } from '../shared/i18n/ptBr-paginator-intl';
+import { getPtBrPaginatorIntl } from '../shared/i18n/material/ptBr-paginator-intl';
 import { HttpConfigInterceptor } from '../shared/interceptors/http.token.interceptor';
-import { FormatOnlyNamesPipe } from '../shared/pipes/format-only-name/format-only-names.pipe';
+import { FormatOnlyNamesPipe } from '../shared/pipes/format-only-names/format-only-names.pipe';
 import { WorkOrderPreviewComponent } from './work-orders/work-order-preview/work-order-preview.component';
 
 registerLocaleData(localePt, 'pt-BR');

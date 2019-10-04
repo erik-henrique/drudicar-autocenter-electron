@@ -5,8 +5,8 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { MatDatepicker, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import IVehicle from '../../../shared/interfaces/vehicle.interface';
-import { DatabaseService } from '../../../shared/services/data-access/database.service';
-import { VehicleEntity } from '../../../shared/services/data-access/entities/vehicle.entity';
+import { DatabaseService } from '../../../shared/services/database/database.service';
+import { VehicleEntity } from '../../../shared/services/database/entities/vehicle.entity';
 
 export const MY_FORMATS = {
   parse: {

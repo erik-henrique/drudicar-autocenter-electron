@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, JoinTable } from 'typeorm';
-import { WorkOrderTypes } from '../../../../shared/enums/work-order-types.enum';
-import { Status } from '../../../../shared/enums/status.enum';
+import { WorkOrderTypes } from '../../../enums/work-order-types.enum';
+import { Status } from '../../../enums/status.enum';
 import { VehicleEntity } from './vehicle.entity';
 
 @Entity({ name: 'tb_work_order' })

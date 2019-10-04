@@ -38,6 +38,7 @@
   "dependencies": {
     "@angular/material-moment-adapter": "^8.1.2",
     "@types/jest": "^24.0.18",
+    "jspdf": "^1.5.3",
     "moment": "^2.24.0",
     "ngx-mask": "^8.0.2",
     "ngx-spinner": "^8.0.3",

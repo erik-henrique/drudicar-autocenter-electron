@@ -8,11 +8,11 @@ import { NgxSpinnerService } from 'ngx-spinner';
 
 import { Status } from '../../shared/enums/status.enum';
 import { WorkOrderTypes } from '../../shared/enums/work-order-types.enum';
-import { ClientEntity } from '../../shared/services/data-access/entities/client.entity';
+import { ClientEntity } from '../../shared/services/database/entities/client.entity';
 import IWorkOrder from '../../shared/interfaces/work-order.interface';
-import { DatabaseService } from '../../shared/services/data-access/database.service';
-import { WorkOrderEntity } from '../../shared/services/data-access/entities/work-order.entity';
-import { VehicleEntity } from '../../shared/services/data-access/entities/vehicle.entity';
+import { DatabaseService } from '../../shared/services/database/database.service';
+import { WorkOrderEntity } from '../../shared/services/database/entities/work-order.entity';
+import { VehicleEntity } from '../../shared/services/database/entities/vehicle.entity';
 import { ConfirmationComponent } from '../../shared/components/confirmation/confirmation.component';
 import { WorkOrderPreviewComponent } from './work-order-preview/work-order-preview.component';
 

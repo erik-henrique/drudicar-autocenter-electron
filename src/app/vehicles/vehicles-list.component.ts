@@ -4,8 +4,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { VehicleAddEditComponent } from './add-edit/vehicle-add-edit.component';
 import IVehicle from '../../shared/interfaces/vehicle.interface';
-import { DatabaseService } from '../../shared/services/data-access/database.service';
-import { VehicleEntity } from '../../shared/services/data-access/entities/vehicle.entity';
+import { DatabaseService } from '../../shared/services/database/database.service';
+import { VehicleEntity } from '../../shared/services/database/entities/vehicle.entity';
 import { ConfirmationComponent } from '../../shared/components/confirmation/confirmation.component';
 
 @Component({

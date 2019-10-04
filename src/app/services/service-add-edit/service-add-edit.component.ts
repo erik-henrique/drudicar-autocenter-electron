@@ -4,8 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 
 import IService from '../../../shared/interfaces/service.interface';
-import { DatabaseService } from '../../../shared/services/data-access/database.service';
-import { ServiceEntity } from '../../../shared/services/data-access/entities/service.entity';
+import { DatabaseService } from '../../../shared/services/database/database.service';
+import { ServiceEntity } from '../../../shared/services/database/entities/service.entity';
 import { ConfirmationComponent } from '../../../shared/components/confirmation/confirmation.component';
 
 
