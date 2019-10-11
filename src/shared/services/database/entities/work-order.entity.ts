@@ -18,23 +18,23 @@ export class WorkOrderEntity extends BaseEntity {
     vehicleId: number;
 
     @Column()
-    tipo: WorkOrderTypes;
+    type: WorkOrderTypes;
 
     @Column()
     status: Status;
 
     @Column({ nullable: true })
-    dataPagamento: Date;
+    paymentDate: Date;
 
     @Column({ nullable: true })
-    produtos: string;
+    products: string;
 
     @Column({ nullable: true })
-    formaPagamento: string;
+    paymentMethod: string;
 
     @Column()
-    servicos: string;
+    services: string;
 
     @Column({ nullable: true })
-    observacoes: string;
+    comments: string;
 }

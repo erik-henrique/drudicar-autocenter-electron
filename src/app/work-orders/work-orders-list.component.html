@@ -5,7 +5,7 @@
   <mat-card-subtitle>Todos cadastrados</mat-card-subtitle>
   <form [formGroup]="serviceFilterForm">
     <mat-form-field appearance="outline" style="width: 49%">
-      <mat-label>Pesquisar por modelo de veículo</mat-label>
+      <mat-label>Pesquisar por model de veículo</mat-label>
       <input matInput placeholder="Modelo" formControlName="veiculo" class="text-capitalize">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
@@ -18,40 +18,40 @@
   <mat-list>
     <mat-list-item class="mat-list-option ng-star-inserted" *ngFor="let workOrder of workOrders">
       <img matListAvatar src="assets/images/car_repair.png" alt="Serviço" style="border-radius:0%">
-      <h3 matLine style="margin-left: 0.5rem;text-transform: uppercase;"> {{workOrder.vehicle.modelo}}
-        ({{ workOrder.vehicle.placa | mask: 'AAA-0000'}}) </h3>
+      <h3 matLine style="margin-left: 0.5rem;text-transform: uppercase;"> {{workOrder.vehicle.model}}
+        ({{ workOrder.vehicle.carLicense | mask: 'AAA-0000'}}) </h3>
       <p matLine>
         <mat-chip-list aria-label="Status">
-          <mat-chip><span style="text-transform: capitalize;font-weight: bold;">{{ workOrder.vehicle.client.nome }}
+          <mat-chip><span style="text-transform: capitalize;font-weight: bold;">{{ workOrder.vehicle.client.name }}
             </span></mat-chip>
         </mat-chip-list>
       </p>
-        <p style="margin-right: 24px;width: 100%;"><span style="font-weight: bold;">Serviços:</span>
-          {{ workOrder.servicos | formatOnlyNames }}</p>
-        <p style="margin-right: 24px;">
-          <mat-chip-list aria-label="Pagamento">
-            <mat-chip
-              *ngIf="!workOrder.dataPagamento && workOrder.status !== STATUS.Cancelada && workOrder.tipo !== WORK_ORDER_TYPES.Orcamento">
-              <span style="font-weight: bold;">Não Pago</span></mat-chip>
-            <mat-chip *ngIf="workOrder.dataPagamento" style="background-color: #1BB54E;color: #fff;"><span
-                style="font-weight: bold;">Pago em: {{workOrder.dataPagamento | date: 'dd/MM/yyyy' }}</span></mat-chip>
-          </mat-chip-list>
-        </p>
-        <mat-chip-list aria-label="Status">
-          <mat-chip color="warn" *ngIf="workOrder.status === STATUS.Cancelada" selected>Cancelada</mat-chip>
-          <mat-chip *ngIf="workOrder.status !== STATUS.Cancelada">{{workOrder.status}}</mat-chip>
+      <p style="margin-right: 24px;width: 100%;"><span style="font-weight: bold;">Serviços:</span>
+        {{ workOrder.services | formatOnlyNames }}</p>
+      <p style="margin-right: 24px;">
+        <mat-chip-list aria-label="Pagamento">
+          <mat-chip
+            *ngIf="!workOrder.paymentDate && workOrder.status !== STATUS.Canceled && workOrder.type !== WORK_ORDER_TYPES.Budget">
+            <span style="font-weight: bold;">Não Pago</span></mat-chip>
+          <mat-chip *ngIf="workOrder.paymentDate" style="background-color: #1BB54E;color: #fff;"><span
+              style="font-weight: bold;">Pago em: {{workOrder.paymentDate | date: 'dd/MM/yyyy' }}</span></mat-chip>
         </mat-chip-list>
-        <button routerLink="{{workOrder.id}}" queryParamsHandling preserveFragment style="margin-left: 24px;"
-          mat-icon-button aria-label="Editar Serviço">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button (click)="showPreview()" style="margin-left: 24px;" mat-icon-button aria-label="Editar Serviço">
-          <mat-icon>pageview</mat-icon>
-        </button>
-        <button style="margin-left: 24px;" mat-icon-button aria-label="Deletar serviço">
-          <mat-icon (click)="deleteService(workOrder)">delete</mat-icon>
-        </button>
-        <mat-divider></mat-divider>
+      </p>
+      <mat-chip-list aria-label="Status">
+        <mat-chip color="warn" *ngIf="workOrder.status === STATUS.Canceled" selected>Canceled</mat-chip>
+        <mat-chip *ngIf="workOrder.status !== STATUS.Canceled">{{workOrder.status}}</mat-chip>
+      </mat-chip-list>
+      <button routerLink="{{workOrder.id}}" queryParamsHandling preserveFragment style="margin-left: 24px;"
+        mat-icon-button aria-label="Editar Serviço">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button (click)="showPreview()" style="margin-left: 24px;" mat-icon-button aria-label="Editar Serviço">
+        <mat-icon>pageview</mat-icon>
+      </button>
+      <button style="margin-left: 24px;" mat-icon-button aria-label="Deletar serviço">
+        <mat-icon (click)="deleteService(workOrder)">delete</mat-icon>
+      </button>
+      <mat-divider></mat-divider>
     </mat-list-item>
   </mat-list>
 

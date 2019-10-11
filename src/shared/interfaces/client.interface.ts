@@ -1,15 +1,15 @@
 export default interface IClient {
     id?: number;
-    nome: string;
-    cpf: string;
+    name: string;
+    individualRegistration: string;
     email: string;
-    celular: string;
-    cep: string;
-    uf: string;
-    localidade: string;
-    bairro: string;
-    logradouro: string;
-    numero: number;
-    dataNascimento: Date;
+    cellphone: string;
+    zip: string;
+    state: string;
+    city: string;
+    district: string;
+    street: string;
+    num: number;
+    birthDate: Date;
     status: boolean;
 }

@@ -3,17 +3,12 @@ import { Status } from '../enums/status.enum';
 
 export default interface IWorkOrder {
     id: number;
-
     vehicleId: number;
-
-    tipo: WorkOrderTypes;
-
+    type: WorkOrderTypes;
     status: Status;
-
-    dataPagamento: Date;
-    formaPagamento: string;
-
-    produtos: string;
-    servicos: string;
-    observacoes: string;
+    paymentDate: Date;
+    paymentMethod: string;
+    products: string;
+    services: string;
+    comments: string;
 }

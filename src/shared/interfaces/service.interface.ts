@@ -1,5 +1,5 @@
 export default interface IService {
     id?: number;
-    nome: string;
+    name: string;
     status: boolean;
 }

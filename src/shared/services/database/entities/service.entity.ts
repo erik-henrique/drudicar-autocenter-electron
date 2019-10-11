@@ -7,7 +7,7 @@ export class ServiceEntity extends BaseEntity {
     id: number;
 
     @Column()
-    nome: string;
+    name: string;
 
     @Column({ default: true })
     status: boolean;

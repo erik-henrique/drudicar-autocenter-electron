@@ -1,4 +1,4 @@
-export default interface IZipCode {
+export default interface IViaCEPLocation {
     logradouro: string;
     complemento: string;
     bairro: string;

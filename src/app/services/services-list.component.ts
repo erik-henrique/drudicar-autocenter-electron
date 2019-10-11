@@ -27,17 +27,17 @@ export class ServicesListComponent implements OnInit {
 
   async ngOnInit() {
     this.serviceFilterForm = this._fb.group({
-      nome: ''
+      name: ''
     });
 
-    this.serviceFilterForm.controls.nome.valueChanges.pipe(debounceTime(2000), distinctUntilChanged()).subscribe(async (value: string) => {
+    this.serviceFilterForm.controls.name.valueChanges.pipe(debounceTime(2000), distinctUntilChanged()).subscribe(async (value: string) => {
       try {
         this.spinner.show();
         await this._databaseService
           .connection
           .then(async () => {
             if (typeof value === 'string') {
-              const services = await ServiceEntity.find({ nome: Like(`%${value}%`) });
+              const services = await ServiceEntity.find({ name: Like(`%${value}%`) });
               this.services = services as IService[];
             }
           }).finally(() => {
@@ -78,7 +78,7 @@ export class ServicesListComponent implements OnInit {
     try {
       const confirmation = {
         message: 'Tem certeza que deseja desativar o serviço',
-        data: service.nome,
+        data: service.name,
         action: 'Desativar'
       };
 

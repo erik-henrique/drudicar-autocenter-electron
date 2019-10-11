@@ -7,37 +7,37 @@ export class ClientEntity extends BaseEntity {
     id: number;
 
     @Column()
-    nome: string;
+    name: string;
 
     @Column()
-    cpf: string;
+    individualRegistration: string;
 
     @Column({ nullable: true })
     email: string;
 
     @Column({ nullable: true })
-    celular: string;
+    cellphone: string;
 
     @Column({ nullable: true })
-    cep: string;
+    zip: string;
 
     @Column({ nullable: true })
-    uf: string;
+    state: string;
 
     @Column({ nullable: true })
-    localidade: string;
+    city: string;
 
     @Column({ nullable: true })
-    bairro: string;
+    district: string;
 
     @Column({ nullable: true })
-    logradouro: string;
+    street: string;
 
     @Column({ nullable: true })
-    numero: number;
+    num: number;
 
     @Column({ nullable: true })
-    dataNascimento: Date;
+    birthDate: Date;
 
     @Column({ default: true })
     status: boolean;

@@ -26,7 +26,7 @@ export class WorkOrdersComponent implements OnInit {
   public workOrders: IWorkOrder[];
   public STATUS = Status;
   public WORK_ORDER_TYPES = WorkOrderTypes;
-  public type: string = this.WORK_ORDER_TYPES.Orcamento;
+  public type: string = this.WORK_ORDER_TYPES.Budget;
 
   constructor(
     private _fb: FormBuilder,
@@ -51,7 +51,7 @@ export class WorkOrdersComponent implements OnInit {
             .then(async () => {
               if (typeof value === 'string') {
                 this.serviceFilterForm.controls.cliente.reset();
-                const vehicles = await VehicleEntity.find({ modelo: Like(`%${value}%`) });
+                const vehicles = await VehicleEntity.find({ model: Like(`%${value}%`) });
                 const vehicleIds = vehicles.map(v => v.id);
 
                 const workOrders = await WorkOrderEntity
@@ -59,7 +59,7 @@ export class WorkOrdersComponent implements OnInit {
                     relations: ['vehicle', 'vehicle.client'],
                     where: {
                       vehicle: In(vehicleIds),
-                      tipo: this.type
+                      type: this.type
                     }
                   });
 
@@ -83,13 +83,13 @@ export class WorkOrdersComponent implements OnInit {
             .then(async () => {
               if (typeof value === 'string') {
                 this.serviceFilterForm.controls.veiculo.reset();
-                const clients = await ClientEntity.find({ nome: Like(`%${value}%`) });
+                const clients = await ClientEntity.find({ name: Like(`%${value}%`) });
                 const clientIds = clients.map(v => v.id);
                 const workOrders = await WorkOrderEntity.createQueryBuilder('work')
                   .innerJoinAndSelect('work.vehicle', 'vehicle')
                   .innerJoinAndSelect('vehicle.client', 'client')
                   .where('vehicle.client.id IN (:...ids)', { ids: clientIds })
-                  .andWhere('work.tipo = :tipo', { tipo: this.type })
+                  .andWhere('work.type = :type', { type: this.type })
                   .getMany();
 
                 console.log(workOrders);
@@ -105,15 +105,17 @@ export class WorkOrdersComponent implements OnInit {
 
     this.route.paramMap.subscribe(async params => {
       this.type = params['params'].type === 'orcamento'
-        ? this.WORK_ORDER_TYPES.Orcamento : this.WORK_ORDER_TYPES.OrdemDeServico;
+        ? this.WORK_ORDER_TYPES.Budget : this.WORK_ORDER_TYPES.WorkWorder;
       await this.getWorkOrders();
     });
   }
 
   public showPreview() {
     this.dialog.open(WorkOrderPreviewComponent, {
-      minWidth: '90%',
-      minHeight: '90%'
+      minWidth: '50%',
+      minHeight: '50%',
+      width: '90%',
+      height: '90%',
     });
   }
 
@@ -131,7 +133,7 @@ export class WorkOrdersComponent implements OnInit {
         .connection
         .then(async () => {
           const workOrders = await WorkOrderEntity
-            .find({ relations: ['vehicle', 'vehicle.client'], where: { tipo: this.type } });
+            .find({ relations: ['vehicle', 'vehicle.client'], where: { type: this.type } });
           console.log(workOrders);
           this.workOrders = workOrders as IWorkOrder[];
         }).finally(() => {
@@ -146,7 +148,7 @@ export class WorkOrdersComponent implements OnInit {
     try {
       const confirmation = {
         message: `Tem certeza que deseja cancelar ${
-          this.type === this.WORK_ORDER_TYPES.Orcamento ? 'o orçamento' : 'a ordem de serviço'} nº`,
+          this.type === this.WORK_ORDER_TYPES.Budget ? 'o orçamento' : 'a ordem de serviço'} nº`,
         data: service.id,
         action: 'Cancelar'
       };
@@ -162,7 +164,7 @@ export class WorkOrdersComponent implements OnInit {
           await this._databaseService
             .connection
             .then(async () => {
-              await WorkOrderEntity.update({ id: service.id }, { status: this.STATUS.Cancelada });
+              await WorkOrderEntity.update({ id: service.id }, { status: this.STATUS.Canceled });
               await this.getWorkOrders();
             });
         }

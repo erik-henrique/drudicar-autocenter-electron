@@ -3,13 +3,14 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 
-import { CpfCnpjValidator } from '../../../shared/validators/cpf-cnpj.validator';
+import { IndividualRegistrationValidator } from '../../../shared/validators/individualRegistration.validator';
 import IZipCode from '../../../shared/interfaces/zipCode.interface';
 import { HttpService } from '../../../shared/services/http/http.service';
 import IClient from '../../../shared/interfaces/client.interface';
 import { DatabaseService } from '../../../shared/services/database/database.service';
 import { ClientEntity } from '../../../shared/services/database/entities/client.entity';
 import { ConfirmationComponent } from '../../../shared/components/confirmation/confirmation.component';
+import Localization from 'src/shared/entities/zip.entity';
 
 @Component({
   selector: 'app-client-add-edit',
@@ -31,23 +32,23 @@ export class ClientAddEditComponent implements OnInit {
   async ngOnInit() {
     this.clientForm = this._fb.group({
       id: null,
-      nome: [null, [
+      name: [null, [
         Validators.required
       ]],
-      cpf: [null, [Validators.required, Validators.minLength(11),
-      Validators.maxLength(11), CpfCnpjValidator.CpfValidator]
+      individualRegistration: [null, [Validators.required, Validators.minLength(11),
+      Validators.maxLength(11), IndividualRegistrationValidator.validate]
       ],
       status: true,
       email: [null, [Validators.email]],
-      celular: null,
-      cep: [null, [Validators.minLength(8),
+      cellphone: null,
+      zip: [null, [Validators.minLength(8),
       Validators.maxLength(8)]],
-      uf: null,
-      localidade: null,
-      bairro: null,
-      logradouro: null,
-      numero: null,
-      dataNascimento: null
+      state: null,
+      city: null,
+      district: null,
+      street: null,
+      num: null,
+      birthDate: null
     });
 
     this.route.paramMap.subscribe(async params => {
@@ -58,7 +59,7 @@ export class ClientAddEditComponent implements OnInit {
       }
     });
 
-    this.clientForm.controls.cep.valueChanges.subscribe((value: string) => {
+    this.clientForm.controls.zip.valueChanges.subscribe((value: string) => {
       if (value.length === 8) {
         this.findClientZipCode(value);
       }
@@ -73,16 +74,16 @@ export class ClientAddEditComponent implements OnInit {
     return this.clientForm.get('id');
   }
 
-  get nome() {
-    return this.clientForm.get('nome');
+  get name() {
+    return this.clientForm.get('name');
   }
 
-  get cpf() {
-    return this.clientForm.get('cpf');
+  get individualRegistration() {
+    return this.clientForm.get('individualRegistration');
   }
 
-  get cep() {
-    return this.clientForm.get('cep');
+  get zip() {
+    return this.clientForm.get('zip');
   }
 
   get status() {
@@ -91,9 +92,9 @@ export class ClientAddEditComponent implements OnInit {
 
   public async findClientZipCode(zipcode: string) {
     try {
-      const cep = await this._httpService.get(this.ZIP_SERVICE_URL, this.ZIP_RETURN_TYPE, zipcode).toPromise() as IZipCode;
-      delete cep['cep'];
-      this.clientForm.patchValue(cep);
+      // tslint:disable-next-line: max-line-length
+      const zip = new Localization(await this._httpService.get(this.ZIP_SERVICE_URL, this.ZIP_RETURN_TYPE, zipcode).toPromise() as IZipCode);
+      this.clientForm.patchValue(zip);
     } catch (err) {
       console.error(err);
     }
@@ -118,7 +119,7 @@ export class ClientAddEditComponent implements OnInit {
 
       const confirmation = {
         message: 'Tem certeza que deseja desativar o cliente',
-        data: client.nome,
+        data: client.name,
         action: 'Desativar'
       };
 
@@ -149,7 +150,7 @@ export class ClientAddEditComponent implements OnInit {
 
       const confirmation = {
         message: 'Tem certeza que deseja ativar o cliente',
-        data: client.nome,
+        data: client.name,
         action: 'Ativar'
       };
 

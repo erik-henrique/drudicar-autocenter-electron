@@ -32,8 +32,8 @@ export const MY_FORMATS = {
 export class VehicleAddEditComponent implements OnInit {
   public vehicleForm: FormGroup;
 
-  @ViewChild('ano', null) datePickerAno: MatDatepicker<Date>;
-  @ViewChild('anoModelo', null) datePickerAnoModelo: MatDatepicker<Date>;
+  @ViewChild('year', null) datePickerAno: MatDatepicker<Date>;
+  @ViewChild('yearModel', null) datePickerAnoModelo: MatDatepicker<Date>;
 
   public minDate = new Date(1970, 0, 1);
   public maxDate = new Date(2022, 0, 1);
@@ -46,17 +46,17 @@ export class VehicleAddEditComponent implements OnInit {
 
   ngOnInit() {
     this.vehicleForm = this._fb.group({
-      placa: ['',
+      carLicense: ['',
         Validators.required
       ],
-      cor: '',
-      modelo: '',
-      marca: '',
-      ano: '',
-      anoModelo: '',
-      uf: '',
-      municipio: '',
-      chassi: '',
+      color: '',
+      model: '',
+      brand: '',
+      year: '',
+      yearModel: '',
+      state: '',
+      district: '',
+      chassis: '',
       status: true,
       id: '',
       client: ''
@@ -67,21 +67,21 @@ export class VehicleAddEditComponent implements OnInit {
     }
   }
 
-  get placa() {
-    return this.vehicleForm.get('placa');
+  get carLicense() {
+    return this.vehicleForm.get('carLicense');
   }
 
-  get ano() {
-    return this.vehicleForm.get('ano');
+  get year() {
+    return this.vehicleForm.get('year');
   }
 
   closeAnoDatePicker(event: any) {
-    this.vehicleForm.controls.ano.patchValue(new Date(event));
+    this.vehicleForm.controls.year.patchValue(new Date(event));
     this.datePickerAno.close();
   }
 
   closeAnoModeloDatePicker(event: any) {
-    this.vehicleForm.controls.anoModelo.patchValue(new Date(event));
+    this.vehicleForm.controls.yearModel.patchValue(new Date(event));
     this.datePickerAnoModelo.close();
   }
 
@@ -95,16 +95,16 @@ export class VehicleAddEditComponent implements OnInit {
           delete vehicleEntity.id;
         }
 
-        if (!vehicleEntity.ano) {
-          delete vehicleEntity.ano;
+        if (!vehicleEntity.year) {
+          delete vehicleEntity.year;
         } else {
-          vehicleEntity.ano = new Date(vehicleEntity.ano);
+          vehicleEntity.year = new Date(vehicleEntity.year);
         }
 
-        if (!vehicleEntity.anoModelo) {
-          delete vehicleEntity.anoModelo;
+        if (!vehicleEntity.yearModel) {
+          delete vehicleEntity.yearModel;
         } else {
-          vehicleEntity.anoModelo = new Date(vehicleEntity.anoModelo);
+          vehicleEntity.yearModel = new Date(vehicleEntity.yearModel);
         }
 
         await this._databaseService

@@ -28,19 +28,19 @@ export class ClientsListComponent implements OnInit {
 
   async ngOnInit() {
     this.clientFilterForm = this._fb.group({
-      nome: null,
-      cpf: null
+      name: null,
+      individualRegistration: null
     });
 
-    this.clientFilterForm.controls.nome.valueChanges.pipe(debounceTime(2000), distinctUntilChanged()).subscribe(async (value: string) => {
+    this.clientFilterForm.controls.name.valueChanges.pipe(debounceTime(2000), distinctUntilChanged()).subscribe(async (value: string) => {
       try {
         this.spinner.show();
         await this._databaseService
           .connection
           .then(async () => {
             if (typeof value === 'string') {
-              this.clientFilterForm.controls.cpf.reset();
-              const clients = await ClientEntity.find({ nome: Like(`%${value}%`) });
+              this.clientFilterForm.controls.individualRegistration.reset();
+              const clients = await ClientEntity.find({ name: Like(`%${value}%`) });
               this.clients = clients as IClient[];
             }
           }).finally(() => {
@@ -51,40 +51,41 @@ export class ClientsListComponent implements OnInit {
       }
     });
 
-    this.clientFilterForm.controls.cpf.valueChanges.pipe(debounceTime(2000), distinctUntilChanged()).subscribe(async (value: string) => {
-      try {
-        this.spinner.show();
-        await this._databaseService
-          .connection
-          .then(async () => {
-            if (typeof value === 'string') {
-              this.clientFilterForm.controls.nome.reset();
-              const clients = await ClientEntity.find({ cpf: Like(`%${value}%`) });
-              this.clients = clients as IClient[];
-            }
-          }).finally(() => {
-            this.spinner.hide();
-          });
-      } catch (err) {
-        console.error(err);
-      }
-    });
+    this.clientFilterForm.controls.individualRegistration.valueChanges.pipe(debounceTime(2000), distinctUntilChanged())
+      .subscribe(async (value: string) => {
+        try {
+          this.spinner.show();
+          await this._databaseService
+            .connection
+            .then(async () => {
+              if (typeof value === 'string') {
+                this.clientFilterForm.controls.name.reset();
+                const clients = await ClientEntity.find({ individualRegistration: Like(`%${value}%`) });
+                this.clients = clients as IClient[];
+              }
+            }).finally(() => {
+              this.spinner.hide();
+            });
+        } catch (err) {
+          console.error(err);
+        }
+      });
 
     await this.getClients();
   }
 
   async getClients() {
     try {
-    this.spinner.show();
+      this.spinner.show();
 
-    await this._databaseService
-      .connection
-      .then(async () => {
-        const clients = await ClientEntity.find();
-        this.clients = clients as IClient[];
-      }).finally(() => {
-        this.spinner.hide();
-      });
+      await this._databaseService
+        .connection
+        .then(async () => {
+          const clients = await ClientEntity.find();
+          this.clients = clients as IClient[];
+        }).finally(() => {
+          this.spinner.hide();
+        });
     } catch (err) {
       console.error(err);
     }
@@ -101,7 +102,7 @@ export class ClientsListComponent implements OnInit {
     try {
       const confirmation = {
         message: 'Tem certeza que deseja desativar o cliente',
-        data: client.nome,
+        data: client.name,
         action: 'Desativar'
       };
 

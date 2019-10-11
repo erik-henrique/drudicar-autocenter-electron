@@ -41,7 +41,7 @@ export class WorkOrderAddEditComponent implements OnInit {
       label: 'Em Andamento', value: 'Em Andamento'
     },
     {
-      label: 'Finalizada', value: 'Finalizada'
+      label: 'Finished', value: 'Finished'
     },
     {
       label: 'Disponível', value: 'Disponível'
@@ -51,7 +51,7 @@ export class WorkOrderAddEditComponent implements OnInit {
   public orcamentoForm: FormGroup;
   public clients: IClient[];
   public vehicles: IVehicle[];
-  public servicos: IService[];
+  public services: IService[];
 
   public STATUS = Status;
   public WORK_ORDER_TYPES = WorkOrderTypes;
@@ -73,13 +73,13 @@ export class WorkOrderAddEditComponent implements OnInit {
       client: [null, [
         Validators.required
       ]],
-      servicos: this._fb.array([], Validators.required),
-      produtos: this._fb.array([]),
+      services: this._fb.array([], Validators.required),
+      products: this._fb.array([]),
       status: 'Aguardando Aprovação',
-      tipo: ['Orçamento', Validators.required],
-      observacoes: null,
-      dataPagamento: null,
-      formaPagamento: null,
+      type: ['Orçamento', Validators.required],
+      comments: null,
+      paymentDate: null,
+      paymentMethod: null,
       valor: null
     });
 
@@ -102,25 +102,25 @@ export class WorkOrderAddEditComponent implements OnInit {
         }
       });
 
-      await this.getClients();
-      await this.getServices();
+    await this.getClients();
+    await this.getServices();
 
-      this.route.paramMap.subscribe(async params => {
-        this.id.patchValue(parseInt(params['params'].id, null));
+    this.route.paramMap.subscribe(async params => {
+      this.id.patchValue(parseInt(params['params'].id, null));
 
-        if (this.id.value) {
-          await this.getWorkOrder(this.id.value);
-        }
-      });
+      if (this.id.value) {
+        await this.getWorkOrder(this.id.value);
+      }
+    });
   }
 
   get servicoForms() {
-    return this.orcamentoForm.get('servicos') as FormArray;
+    return this.orcamentoForm.get('services') as FormArray;
   }
 
   addService() {
     const servico = this._fb.group({
-      nome: [null, Validators.required],
+      name: [null, Validators.required],
       preco: null
     });
 
@@ -132,12 +132,12 @@ export class WorkOrderAddEditComponent implements OnInit {
   }
 
   get produtoForms() {
-    return this.orcamentoForm.get('produtos') as FormArray;
+    return this.orcamentoForm.get('products') as FormArray;
   }
 
   addProduct() {
     const produto = this._fb.group({
-      nome: [null, Validators.required],
+      name: [null, Validators.required],
       preco: null
     });
 
@@ -161,36 +161,36 @@ export class WorkOrderAddEditComponent implements OnInit {
   }
 
   get typeFromForm() {
-    return this.orcamentoForm.get('tipo');
+    return this.orcamentoForm.get('type');
   }
 
   filterServices(value: string): Boolean {
-    return this.servicos.find(s => s.nome === value) ? false : true;
+    return this.services.find(s => s.name === value) ? false : true;
   }
 
   get valorTotal() {
-    const produtos = this.orcamentoForm.get('produtos') as FormArray;
-    const servicos = this.orcamentoForm.get('servicos') as FormArray;
+    const products = this.orcamentoForm.get('products') as FormArray;
+    const services = this.orcamentoForm.get('services') as FormArray;
 
-    if (!produtos.value.length && !servicos.value.length) {
+    if (!products.value.length && !services.value.length) {
       return 0;
     }
 
-    if (produtos.value.length && !servicos.value.length) {
-      return parseFloat(produtos.value
+    if (products.value.length && !services.value.length) {
+      return parseFloat(products.value
         .map(value => value.preco)
         .reduce((accum, curr) => accum + curr));
     }
 
-    if (!produtos.value.length && servicos.value.length) {
-      return parseFloat(servicos.value
+    if (!products.value.length && services.value.length) {
+      return parseFloat(services.value
         .map(value => value.preco)
         .reduce((accum, curr) => accum + curr));
     }
 
-    return parseFloat(produtos.value
+    return parseFloat(products.value
       .map(value => value.preco)
-      .reduce((accum, curr) => accum + curr) + servicos.value
+      .reduce((accum, curr) => accum + curr) + services.value
         .map(value => value.preco)
         .reduce((accum, curr) => accum + curr));
   }
@@ -220,7 +220,7 @@ export class WorkOrderAddEditComponent implements OnInit {
         .connection
         .then(async () => {
           const clients = await ServiceEntity.find({ status: true });
-          this.servicos = clients as IService[];
+          this.services = clients as IService[];
         }).finally(() => {
           this.spinner.hide();
         });
@@ -235,19 +235,19 @@ export class WorkOrderAddEditComponent implements OnInit {
         .connection
         .then(async () => {
           const workOrder = await WorkOrderEntity.findOne(id, { relations: ['vehicle', 'vehicle.client'] });
-          const servicos = JSON.parse(workOrder.servicos) as any[];
-          const produtos = JSON.parse(workOrder.produtos) as any[];
+          const services = JSON.parse(workOrder.services) as any[];
+          const products = JSON.parse(workOrder.products) as any[];
 
-          delete workOrder.servicos;
-          delete workOrder.produtos;
+          delete workOrder.services;
+          delete workOrder.products;
 
-          servicos.forEach(s => this.servicoForms.push(this._fb.group({
-            nome: [s.nome, Validators.required],
+          services.forEach(s => this.servicoForms.push(this._fb.group({
+            name: [s.name, Validators.required],
             preco: s.preco
           })));
 
-          produtos.forEach(p => this.produtoForms.push(this._fb.group({
-            nome: [p.nome, Validators.required],
+          products.forEach(p => this.produtoForms.push(this._fb.group({
+            name: [p.name, Validators.required],
             preco: p.preco
           })));
 
@@ -267,8 +267,8 @@ export class WorkOrderAddEditComponent implements OnInit {
           this.orcamentoForm.controls.client.disable();
           this.orcamentoForm.controls.vehicle.patchValue(workOrder.vehicle.id);
 
-          if (this.orcamentoForm.controls.status.value === this.STATUS.Cancelada
-            || this.orcamentoForm.controls.status.value === this.STATUS.Finalizada) {
+          if (this.orcamentoForm.controls.status.value === this.STATUS.Canceled
+            || this.orcamentoForm.controls.status.value === this.STATUS.Finished) {
             this.orcamentoForm.disable();
           }
         });
@@ -283,7 +283,7 @@ export class WorkOrderAddEditComponent implements OnInit {
 
       const confirmation = {
         message: 'Tem certeza que deseja cancelar o',
-        data: `${orcamento.tipo} Nº ${orcamento.id}`,
+        data: `${orcamento.type} Nº ${orcamento.id}`,
         action: 'Sim'
       };
 
@@ -298,8 +298,8 @@ export class WorkOrderAddEditComponent implements OnInit {
           await this._databaseService
             .connection
             .then(async () => {
-              await WorkOrderEntity.update({ id: orcamento.id }, { status: this.STATUS.Cancelada });
-              this.orcamentoForm.controls.status.setValue(this.STATUS.Cancelada);
+              await WorkOrderEntity.update({ id: orcamento.id }, { status: this.STATUS.Canceled });
+              this.orcamentoForm.controls.status.setValue(this.STATUS.Canceled);
               this.orcamentoForm.disable();
             });
         }
@@ -331,9 +331,9 @@ export class WorkOrderAddEditComponent implements OnInit {
             .connection
             .then(async () => {
               await WorkOrderEntity
-                .update({ id: orcamento.id }, { status: this.STATUS.Disponivel, tipo: this.WORK_ORDER_TYPES.OrdemDeServico });
-              this.orcamentoForm.controls.status.setValue(this.STATUS.Disponivel);
-              this.orcamentoForm.controls.tipo.setValue(this.WORK_ORDER_TYPES.OrdemDeServico);
+                .update({ id: orcamento.id }, { status: this.STATUS.Available, type: this.WORK_ORDER_TYPES.WorkWorder });
+              this.orcamentoForm.controls.status.setValue(this.STATUS.Available);
+              this.orcamentoForm.controls.type.setValue(this.WORK_ORDER_TYPES.WorkWorder);
             });
         }
       });
@@ -348,8 +348,8 @@ export class WorkOrderAddEditComponent implements OnInit {
         const formValue = this.orcamentoForm.value as IWorkOrder;
 
         const workOrderEntity = Object.assign(new WorkOrderEntity(), formValue);
-        workOrderEntity.produtos = JSON.stringify(workOrderEntity.produtos);
-        workOrderEntity.servicos = JSON.stringify(workOrderEntity.servicos);
+        workOrderEntity.products = JSON.stringify(workOrderEntity.products);
+        workOrderEntity.services = JSON.stringify(workOrderEntity.services);
 
         if (!this.id.value) {
           delete workOrderEntity.id;
@@ -361,8 +361,8 @@ export class WorkOrderAddEditComponent implements OnInit {
             const saveResult = await workOrderEntity.save();
             this.id.patchValue(saveResult.id);
 
-            if (this.orcamentoForm.controls.status.value === this.STATUS.Cancelada
-              || this.orcamentoForm.controls.status.value === this.STATUS.Finalizada) {
+            if (this.orcamentoForm.controls.status.value === this.STATUS.Canceled
+              || this.orcamentoForm.controls.status.value === this.STATUS.Finished) {
               this.orcamentoForm.disable();
             }
           });

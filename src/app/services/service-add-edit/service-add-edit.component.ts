@@ -28,7 +28,7 @@ export class ServiceAddEditComponent implements OnInit {
   async ngOnInit() {
     this.serviceForm = this._fb.group({
       id: null,
-      nome: [null, [
+      name: [null, [
         Validators.required
       ]],
       status: true
@@ -43,8 +43,8 @@ export class ServiceAddEditComponent implements OnInit {
     });
   }
 
-  get nome() {
-    return this.serviceForm.get('nome');
+  get name() {
+    return this.serviceForm.get('name');
   }
 
   get id() {
@@ -74,7 +74,7 @@ export class ServiceAddEditComponent implements OnInit {
 
       const confirmation = {
         message: 'Tem certeza que deseja desativar o serviço',
-        data: service.nome,
+        data: service.name,
         action: 'Desativar'
       };
 
@@ -105,7 +105,7 @@ export class ServiceAddEditComponent implements OnInit {
 
       const confirmation = {
         message: 'Tem certeza que deseja ativar o serviço',
-        data: service.nome,
+        data: service.name,
         action: 'Ativar'
       };
 

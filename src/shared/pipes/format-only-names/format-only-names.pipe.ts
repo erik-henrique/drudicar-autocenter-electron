@@ -7,7 +7,7 @@ export class FormatOnlyNamesPipe implements PipeTransform {
 
   transform(value: any, ...args: any[]): any {
     if (value) {
-      return JSON.parse(value).map(genericItem => genericItem.nome).join(', ');
+      return JSON.parse(value).map(genericItem => genericItem.name).join(', ');
     }
     return null;
   }

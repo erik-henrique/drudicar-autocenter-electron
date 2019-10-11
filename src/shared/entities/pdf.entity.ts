@@ -1,15 +1,19 @@
 import IPdfConfig from '../interfaces/pdfConfig.interface';
 import * as jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 export default class Pdf {
     doc: any;
-    public titleFontSize = 14;
-    public textFontSize = 12;
+    public titleFontSize: number;
+    public textFontSize: number;
 
     constructor() {
         this.doc = new jsPDF();
         this.doc.setLineWidth(0.1);
         this.doc.setDrawColor(0, 0, 0);
+
+        this.titleFontSize = 14;
+        this.textFontSize = 12;
     }
 
     public addLabelAndValue(config: IPdfConfig) {

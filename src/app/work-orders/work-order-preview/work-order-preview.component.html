@@ -1,17 +1,32 @@
-
 <canvas id="canvasLogo" width=1173 height=1042 onload="getCanvasLogo();" style="display: none"></canvas>
 
-<mat-card class="card--margin" id="Html2Pdf">
+<mat-card class="card--margin">
     <div style="float:right;margin: 0px;">
         <p style="margin: 0px;float:right;">
             Valor Total: <span style="font-weight: bold;">31312</span></p>
     </div>
 
     <mat-card-title>Pre-visualização da ordem de serviço</mat-card-title>
-    <mat-card-subtitle>Ordem de serviço Nº 2 <mat-chip color="warn">Finalizada</mat-chip>
+    <mat-card-subtitle>Ordem de serviço Nº 2 <mat-chip color="warn" style="margin-left: 1rem;">Finished</mat-chip>
     </mat-card-subtitle>
 
-    <p><b>Cliente: </b> Ruberval da Silva</p>
+    <mat-list>
+        <h3 mat-subheader>Cliente</h3>
+        <mat-grid-list cols="3" rowHeight="3rem">
+            <mat-grid-tile>
+                <p><b>Cliente: </b> Ruberval da Silva</p>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <p><b>CPF: </b> dasdsda</p>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <p><b>Contato: </b> 4234242</p>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <p><b>E-mail: </b> ererea@adad</p>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </mat-list>
 
     <mat-list>
         <h3 mat-subheader>Veículo</h3>
@@ -50,16 +65,16 @@
     <mat-divider></mat-divider>
     <mat-list>
         <h3 mat-subheader>Serviços</h3>
-        <mat-list-item *ngFor="let servico of servicos">
-            <img matListAvatar src="assets/images/car_repair.png" alt="Serviço" style="border-radius:0%">
-            <h4 mat-line>{{servico.nome}}</h4>
+        <mat-list-item *ngFor="let servico of services">
+            <mat-icon mat-list-icon>build</mat-icon>
+            <h4 mat-line>{{servico.name}}</h4>
             <p mat-line> {{servico.preco | currency:'BRL'}} </p>
         </mat-list-item>
         <mat-divider></mat-divider>
         <h3 mat-subheader>Produtos</h3>
-        <mat-list-item *ngFor="let produto of produtos">
+        <mat-list-item *ngFor="let produto of products">
             <mat-icon mat-list-icon>assignment_turned_in</mat-icon>
-            <h4 mat-line>{{produto.nome}}</h4>
+            <h4 mat-line>{{produto.name}}</h4>
             <p mat-line> {{produto.preco | currency:'BRL'}} </p>
         </mat-list-item>
     </mat-list>
@@ -72,7 +87,7 @@
 </mat-dialog-actions>
 
 <mat-dialog-actions style="float: right;">
-    <button (click)="download()" mat-button class="mat-list-option" [color]="'success'">
+    <button (click)="downloadWorkOrderPreview()" mat-button [color]="'success'">
         <b>Baixar</b>
     </button>
 </mat-dialog-actions>

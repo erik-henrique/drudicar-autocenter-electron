@@ -8,31 +8,31 @@ export class VehicleEntity extends BaseEntity {
     id: number;
 
     @Column()
-    placa: string;
+    carLicense: string;
 
     @Column({ nullable: true })
-    cor: string;
+    color: string;
 
     @Column({ nullable: true })
-    modelo: string;
+    model: string;
 
     @Column({ nullable: true })
-    marca: string;
+    brand: string;
 
     @Column({ nullable: true })
-    ano: Date;
+    year: Date;
 
     @Column({ nullable: true })
-    anoModelo: Date;
+    yearModel: Date;
 
     @Column({ nullable: true })
-    municipio: string;
+    district: string;
 
     @Column({ nullable: true })
-    uf: string;
+    state: string;
 
     @Column({ nullable: true })
-    chassi: string;
+    chassis: string;
 
     @Column({
         name: 'clientId',

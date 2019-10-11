@@ -5,23 +5,24 @@
   <mat-card-subtitle>Todos os clientes cadastrados</mat-card-subtitle>
   <form [formGroup]="clientFilterForm">
     <mat-form-field appearance="outline" style="width: 49%">
-      <mat-label>Pesquisar por nome</mat-label>
-      <input matInput placeholder="Digite o nome" formControlName="nome" class="text-capitalize">
+      <mat-label>Pesquisar por name</mat-label>
+      <input matInput placeholder="Digite o name" formControlName="name" class="text-capitalize">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
     <mat-form-field appearance="outline" style="width: 49%;float: right;">
       <mat-label>Pesquisar por CPF</mat-label>
-      <input matInput placeholder="Digite o CPF" formControlName="cpf">
+      <input matInput placeholder="Digite o CPF" formControlName="individualRegistration">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
   </form>
   <mat-list>
     <mat-list-item class="mat-list-option ng-star-inserted" *ngFor="let client of clients">
       <img matListAvatar src="assets/images/man.png" alt="...">
-      <h3 matLine style="text-transform: capitalize;margin-left: 0.5rem"> {{client.nome}} </h3>
+      <h3 matLine style="text-transform: capitalize;margin-left: 0.5rem"> {{client.name}} </h3>
       <p matLine>
         <mat-chip-list aria-label="Status">
-          <mat-chip><span style="font-weight:bold">CPF:</span> {{ client.cpf | mask: '000.000.000-00' }}</mat-chip>
+          <mat-chip><span style="font-weight:bold">CPF:</span>
+            {{ client.individualRegistration | mask: '000.000.000-00' }}</mat-chip>
         </mat-chip-list>
       </p>
       <mat-chip-list aria-label="Status">
@@ -36,7 +37,8 @@
         matBadgePosition="before" matBadgeColor="warn">
         <mat-icon>build</mat-icon>
       </button> -->
-      <button routerLink="/clients/{{client.id}}" style="margin-left: 24px;" mat-icon-button aria-label="Editar cliente">
+      <button routerLink="/clients/{{client.id}}" style="margin-left: 24px;" mat-icon-button
+        aria-label="Editar cliente">
         <mat-icon>edit</mat-icon>
       </button>
       <button style="margin-left: 24px;" mat-icon-button aria-label="Deletar cliente">

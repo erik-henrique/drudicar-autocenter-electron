@@ -14,7 +14,7 @@ import { ConfirmationComponent } from '../../shared/components/confirmation/conf
   styleUrls: ['./vehicles-list.component.scss']
 })
 export class VehiclesListComponent implements OnInit {
-  displayedColumns: string[] = ['placa', 'modelo', 'marca', 'cor', 'ano', 'anoModelo', 'uf', 'municipio', 'chassi', 'edit', 'delete'];
+  displayedColumns: string[] = ['carLicense', 'model', 'brand', 'color', 'year', 'yearModel', 'state', 'district', 'chassis', 'edit', 'delete'];
   dataSource = new MatTableDataSource<IVehicle>();
 
   @ViewChild(MatPaginator, null) paginator: MatPaginator;
@@ -45,7 +45,7 @@ export class VehiclesListComponent implements OnInit {
     try {
       const confirmation = {
         message: 'Tem certeza que deseja desativar o veículo',
-        data: vehicle.placa.toUpperCase().substr(0, 3) + '-' + vehicle.placa.substr(3),
+        data: vehicle.carLicense.toUpperCase().substr(0, 3) + '-' + vehicle.carLicense.substr(3),
         action: 'Desativar'
       };
 
