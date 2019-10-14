@@ -15,7 +15,8 @@ import { MatSnackBar } from '@angular/material';
   styleUrls: ['./vehicles-list.component.scss']
 })
 export class VehiclesListComponent implements OnInit {
-  displayedColumns: string[] = ['carLicense',
+  displayedColumns: string[] = [
+    'carLicense',
     'model',
     'brand',
     'color',
@@ -26,7 +27,8 @@ export class VehiclesListComponent implements OnInit {
     'chassis',
     'edit',
     'delete'];
-  dataSource = new MatTableDataSource<IVehicle>();
+
+  public dataSource = new MatTableDataSource<IVehicle>();
 
   @ViewChild(MatPaginator, null) paginator: MatPaginator;
 
@@ -103,7 +105,7 @@ export class VehiclesListComponent implements OnInit {
       });
     } catch (err) {
       console.error(err);
-      this._snackBar.open('Não foi possível ir para edição do veículo', 'OK', {
+      this._snackBar.open(`Não foi possível ir para ${vehicle.id ? 'editar' : 'adicionar'} o veículo`, 'OK', {
         duration: 2000,
       });
     }
