@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MatDatepicker, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDatepicker, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 
 import IVehicle from '../../../shared/interfaces/vehicle.interface';
 import { DatabaseService } from '../../../shared/services/database/database.service';
@@ -42,7 +42,8 @@ export class VehicleAddEditComponent implements OnInit {
     private _fb: FormBuilder,
     public dialogRef: MatDialogRef<VehicleAddEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IVehicle,
-    private _databaseService: DatabaseService) { }
+    private _databaseService: DatabaseService,
+    private _snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.vehicleForm = this._fb.group({
@@ -116,6 +117,9 @@ export class VehicleAddEditComponent implements OnInit {
       }
     } catch (err) {
       console.error(err);
+      this._snackBar.open('Não foi possível salvar o veículo', 'OK', {
+        duration: 2000,
+      });
     }
   }
 }

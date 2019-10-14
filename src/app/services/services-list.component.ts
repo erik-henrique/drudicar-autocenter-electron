@@ -4,7 +4,7 @@ import IService from '../../shared/interfaces/service.interface';
 import { DatabaseService } from '../../shared/services/database/database.service';
 import { ServiceEntity } from '../../shared/services/database/entities/service.entity';
 import { ConfirmationComponent } from '../../shared/components/confirmation/confirmation.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Like } from 'typeorm';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -22,7 +22,8 @@ export class ServicesListComponent implements OnInit {
     private _fb: FormBuilder,
     private _databaseService: DatabaseService,
     private dialog: MatDialog,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private _snackBar: MatSnackBar) {
   }
 
   async ngOnInit() {
@@ -45,6 +46,9 @@ export class ServicesListComponent implements OnInit {
           });
       } catch (err) {
         console.error(err);
+        this._snackBar.open('Não foi possível carregar os serviços filtrados', 'OK', {
+          duration: 2000,
+        });
       }
     });
 
@@ -71,6 +75,9 @@ export class ServicesListComponent implements OnInit {
         });
     } catch (err) {
       console.error(err);
+      this._snackBar.open('Não foi possível carregar os serviços', 'OK', {
+        duration: 2000,
+      });
     }
   }
 
@@ -100,6 +107,9 @@ export class ServicesListComponent implements OnInit {
       });
     } catch (err) {
       console.error(err);
+      this._snackBar.open('Não foi possível desativar o serviço', 'OK', {
+        duration: 2000,
+      });
     }
   }
 }

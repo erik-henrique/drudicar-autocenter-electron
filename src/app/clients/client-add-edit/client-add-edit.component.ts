@@ -10,7 +10,7 @@ import IClient from '../../../shared/interfaces/client.interface';
 import { DatabaseService } from '../../../shared/services/database/database.service';
 import { ClientEntity } from '../../../shared/services/database/entities/client.entity';
 import { ConfirmationComponent } from '../../../shared/components/confirmation/confirmation.component';
-import Localization from 'src/shared/entities/zip.entity';
+import Localization from '../../../shared/entities/zip.entity';
 
 @Component({
   selector: 'app-client-add-edit',

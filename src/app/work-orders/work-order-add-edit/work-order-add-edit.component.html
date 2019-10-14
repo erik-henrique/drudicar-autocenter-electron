@@ -3,7 +3,7 @@
     <div style="float:right;margin: 0px;">
       <p style="margin: 0px;float:right;"><span style="font-weight: bold;" *ngIf="id.value"> Nº {{id.value}} -</span>
         Valor
-        Total <span style="font-weight: bold;">{{valorTotal | currency:'BRL' }}</span></p>
+        Total <span style="font-weight: bold;">{{totalValue | currency:'BRL' }}</span></p>
     </div>
     <mat-card-title *ngIf="!id">Cadastrar novo orçamento <mat-icon matSuffix>assignment</mat-icon>
     </mat-card-title>
@@ -97,23 +97,23 @@
     <mat-card-subtitle>Preecha todas as informações marcadas como *</mat-card-subtitle>
 
     <div formArrayName="services">
-      <div class="form-row" *ngFor="let servicoForm of servicoForms.controls; let i=index" [formGroupName]="i">
+      <div class="form-row" *ngFor="let serviceForm of serviceForms.controls; let i=index" [formGroupName]="i">
         <mat-form-field class="form__input" appearance="fill">
-          <mat-label>Serviço {{this.servicoForms.controls[i].value.name}}</mat-label>
+          <mat-label>Serviço {{this.serviceForms.controls[i].value.name}}</mat-label>
           <mat-select formControlName="name">
             <mat-option
-              *ngIf="servicoForms.controls[i].value.name && filterServices(servicoForms.controls[i].value.name)"
-              [value]="this.servicoForms.controls[i].value.name">
-              {{this.servicoForms.controls[i].value.name}}
+              *ngIf="serviceForms.controls[i].value.name && filterServices(serviceForms.controls[i].value.name)"
+              [value]="this.serviceForms.controls[i].value.name">
+              {{this.serviceForms.controls[i].value.name}}
             </mat-option>
-            <mat-option *ngFor="let servico of services" [value]="servico.name">
-              {{servico.name}}
+            <mat-option *ngFor="let service of services" [value]="service.name">
+              {{service.name}}
             </mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field class="form__input form__input--capitalize" appearance="fill">
           <mat-label>Valor</mat-label>
-          <input type="number" formControlName="preco" matInput placeholder="Preço">
+          <input type="number" formControlName="price" matInput placeholder="Preço">
         </mat-form-field>
         <button type="button" mat-icon-button aria-label="Adicionar serviço" style="float:right;margin-top: 12px;"
           [attr.disabled]="statusFromForm.value === STATUS.Canceled || statusFromForm.value === this.STATUS.Finished"
@@ -129,7 +129,7 @@
 
   <mat-card class="card--margin">
     <mat-card-title>Produtos <mat-icon matSuffix>assignment_turned_in</mat-icon>
-      <button type="button" mat-icon-button aria-label="Adicionar produto" style="float:right;"
+      <button type="button" mat-icon-button aria-label="Adicionar product" style="float:right;"
         [disabled]="statusFromForm.value === STATUS.Canceled || statusFromForm.value === this.STATUS.Finished"
         [attr.disabled]="statusFromForm.value === STATUS.Canceled || statusFromForm.value === this.STATUS.Finished"
         [color]="statusFromForm.value !== STATUS.Canceled && statusFromForm.value !== this.STATUS.Finished ? 'light-blue' : ''"
@@ -140,14 +140,18 @@
     <mat-card-subtitle>Preecha todas as informações marcadas como *</mat-card-subtitle>
 
     <div formArrayName="products">
-      <div class="form-row" *ngFor="let produtoForm of produtoForms.controls; let i=index" [formGroupName]="i">
+      <div class="form-row" *ngFor="let productForm of productForms.controls; let i=index" [formGroupName]="i">
         <mat-form-field class="form__input form__input--capitalize" appearance="fill">
           <mat-label>Produto</mat-label>
           <input type="text" formControlName="name" matInput placeholder="Produto">
         </mat-form-field>
         <mat-form-field class="form__input form__input--capitalize" appearance="fill">
-          <mat-label>Valor</mat-label>
-          <input type="number" formControlName="preco" matInput placeholder="Preço">
+          <mat-label>Quantidade</mat-label>
+          <input type="number" formControlName="amount" matInput placeholder="Quantidade">
+        </mat-form-field>
+        <mat-form-field class="form__input form__input--capitalize" appearance="fill">
+          <mat-label>Valor Unitário</mat-label>
+          <input type="number" formControlName="price" matInput placeholder="Preço">
         </mat-form-field>
         <button type="button" mat-icon-button aria-label="Adicionar serviço" style="float:right;margin-top: 12px;"
           [disabled]="statusFromForm.value === STATUS.Canceled || statusFromForm.value === this.STATUS.Finished"

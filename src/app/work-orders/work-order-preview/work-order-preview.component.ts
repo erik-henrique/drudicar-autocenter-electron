@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import Pdf from 'src/shared/entities/pdf.entity';
+import Pdf from '../../../shared/entities/pdf.entity';
 
 @Component({
   selector: 'app-work-order-preview',
@@ -10,30 +10,31 @@ export class WorkOrderPreviewComponent implements OnInit {
   services = [
     {
       name: 'Troca de óleo',
-      preco: 20,
+      price: 20,
     },
     {
       name: 'Troca de motor',
-      preco: 200,
+      price: 200,
     },
     {
       name: 'Troca de pneu',
-      preco: 40,
+      price: 40,
     }
   ];
 
   products = [
     {
       name: 'Yamalube',
-      preco: 20,
+      price: 20,
     },
     {
       name: 'Porca aleatória',
-      preco: 3,
+      price: 3,
     }
   ];
 
   public canvas: any;
+
   constructor() { }
 
   ngOnInit() {
@@ -109,39 +110,39 @@ export class WorkOrderPreviewComponent implements OnInit {
     const obs = 'Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado';
 
     const services = [
-      { servico: 'Troca de óleo', valor: 'R$ 10' },
-      { servico: 'Troca de pneu', valor: 'R$ 20' },
-      { servico: 'Troca de pneu', valor: 'R$ 50' },
-      { servico: 'Troca de pneu', valor: 'R$ 20' },
-      { servico: 'Troca de pneu', valor: 'R$ 50' },
-      { servico: 'Troca de pneu', valor: 'R$ 20' },
-      { servico: 'Troca de pneu', valor: 'R$ 50' },
-      { servico: 'Troca de pneu', valor: 'R$ 20' },
-      { servico: 'Troca de pneu', valor: 'R$ 50' },
-      { servico: 'Troca de pneu', valor: 'R$ 20' },
-      { servico: 'Troca de pneu', valor: 'R$ 50' },
-      { servico: 'Troca de pneu', valor: 'R$ 20' },
-      { servico: 'Troca de pneu', valor: 'R$ 50' },
-      { servico: 'Troca de pneu', valor: 'R$ 20' },
-      // { servico: 'Troca de pneu', valor: 'R$ 50' },
-      // { servico: 'Troca de pneu', valor: 'R$ 20' },
-      // { servico: 'Troca de pneu', valor: 'R$ 50' },
-      // { servico: 'Troca de pneu', valor: 'R$ 20' },
-      // { servico: 'Troca de pneu', valor: 'R$ 50' },
-      { servico: 'Total', valor: 'R$ 80' }
+      { service: 'Troca de óleo', valor: 'R$ 10' },
+      { service: 'Troca de pneu', valor: 'R$ 20' },
+      { service: 'Troca de pneu', valor: 'R$ 50' },
+      { service: 'Troca de pneu', valor: 'R$ 20' },
+      { service: 'Troca de pneu', valor: 'R$ 50' },
+      { service: 'Troca de pneu', valor: 'R$ 20' },
+      { service: 'Troca de pneu', valor: 'R$ 50' },
+      { service: 'Troca de pneu', valor: 'R$ 20' },
+      { service: 'Troca de pneu', valor: 'R$ 50' },
+      { service: 'Troca de pneu', valor: 'R$ 20' },
+      { service: 'Troca de pneu', valor: 'R$ 50' },
+      { service: 'Troca de pneu', valor: 'R$ 20' },
+      { service: 'Troca de pneu', valor: 'R$ 50' },
+      { service: 'Troca de pneu', valor: 'R$ 20' },
+      // { service: 'Troca de pneu', valor: 'R$ 50' },
+      // { service: 'Troca de pneu', valor: 'R$ 20' },
+      // { service: 'Troca de pneu', valor: 'R$ 50' },
+      // { service: 'Troca de pneu', valor: 'R$ 20' },
+      // { service: 'Troca de pneu', valor: 'R$ 50' },
+      { service: 'Total', valor: 'R$ 80' }
     ];
 
     const products = [
-      { produto: 'Troca de óleo', valor: 'R$ 10' },
-      { produto: 'Troca de pneu', valor: 'R$ 20' },
-      // { produto: 'Troca de pneu', valor: 'R$ 210' },
-      // { produto: 'Troca de pneu', valor: 'R$ 210' },
-      // { produto: 'Troca de pneu', valor: 'R$ 20' },
-      // { produto: 'Troca de pneu', valor: 'R$ 20' },
-      // { produto: 'Troca de pneu', valor: 'R$ 210' },
-      // { produto: 'Troca de pneu', valor: 'R$ 20' },
-      // { produto: 'Troca de pneu', valor: 'R$ 20' },
-      { produto: 'Total', valor: 'R$ 50' }
+      { product: 'Troca de óleo', valor: 'R$ 10' },
+      { product: 'Troca de pneu', valor: 'R$ 20' },
+      // { product: 'Troca de pneu', valor: 'R$ 210' },
+      // { product: 'Troca de pneu', valor: 'R$ 210' },
+      // { product: 'Troca de pneu', valor: 'R$ 20' },
+      // { product: 'Troca de pneu', valor: 'R$ 20' },
+      // { product: 'Troca de pneu', valor: 'R$ 210' },
+      // { product: 'Troca de pneu', valor: 'R$ 20' },
+      // { product: 'Troca de pneu', valor: 'R$ 20' },
+      { product: 'Total', valor: 'R$ 50' }
     ];
 
     const firstPageServicos = services.splice(0, 17);
@@ -151,7 +152,7 @@ export class WorkOrderPreviewComponent implements OnInit {
       theme: 'plain',
       margin: { top: 130, left: 30, right: 10 },
       body: firstPageServicos,
-      columns: [{ header: 'Serviço', dataKey: 'servico' }, { header: 'Valor', dataKey: 'valor' }],
+      columns: [{ header: 'Serviço', dataKey: 'service' }, { header: 'Valor', dataKey: 'valor' }],
       didParseCell: (hookData) => {
         if (hookData.row.index === hookData.table.body.length - 1 && !services.length) {
           hookData.cell.styles.fontStyle = 'bold';
@@ -166,7 +167,7 @@ export class WorkOrderPreviewComponent implements OnInit {
             theme: 'plain',
             margin: { top: 10, left: 30, right: 10 },
             body: services,
-            columns: [{ header: 'Serviço', dataKey: 'servico' }, { header: 'Valor', dataKey: 'valor' }],
+            columns: [{ header: 'Serviço', dataKey: 'service' }, { header: 'Valor', dataKey: 'valor' }],
             didParseCell: (hookData) => {
               if (hookData.row.index === hookData.table.body.length - 1) {
                 hookData.cell.styles.fontStyle = 'bold';
@@ -185,7 +186,7 @@ export class WorkOrderPreviewComponent implements OnInit {
                 margin: { top: hookData.cursor.y + 20, left: 30, right: 10 },
                 body: firstPageProdutos.length ? firstPageProdutos : products,
                 columns: [
-                  { header: 'Produto', dataKey: 'produto' },
+                  { header: 'Produto', dataKey: 'product' },
                   { header: 'Valor', dataKey: 'valor' }
                 ],
                 didParseCell: (hookData) => {
@@ -207,7 +208,7 @@ export class WorkOrderPreviewComponent implements OnInit {
                       margin: { top: hookData.cursor.y + 20, left: 30, right: 10 },
                       body: products,
                       columns: [
-                        { header: 'Produto', dataKey: 'produto' },
+                        { header: 'Produto', dataKey: 'product' },
                         { header: 'Valor', dataKey: 'valor' }
                       ],
                       didParseCell: (hookData) => {
@@ -242,7 +243,7 @@ export class WorkOrderPreviewComponent implements OnInit {
             theme: 'plain',
             margin: { top: y + 20, left: 30, right: 10 },
             body: firstPageProdutos.length ? firstPageProdutos : products,
-            columns: [{ header: 'Produto', dataKey: 'produto' }, { header: 'Valor', dataKey: 'valor' }],
+            columns: [{ header: 'Produto', dataKey: 'product' }, { header: 'Valor', dataKey: 'valor' }],
             didParseCell: (hookData) => {
               if (hookData.row.index === hookData.table.body.length - 1 && !products.length) {
                 hookData.cell.styles.fontStyle = 'bold';
@@ -258,7 +259,7 @@ export class WorkOrderPreviewComponent implements OnInit {
                   margin: { top: 10, left: 30, right: 10 },
                   body: products,
                   columns: [
-                    { header: 'Produto', dataKey: 'produto' },
+                    { header: 'Produto', dataKey: 'product' },
                     { header: 'Valor', dataKey: 'valor' }
                   ],
                   didParseCell: (hookData) => {
@@ -278,7 +279,6 @@ export class WorkOrderPreviewComponent implements OnInit {
         }
       }
     });
-
 
     pdfDoc.doc.save('asdsada.pdf');
   }

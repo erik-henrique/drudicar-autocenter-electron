@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { distinctUntilChanged } from 'rxjs/operators';
 
@@ -61,7 +61,8 @@ export class WorkOrderAddEditComponent implements OnInit {
     private _databaseService: DatabaseService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private _snackBar: MatSnackBar) {
   }
 
   async ngOnInit() {
@@ -99,6 +100,9 @@ export class WorkOrderAddEditComponent implements OnInit {
             });
         } catch (err) {
           console.error(err);
+          this._snackBar.open('Não foi possível carregar os veículos', 'OK', {
+            duration: 2000,
+          });
         }
       });
 
@@ -114,38 +118,39 @@ export class WorkOrderAddEditComponent implements OnInit {
     });
   }
 
-  get servicoForms() {
+  get serviceForms() {
     return this.orcamentoForm.get('services') as FormArray;
   }
 
   addService() {
-    const servico = this._fb.group({
+    const service = this._fb.group({
       name: [null, Validators.required],
-      preco: null
+      price: [null, Validators.required]
     });
 
-    this.servicoForms.push(servico);
+    this.serviceForms.push(service);
   }
 
   deleteService(i) {
-    this.servicoForms.removeAt(i);
+    this.serviceForms.removeAt(i);
   }
 
-  get produtoForms() {
+  get productForms() {
     return this.orcamentoForm.get('products') as FormArray;
   }
 
   addProduct() {
-    const produto = this._fb.group({
+    const product = this._fb.group({
       name: [null, Validators.required],
-      preco: null
+      price: [null, Validators.required],
+      amount: [null, Validators.required]
     });
 
-    this.produtoForms.push(produto);
+    this.productForms.push(product);
   }
 
   deleteProduct(i) {
-    this.produtoForms.removeAt(i);
+    this.productForms.removeAt(i);
   }
 
   get vehicle() {
@@ -168,7 +173,7 @@ export class WorkOrderAddEditComponent implements OnInit {
     return this.services.find(s => s.name === value) ? false : true;
   }
 
-  get valorTotal() {
+  get totalValue() {
     const products = this.orcamentoForm.get('products') as FormArray;
     const services = this.orcamentoForm.get('services') as FormArray;
 
@@ -177,21 +182,20 @@ export class WorkOrderAddEditComponent implements OnInit {
     }
 
     if (products.value.length && !services.value.length) {
-      return parseFloat(products.value
-        .map(value => value.preco)
+      return parseFloat(products.value.map(product => product.price * product.amount)
         .reduce((accum, curr) => accum + curr));
     }
 
     if (!products.value.length && services.value.length) {
       return parseFloat(services.value
-        .map(value => value.preco)
+        .map(value => value.price ? value.price : 0)
         .reduce((accum, curr) => accum + curr));
     }
 
     return parseFloat(products.value
-      .map(value => value.preco)
+      .map(product => product.price * product.amount)
       .reduce((accum, curr) => accum + curr) + services.value
-        .map(value => value.preco)
+        .map(value => value.price)
         .reduce((accum, curr) => accum + curr));
   }
 
@@ -209,6 +213,9 @@ export class WorkOrderAddEditComponent implements OnInit {
         });
     } catch (err) {
       console.error(err);
+      this._snackBar.open('Não foi possível carregar os clientes', 'OK', {
+        duration: 2000,
+      });
     }
   }
 
@@ -226,6 +233,9 @@ export class WorkOrderAddEditComponent implements OnInit {
         });
     } catch (err) {
       console.error(err);
+      this._snackBar.open('Não foi possível carregar os serviços', 'OK', {
+        duration: 2000,
+      });
     }
   }
 
@@ -241,14 +251,15 @@ export class WorkOrderAddEditComponent implements OnInit {
           delete workOrder.services;
           delete workOrder.products;
 
-          services.forEach(s => this.servicoForms.push(this._fb.group({
+          services.forEach(s => this.serviceForms.push(this._fb.group({
             name: [s.name, Validators.required],
-            preco: s.preco
+            price: [s.price, Validators.required]
           })));
 
-          products.forEach(p => this.produtoForms.push(this._fb.group({
+          products.forEach(p => this.productForms.push(this._fb.group({
             name: [p.name, Validators.required],
-            preco: p.preco
+            price: [p.price, Validators.required],
+            amount: [p.amount, Validators.required]
           })));
 
           console.log(workOrder);
@@ -306,6 +317,9 @@ export class WorkOrderAddEditComponent implements OnInit {
       });
     } catch (err) {
       console.error(err);
+      this._snackBar.open('Não foi possível cancelar', 'OK', {
+        duration: 2000,
+      });
     }
   }
 
@@ -339,6 +353,9 @@ export class WorkOrderAddEditComponent implements OnInit {
       });
     } catch (err) {
       console.error(err);
+      this._snackBar.open('Não foi possível cancelar', 'OK', {
+        duration: 2000,
+      });
     }
   }
 
@@ -369,6 +386,9 @@ export class WorkOrderAddEditComponent implements OnInit {
       }
     } catch (err) {
       console.error(err);
+      this._snackBar.open('Não foi possível salvar', 'OK', {
+        duration: 2000,
+      });
     }
   }
 }

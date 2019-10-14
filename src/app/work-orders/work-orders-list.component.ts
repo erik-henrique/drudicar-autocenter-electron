@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { Like, In } from 'typeorm';
@@ -33,7 +33,8 @@ export class WorkOrdersComponent implements OnInit {
     private _databaseService: DatabaseService,
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private _snackBar: MatSnackBar) {
   }
 
   async ngOnInit() {
@@ -63,7 +64,6 @@ export class WorkOrdersComponent implements OnInit {
                     }
                   });
 
-                console.log(workOrders);
                 this.workOrders = workOrders as IWorkOrder[];
               }
             }).finally(() => {
@@ -71,6 +71,9 @@ export class WorkOrdersComponent implements OnInit {
             });
         } catch (err) {
           console.error(err);
+          this._snackBar.open('Não foi possível carregar os veículos filtrados', 'OK', {
+            duration: 2000,
+          });
         }
       });
 
@@ -100,6 +103,9 @@ export class WorkOrdersComponent implements OnInit {
             });
         } catch (err) {
           console.error(err);
+          this._snackBar.open('Não foi possível carregar os clientes filtrados', 'OK', {
+            duration: 2000,
+          });
         }
       });
 
@@ -141,6 +147,9 @@ export class WorkOrdersComponent implements OnInit {
         });
     } catch (err) {
       console.error(err);
+      this._snackBar.open('Não foi possível carregar os dados', 'OK', {
+        duration: 2000,
+      });
     }
   }
 
@@ -171,6 +180,9 @@ export class WorkOrdersComponent implements OnInit {
       });
     } catch (err) {
       console.error(err);
+      this._snackBar.open('Não foi possível cancelar', 'OK', {
+        duration: 2000,
+      });
     }
   }
 }

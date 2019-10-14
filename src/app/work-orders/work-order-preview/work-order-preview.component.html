@@ -65,17 +65,17 @@
     <mat-divider></mat-divider>
     <mat-list>
         <h3 mat-subheader>Serviços</h3>
-        <mat-list-item *ngFor="let servico of services">
+        <mat-list-item *ngFor="let service of services">
             <mat-icon mat-list-icon>build</mat-icon>
-            <h4 mat-line>{{servico.name}}</h4>
-            <p mat-line> {{servico.preco | currency:'BRL'}} </p>
+            <h4 mat-line>{{service.name}}</h4>
+            <p mat-line> {{service.price | currency:'BRL'}} </p>
         </mat-list-item>
         <mat-divider></mat-divider>
         <h3 mat-subheader>Produtos</h3>
-        <mat-list-item *ngFor="let produto of products">
+        <mat-list-item *ngFor="let product of products">
             <mat-icon mat-list-icon>assignment_turned_in</mat-icon>
-            <h4 mat-line>{{produto.name}}</h4>
-            <p mat-line> {{produto.preco | currency:'BRL'}} </p>
+            <h4 mat-line>{{product.name}}</h4>
+            <p mat-line> {{product.price | currency:'BRL'}} </p>
         </mat-list-item>
     </mat-list>
 </mat-card>

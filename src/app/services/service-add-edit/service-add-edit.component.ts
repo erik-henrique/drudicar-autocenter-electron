@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 
 import IService from '../../../shared/interfaces/service.interface';
 import { DatabaseService } from '../../../shared/services/database/database.service';
@@ -22,7 +22,8 @@ export class ServiceAddEditComponent implements OnInit {
     private _fb: FormBuilder,
     private _databaseService: DatabaseService,
     private route: ActivatedRoute,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+    private _snackBar: MatSnackBar) {
   }
 
   async ngOnInit() {
@@ -33,7 +34,6 @@ export class ServiceAddEditComponent implements OnInit {
       ]],
       status: true
     });
-
 
     this.route.paramMap.subscribe(async params => {
       this.id.patchValue(parseInt(params['params'].id, null));
@@ -65,6 +65,9 @@ export class ServiceAddEditComponent implements OnInit {
         });
     } catch (err) {
       console.error(err);
+      this._snackBar.open('Não foi possível carregar o serviço', 'OK', {
+        duration: 2000,
+      });
     }
   }
 
@@ -96,6 +99,9 @@ export class ServiceAddEditComponent implements OnInit {
       });
     } catch (err) {
       console.error(err);
+      this._snackBar.open('Não foi possível desativar o serviço', 'OK', {
+        duration: 2000,
+      });
     }
   }
 
@@ -127,6 +133,9 @@ export class ServiceAddEditComponent implements OnInit {
       });
     } catch (err) {
       console.error(err);
+      this._snackBar.open('Não foi possível ativar o serviço', 'OK', {
+        duration: 2000,
+      });
     }
   }
 
@@ -150,6 +159,9 @@ export class ServiceAddEditComponent implements OnInit {
       }
     } catch (err) {
       console.error(err);
+      this._snackBar.open('Não foi possível salvar o serviço', 'OK', {
+        duration: 2000,
+      });
     }
   }
 }

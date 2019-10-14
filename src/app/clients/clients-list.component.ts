@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Like } from 'typeorm';
@@ -23,7 +23,8 @@ export class ClientsListComponent implements OnInit {
     private _databaseService: DatabaseService,
     private dialog: MatDialog,
     private _fb: FormBuilder,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private _snackBar: MatSnackBar) {
   }
 
   async ngOnInit() {
@@ -48,6 +49,9 @@ export class ClientsListComponent implements OnInit {
           });
       } catch (err) {
         console.error(err);
+        this._snackBar.open('Não foi possível carregar os clientes filtrando pelo nome', 'OK', {
+          duration: 2000,
+        });
       }
     });
 
@@ -68,6 +72,9 @@ export class ClientsListComponent implements OnInit {
             });
         } catch (err) {
           console.error(err);
+          this._snackBar.open('Não foi possível carregar os clientes filtrando por CPF', 'OK', {
+            duration: 2000,
+          });
         }
       });
 
@@ -88,6 +95,9 @@ export class ClientsListComponent implements OnInit {
         });
     } catch (err) {
       console.error(err);
+      this._snackBar.open('Não foi possível carregar os clientes', 'OK', {
+        duration: 2000,
+      });
     }
   }
 
@@ -124,6 +134,9 @@ export class ClientsListComponent implements OnInit {
       });
     } catch (err) {
       console.error(err);
+      this._snackBar.open('Não foi possível desativar o cliente', 'OK', {
+        duration: 2000,
+      });
     }
   }
 }

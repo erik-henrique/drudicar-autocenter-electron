@@ -7,6 +7,7 @@ import IVehicle from '../../shared/interfaces/vehicle.interface';
 import { DatabaseService } from '../../shared/services/database/database.service';
 import { VehicleEntity } from '../../shared/services/database/entities/vehicle.entity';
 import { ConfirmationComponent } from '../../shared/components/confirmation/confirmation.component';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-vehicles-list',
@@ -14,14 +15,27 @@ import { ConfirmationComponent } from '../../shared/components/confirmation/conf
   styleUrls: ['./vehicles-list.component.scss']
 })
 export class VehiclesListComponent implements OnInit {
-  displayedColumns: string[] = ['carLicense', 'model', 'brand', 'color', 'year', 'yearModel', 'state', 'district', 'chassis', 'edit', 'delete'];
+  displayedColumns: string[] = ['carLicense',
+    'model',
+    'brand',
+    'color',
+    'year',
+    'yearModel',
+    'state',
+    'district',
+    'chassis',
+    'edit',
+    'delete'];
   dataSource = new MatTableDataSource<IVehicle>();
 
   @ViewChild(MatPaginator, null) paginator: MatPaginator;
 
   @Input() clientId: number;
 
-  constructor(private dialog: MatDialog, private _databaseService: DatabaseService) { }
+  constructor(
+    private dialog: MatDialog,
+    private _databaseService: DatabaseService,
+    private _snackBar: MatSnackBar) { }
 
   async ngOnInit() {
     await this.getVehicles();
@@ -38,6 +52,9 @@ export class VehiclesListComponent implements OnInit {
         });
     } catch (err) {
       console.error(err);
+      this._snackBar.open('Não foi possível carregar o veículo', 'OK', {
+        duration: 2000,
+      });
     }
   }
 
@@ -67,6 +84,9 @@ export class VehiclesListComponent implements OnInit {
       });
     } catch (err) {
       console.error(err);
+      this._snackBar.open('Não foi possível desativar o veículo', 'OK', {
+        duration: 2000,
+      });
     }
   }
 
@@ -83,6 +103,9 @@ export class VehiclesListComponent implements OnInit {
       });
     } catch (err) {
       console.error(err);
+      this._snackBar.open('Não foi possível ir para edição do veículo', 'OK', {
+        duration: 2000,
+      });
     }
   }
 }
