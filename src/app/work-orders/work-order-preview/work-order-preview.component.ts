@@ -1,10 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import Pdf from '../../../shared/entities/pdf.entity';
+import { DatabaseService } from '../../../shared/services/database/database.service';
+import { WorkOrderEntity } from '../../../shared/services/database/entities/work-order.entity';
+import IWorkOrder from '../../../shared/interfaces/work-order.interface';
+import { MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
+import { MaskService } from 'ngx-mask';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-work-order-preview',
   templateUrl: './work-order-preview.component.html',
-  styleUrls: ['./work-order-preview.component.scss']
+  styleUrls: ['./work-order-preview.component.scss'],
+  providers: [MaskService, CurrencyPipe]
 })
 export class WorkOrderPreviewComponent implements OnInit {
   services = [
@@ -33,11 +40,19 @@ export class WorkOrderPreviewComponent implements OnInit {
     }
   ];
 
+  public workOrder: IWorkOrder;
   public canvas: any;
 
-  constructor() { }
+  constructor(
+    private _databaseService: DatabaseService,
+    private _snackBar: MatSnackBar,
+    private maskService: MaskService,
+    private currencyPipe: CurrencyPipe,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.getWorkOrder(this.data);
+
     this.canvas = document.getElementById('canvasLogo') as any;
     const context = this.canvas.getContext('2d');
 
@@ -48,14 +63,87 @@ export class WorkOrderPreviewComponent implements OnInit {
     };
   }
 
+  get totalValue() {
+    if (!this.workOrder.products.length && !this.workOrder.services.length) {
+      return 0;
+    }
+
+    if (this.workOrder.products.length && !this.workOrder.services.length) {
+      return parseFloat(this.workOrder.products.map(product => product.price * product.amount)
+        .reduce((accum, curr) => accum + curr));
+    }
+
+    if (!this.workOrder.products.length && this.workOrder.services.length) {
+      return parseFloat(this.workOrder.services
+        .map(value => value.price ? value.price : 0)
+        .reduce((accum, curr) => accum + curr));
+    }
+
+    return parseFloat(this.workOrder.products
+      .map(product => product.price * product.amount)
+      .reduce((accum, curr) => accum + curr) + this.workOrder.services
+        .map(value => value.price)
+        .reduce((accum, curr) => accum + curr));
+  }
+
+  public getTotalServicePrice() {
+    if (this.workOrder.services.length) {
+      return parseFloat(this.workOrder.services
+        .map(value => value.price ? value.price : 0)
+        .reduce((accum, curr) => accum + curr));
+    }
+
+    return 0;
+  }
+
+  public getTotalProductsPrice() {
+    if (this.workOrder.products.length) {
+      return parseFloat(this.workOrder.products.map(product => product.price * product.amount)
+        .reduce((accum, curr) => accum + curr));
+    }
+
+    return 0;
+  }
+
+  async getWorkOrder(id: number) {
+    try {
+      await this._databaseService
+        .connection
+        .then(async () => {
+          const workOrder = await WorkOrderEntity.findOne(id, { relations: ['vehicle', 'vehicle.client'] });
+          workOrder.services = JSON.parse(workOrder.services);
+          workOrder.products = JSON.parse(workOrder.products);
+          this.workOrder = workOrder;
+
+          console.log(this.workOrder);
+        });
+    } catch (err) {
+      console.error(err);
+      this._snackBar.open('Não foi possível carregar', 'OK', {
+        duration: 2000,
+      });
+    }
+  }
+
   public downloadWorkOrderPreview() {
     const pdfDoc = new Pdf();
 
-    pdfDoc.addLabelAndValue({ startX: 10, startY: 10, endX: 63, endY: 10, label: 'Ordem de serviço Nº:', value: '2' });
+    pdfDoc.addLabelAndValue(
+      {
+        startX: 10, startY: 10, endX: 15, endY: 10, label: `${this.workOrder.type}`,
+        value: ''
+      });
+
+
+    pdfDoc.addLabelAndValue(
+      {
+        startX: 10, startY: 15, endX: 18, endY: 15, label: 'Nº:',
+        value: this.workOrder.id.toString()
+      });
 
     pdfDoc.doc.setFontSize(12);
     pdfDoc.doc.setFontType('bold');
-    pdfDoc.doc.text(160, 10, 'Em Andamento');
+    pdfDoc.doc.text(150, 10, this.workOrder.status);
 
     pdfDoc.doc.addImage(this.canvas.toDataURL(), 'PNG', 90, 10, 150, 140);
 
@@ -69,10 +157,16 @@ export class WorkOrderPreviewComponent implements OnInit {
 
     pdfDoc.addDot({ startX: 10, startY: 42, endX: 200, endY: 42 });
 
-    pdfDoc.addLabelAndValue({ startX: 10, startY: 50, endX: 27, endY: 50, label: 'Cliente:', value: 'Ericson' });
-    pdfDoc.addLabelAndValue({ startX: 10, startY: 55, endX: 22, endY: 55, label: 'CPF:', value: '469.520.628-58' });
-    pdfDoc.addLabelAndValue({ startX: 75, startY: 55, endX: 90, endY: 55, label: 'E-mail:', value: 'erik.hac@outlook.com' });
-    pdfDoc.addLabelAndValue({ startX: 10, startY: 60, endX: 28, endY: 60, label: 'Contato:', value: '19 99900-1945' });
+    pdfDoc.addLabelAndValue({ startX: 10, startY: 50, endX: 27, endY: 50, label: 'Cliente:', value: this.workOrder.vehicle.client.name });
+    pdfDoc.addLabelAndValue({
+      startX: 10, startY: 55, endX: 22, endY: 55, label: 'CPF:',
+      value: this.maskService.applyMask(this.workOrder.vehicle.client.individualRegistration, '000.000.000-00')
+    });
+    pdfDoc.addLabelAndValue({ startX: 75, startY: 55, endX: 90, endY: 55, label: 'E-mail:', value: this.workOrder.vehicle.client.email });
+    pdfDoc.addLabelAndValue({
+      startX: 10, startY: 60, endX: 28, endY: 60, label: 'Contato:',
+      value: this.maskService.applyMask(this.workOrder.vehicle.client.cellphone, '(00) 00000-0000')
+    });
 
     pdfDoc.doc.setLineDash([]);
 
@@ -84,66 +178,48 @@ export class WorkOrderPreviewComponent implements OnInit {
     pdfDoc.doc.line(100, 80, 100, 110);
 
     pdfDoc.titleFontSize = 12;
-    pdfDoc.textFontSize = 10;
+    pdfDoc.textFontSize = 12;
 
-    pdfDoc.addLabelAndValue({ startX: 15, startY: 87, endX: 30, endY: 87, label: 'Placa:', value: 'FZC-6504' });
-    pdfDoc.addLabelAndValue({ startX: 105, startY: 87, endX: 115, endY: 87, label: 'Cor:', value: 'BRANCA' });
+    pdfDoc.addLabelAndValue({
+      startX: 15, startY: 87, endX: 30, endY: 87, label: 'Placa:',
+      value: this.maskService.applyMask(this.workOrder.vehicle.carLicense.toUpperCase(), 'AAA-0000')
+    });
+    pdfDoc.addLabelAndValue({
+      startX: 105, startY: 87, endX: 115, endY: 87, label: 'Cor:', value: this.workOrder.vehicle.color.toUpperCase()
+    });
 
     pdfDoc.doc.line(10, 90, 200, 90);
 
-    pdfDoc.addLabelAndValue({ startX: 15, startY: 97, endX: 35, endY: 97, label: 'Modelo:', value: 'FAZER SED 150 UBS' });
-    pdfDoc.addLabelAndValue({ startX: 105, startY: 97, endX: 120, endY: 97, label: 'Marca:', value: 'YAMAHA' });
+    pdfDoc.addLabelAndValue({
+      startX: 15, startY: 97, endX: 35, endY: 97, label: 'Modelo:', value: this.workOrder.vehicle.model.toUpperCase()
+    });
+    pdfDoc.addLabelAndValue({
+      startX: 105, startY: 97, endX: 120, endY: 97, label: 'Marca:', value: this.workOrder.vehicle.brand.toUpperCase()
+    });
 
     pdfDoc.doc.line(10, 100, 200, 100);
 
-    pdfDoc.addLabelAndValue({ startX: 15, startY: 107, endX: 30, endY: 107, label: 'Ano:', value: '2018' });
-    pdfDoc.addLabelAndValue({ startX: 105, startY: 107, endX: 135, endY: 107, label: 'Ano model:', value: '2019' });
+    pdfDoc.addLabelAndValue({
+      startX: 15, startY: 107, endX: 30, endY: 107, label: 'Ano:', value: this.workOrder.vehicle.year.getFullYear().toString()
+    });
+    pdfDoc.addLabelAndValue({
+      startX: 105, startY: 107, endX: 135, endY: 107, label: 'Ano modelo:', value: this.workOrder.vehicle.yearModel.getFullYear().toString()
+    });
 
     pdfDoc.titleFontSize = 14;
     pdfDoc.textFontSize = 12;
     pdfDoc.doc.setFontSize(12);
 
     pdfDoc.doc.setFontType('bold');
-    pdfDoc.doc.text(92, 125, 'Serviços');
+    pdfDoc.doc.text(10, 125, 'Serviços');
     pdfDoc.doc.setFontType('normal');
 
-    const obs = 'Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado';
+    const services = Object.assign([], this.workOrder.services);
 
-    const services = [
-      { service: 'Troca de óleo', valor: 'R$ 10' },
-      { service: 'Troca de pneu', valor: 'R$ 20' },
-      { service: 'Troca de pneu', valor: 'R$ 50' },
-      { service: 'Troca de pneu', valor: 'R$ 20' },
-      { service: 'Troca de pneu', valor: 'R$ 50' },
-      { service: 'Troca de pneu', valor: 'R$ 20' },
-      { service: 'Troca de pneu', valor: 'R$ 50' },
-      { service: 'Troca de pneu', valor: 'R$ 20' },
-      { service: 'Troca de pneu', valor: 'R$ 50' },
-      { service: 'Troca de pneu', valor: 'R$ 20' },
-      { service: 'Troca de pneu', valor: 'R$ 50' },
-      { service: 'Troca de pneu', valor: 'R$ 20' },
-      { service: 'Troca de pneu', valor: 'R$ 50' },
-      { service: 'Troca de pneu', valor: 'R$ 20' },
-      // { service: 'Troca de pneu', valor: 'R$ 50' },
-      // { service: 'Troca de pneu', valor: 'R$ 20' },
-      // { service: 'Troca de pneu', valor: 'R$ 50' },
-      // { service: 'Troca de pneu', valor: 'R$ 20' },
-      // { service: 'Troca de pneu', valor: 'R$ 50' },
-      { service: 'Total', valor: 'R$ 80' }
-    ];
+    const products = Object.assign([], this.workOrder.products);
 
-    const products = [
-      { product: 'Troca de óleo', valor: 'R$ 10' },
-      { product: 'Troca de pneu', valor: 'R$ 20' },
-      // { product: 'Troca de pneu', valor: 'R$ 210' },
-      // { product: 'Troca de pneu', valor: 'R$ 210' },
-      // { product: 'Troca de pneu', valor: 'R$ 20' },
-      // { product: 'Troca de pneu', valor: 'R$ 20' },
-      // { product: 'Troca de pneu', valor: 'R$ 210' },
-      // { product: 'Troca de pneu', valor: 'R$ 20' },
-      // { product: 'Troca de pneu', valor: 'R$ 20' },
-      { product: 'Total', valor: 'R$ 50' }
-    ];
+    services.push({ name: 'Total', price: this.getTotalServicePrice() });
+    products.push({ name: 'Total', price: this.getTotalProductsPrice() });
 
     const firstPageServicos = services.splice(0, 17);
 
@@ -152,7 +228,10 @@ export class WorkOrderPreviewComponent implements OnInit {
       theme: 'plain',
       margin: { top: 130, left: 30, right: 10 },
       body: firstPageServicos,
-      columns: [{ header: 'Serviço', dataKey: 'service' }, { header: 'Valor', dataKey: 'valor' }],
+      columns: [
+        { header: 'Serviço', dataKey: 'name' },
+        { header: 'R$', dataKey: 'price' }
+      ],
       didParseCell: (hookData) => {
         if (hookData.row.index === hookData.table.body.length - 1 && !services.length) {
           hookData.cell.styles.fontStyle = 'bold';
@@ -167,7 +246,9 @@ export class WorkOrderPreviewComponent implements OnInit {
             theme: 'plain',
             margin: { top: 10, left: 30, right: 10 },
             body: services,
-            columns: [{ header: 'Serviço', dataKey: 'service' }, { header: 'Valor', dataKey: 'valor' }],
+            columns: [{ header: 'Serviço', dataKey: 'name' },
+            { header: 'R$', dataKey: 'price' },
+            ],
             didParseCell: (hookData) => {
               if (hookData.row.index === hookData.table.body.length - 1) {
                 hookData.cell.styles.fontStyle = 'bold';
@@ -177,17 +258,18 @@ export class WorkOrderPreviewComponent implements OnInit {
               const firstPageProdutos = products.splice(0, 17 - services.length);
 
               pdfDoc.doc.setFontType('bold');
-              pdfDoc.doc.text(92, hookData.cursor.y + 15, 'Produtos');
+              pdfDoc.doc.text(10, hookData.cursor.y + 15, 'Produtos');
               pdfDoc.doc.setFontType('normal');
 
               pdfDoc.doc.autoTable({
                 styles: { fontSize: 12 },
                 theme: 'plain',
-                margin: { top: hookData.cursor.y + 20, left: 30, right: 10 },
+                margin: { top: hookData.cursor.y + 20, left: 17.5, right: 10 },
                 body: firstPageProdutos.length ? firstPageProdutos : products,
                 columns: [
-                  { header: 'Produto', dataKey: 'product' },
-                  { header: 'Valor', dataKey: 'valor' }
+                  { header: 'Produto', dataKey: 'name' },
+                  { header: 'Quantidade', dataKey: 'amount' },
+                  { header: 'R$', dataKey: 'price' },
                 ],
                 didParseCell: (hookData) => {
                   if (hookData.row.index === hookData.table.body.length - 1) {
@@ -199,17 +281,18 @@ export class WorkOrderPreviewComponent implements OnInit {
                     pdfDoc.doc.addPage();
 
                     pdfDoc.doc.setFontType('bold');
-                    pdfDoc.doc.text(92, hookData.cursor.y + 15, 'Produtos');
+                    pdfDoc.doc.text(10, hookData.cursor.y + 15, 'Produtos');
                     pdfDoc.doc.setFontType('normal');
 
                     pdfDoc.doc.autoTable({
                       styles: { fontSize: 12 },
                       theme: 'plain',
-                      margin: { top: hookData.cursor.y + 20, left: 30, right: 10 },
+                      margin: { top: hookData.cursor.y + 20, left: 17.5, right: 10 },
                       body: products,
                       columns: [
-                        { header: 'Produto', dataKey: 'product' },
-                        { header: 'Valor', dataKey: 'valor' }
+                        { header: 'Produto', dataKey: 'name' },
+                        { header: 'Quantidade', dataKey: 'amount' },
+                        { header: 'R$', dataKey: 'price' },
                       ],
                       didParseCell: (hookData) => {
                         if (hookData.row.index === hookData.table.body.length - 1) {
@@ -217,11 +300,11 @@ export class WorkOrderPreviewComponent implements OnInit {
                         }
                       },
                       didDrawPage: (hookData) => {
-                        this.buildCommentsSection(hookData, pdfDoc, obs);
+                        this.buildFooterSection(hookData, pdfDoc);
                       }
                     });
                   } else {
-                    this.buildCommentsSection(hookData, pdfDoc, obs);
+                    this.buildFooterSection(hookData, pdfDoc);
                   }
                 }
               });
@@ -232,18 +315,24 @@ export class WorkOrderPreviewComponent implements OnInit {
 
           let y = hookData.cursor.y + 15;
 
-          y = this.breakPageAndSetStartY(((firstPageProdutos.length - 1) * 12) + hookData.cursor.y + 15, pdfDoc, y);
+          console.log(((products.length - 1) * 6) + hookData.cursor.y + 15, pdfDoc, y);
+          y = this.breakPageAndSetStartY(((products.length - 1) * 6) + hookData.cursor.y + 15, pdfDoc, y);
 
           pdfDoc.doc.setFontType('bold');
-          pdfDoc.doc.text(92, y + 10, 'Produtos');
+          pdfDoc.doc.text(10, y + 10, 'Produtos');
           pdfDoc.doc.setFontType('normal');
 
           pdfDoc.doc.autoTable({
             styles: { fontSize: 12 },
             theme: 'plain',
-            margin: { top: y + 20, left: 30, right: 10 },
+            margin: { top: y + 20, left: 17.5, right: 10 },
             body: firstPageProdutos.length ? firstPageProdutos : products,
-            columns: [{ header: 'Produto', dataKey: 'product' }, { header: 'Valor', dataKey: 'valor' }],
+            columns: [
+              { header: 'Produto', dataKey: 'name' },
+              { header: 'Quantidade', dataKey: 'amount' },
+              { header: 'R$', dataKey: 'price' },
+
+            ],
             didParseCell: (hookData) => {
               if (hookData.row.index === hookData.table.body.length - 1 && !products.length) {
                 hookData.cell.styles.fontStyle = 'bold';
@@ -256,11 +345,12 @@ export class WorkOrderPreviewComponent implements OnInit {
                 pdfDoc.doc.autoTable({
                   styles: { fontSize: 12 },
                   theme: 'plain',
-                  margin: { top: 10, left: 30, right: 10 },
+                  margin: { top: 10, left: 17.5, right: 10 },
                   body: products,
                   columns: [
-                    { header: 'Produto', dataKey: 'product' },
-                    { header: 'Valor', dataKey: 'valor' }
+                    { header: 'Produto', dataKey: 'name' },
+                    { header: 'Quantidade', dataKey: 'amount' },
+                    { header: 'R$', dataKey: 'price' },
                   ],
                   didParseCell: (hookData) => {
                     if (hookData.row.index === hookData.table.body.length - 1) {
@@ -268,11 +358,11 @@ export class WorkOrderPreviewComponent implements OnInit {
                     }
                   },
                   didDrawPage: (hookData) => {
-                    this.buildCommentsSection(hookData, pdfDoc, obs);
+                    this.buildFooterSection(hookData, pdfDoc);
                   }
                 });
               } else {
-                this.buildCommentsSection(hookData, pdfDoc, obs);
+                this.buildFooterSection(hookData, pdfDoc);
               }
             }
           });
@@ -292,16 +382,15 @@ export class WorkOrderPreviewComponent implements OnInit {
     return y;
   }
 
-  public buildCommentsSection(hookData, pdfDoc, obs) {
-    hookData.cursor.y = hookData.cursor.y;
+  public buildFooterSection(hookData, pdfDoc) {
     pdfDoc.titleFontSize = 12;
     pdfDoc.textFontSize = 12;
 
     let startY = hookData.cursor.y + 15;
 
-    const splitTitle = pdfDoc.doc.splitTextToSize(obs, 180);
+    const splitTitle = pdfDoc.doc.splitTextToSize(this.workOrder.comments, 180);
 
-    startY = this.breakPageAndSetStartY(((splitTitle.length - 1) * 12) + hookData.cursor.y, pdfDoc, startY);
+    startY = this.breakPageAndSetStartY(((splitTitle.length - 1) * 6) + hookData.cursor.y + 30, pdfDoc, startY);
 
     const endY = startY + 5;
 
@@ -312,6 +401,15 @@ export class WorkOrderPreviewComponent implements OnInit {
       endY: endY,
       label: 'Observações:',
       value: splitTitle
+    });
+
+    pdfDoc.addLabelAndValue({
+      startX: 140,
+      startY: ((splitTitle.length - 1) * 6) + endY + 10,
+      endX: 155,
+      endY: ((splitTitle.length - 1) * 6) + endY + 10,
+      label: 'Total:',
+      value: this.currencyPipe.transform(this.totalValue.toString(), 'BRL')
     });
   }
 }

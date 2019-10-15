@@ -285,6 +285,9 @@ export class WorkOrderAddEditComponent implements OnInit {
         });
     } catch (err) {
       console.error(err);
+      this._snackBar.open('Não foi possível carregar', 'OK', {
+        duration: 2000,
+      });
     }
   }
 

@@ -21,7 +21,7 @@
           <mat-label>Cliente</mat-label>
           <mat-select formControlName="client" class="text-capitalize">
             <mat-option *ngFor="let client of clients" [value]="client.id" class="text-capitalize">
-              {{client.name}} ({{ client.individualRegistration | mask: '000.000.000-00' }})
+              {{client.name}} ({{ client.individualRegistration | mask: '(00) 00000-0000' }})
             </mat-option>
           </mat-select>
         </mat-form-field>

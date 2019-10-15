@@ -8,7 +8,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 
-import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { NgxMaskModule, IConfig, MaskService } from 'ngx-mask';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -121,7 +121,7 @@ const appRoutes: Routes = [
         { provide: MatPaginatorIntl, useValue: getPtBrPaginatorIntl() },
         { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true },
         { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
-        { provide: LOCALE_ID, useValue: 'pt-BR' }
+        { provide: LOCALE_ID, useValue: 'pt-BR' },
     ],
     bootstrap: [AppComponent],
     entryComponents: [

@@ -116,12 +116,14 @@ export class WorkOrdersComponent implements OnInit {
     });
   }
 
-  public showPreview() {
+  public showPreview(id: number) {
+    console.log('id', id)
     this.dialog.open(WorkOrderPreviewComponent, {
       minWidth: '50%',
       minHeight: '50%',
       width: '90%',
       height: '90%',
+      data: id.toString()
     });
   }
 
