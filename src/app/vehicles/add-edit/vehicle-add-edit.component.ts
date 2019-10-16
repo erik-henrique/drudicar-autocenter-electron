@@ -112,12 +112,15 @@ export class VehicleAddEditComponent implements OnInit {
           .connection
           .then(async () => {
             await vehicleEntity.save();
+            this._snackBar.open('Veículo salvo com sucesso.', 'OK', {
+              duration: 2000,
+            });
             this.dialogRef.close();
           });
       }
     } catch (err) {
       console.error(err);
-      this._snackBar.open('Não foi possível salvar o veículo', 'OK', {
+      this._snackBar.open('Não foi possível salvar o veículo.', 'OK', {
         duration: 2000,
       });
     }

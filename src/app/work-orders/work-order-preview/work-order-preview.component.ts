@@ -5,41 +5,15 @@ import { WorkOrderEntity } from '../../../shared/services/database/entities/work
 import IWorkOrder from '../../../shared/interfaces/work-order.interface';
 import { MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
 import { MaskService } from 'ngx-mask';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-work-order-preview',
   templateUrl: './work-order-preview.component.html',
   styleUrls: ['./work-order-preview.component.scss'],
-  providers: [MaskService, CurrencyPipe]
+  providers: [MaskService, CurrencyPipe, TitleCasePipe]
 })
 export class WorkOrderPreviewComponent implements OnInit {
-  services = [
-    {
-      name: 'Troca de óleo',
-      price: 20,
-    },
-    {
-      name: 'Troca de motor',
-      price: 200,
-    },
-    {
-      name: 'Troca de pneu',
-      price: 40,
-    }
-  ];
-
-  products = [
-    {
-      name: 'Yamalube',
-      price: 20,
-    },
-    {
-      name: 'Porca aleatória',
-      price: 3,
-    }
-  ];
-
   public workOrder: IWorkOrder;
   public canvas: any;
 
@@ -48,6 +22,7 @@ export class WorkOrderPreviewComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private maskService: MaskService,
     private currencyPipe: CurrencyPipe,
+    private titlecasePipe: TitleCasePipe,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   async ngOnInit() {
@@ -119,7 +94,7 @@ export class WorkOrderPreviewComponent implements OnInit {
         });
     } catch (err) {
       console.error(err);
-      this._snackBar.open('Não foi possível carregar', 'OK', {
+      this._snackBar.open('Não foi possível carregar.', 'OK', {
         duration: 2000,
       });
     }
@@ -157,7 +132,10 @@ export class WorkOrderPreviewComponent implements OnInit {
 
     pdfDoc.addDot({ startX: 10, startY: 42, endX: 200, endY: 42 });
 
-    pdfDoc.addLabelAndValue({ startX: 10, startY: 50, endX: 27, endY: 50, label: 'Cliente:', value: this.workOrder.vehicle.client.name });
+    pdfDoc.addLabelAndValue({
+      startX: 10, startY: 50, endX: 27, endY: 50, label: 'Cliente:',
+      value: this.titlecasePipe.transform(this.workOrder.vehicle.client.name)
+    });
     pdfDoc.addLabelAndValue({
       startX: 10, startY: 55, endX: 22, endY: 55, label: 'CPF:',
       value: this.maskService.applyMask(this.workOrder.vehicle.client.individualRegistration, '000.000.000-00')
@@ -214,12 +192,20 @@ export class WorkOrderPreviewComponent implements OnInit {
     pdfDoc.doc.text(10, 125, 'Serviços');
     pdfDoc.doc.setFontType('normal');
 
-    const services = Object.assign([], this.workOrder.services);
+    const services = Object.assign([], this.workOrder.services.map(service => {
+      return { name: service.name, price: this.currencyPipe.transform(service.price.toString(), 'BRL') };
+    }));
 
-    const products = Object.assign([], this.workOrder.products);
+    const products = Object.assign([], this.workOrder.products.map(product => {
+      return {
+        name: product.name,
+        amount: product.amount,
+        price: this.currencyPipe.transform(product.price.toString(), 'BRL')
+      };
+    }));
 
-    services.push({ name: 'Total', price: this.getTotalServicePrice() });
-    products.push({ name: 'Total', price: this.getTotalProductsPrice() });
+    services.push({ name: 'Total', price: this.currencyPipe.transform(this.getTotalServicePrice(), 'BRL') });
+    products.push({ name: 'Total', price: this.currencyPipe.transform(this.getTotalProductsPrice(), 'BRL') });
 
     const firstPageServicos = services.splice(0, 17);
 
@@ -230,7 +216,7 @@ export class WorkOrderPreviewComponent implements OnInit {
       body: firstPageServicos,
       columns: [
         { header: 'Serviço', dataKey: 'name' },
-        { header: 'R$', dataKey: 'price' }
+        { header: 'Valor (R$)', dataKey: 'price' }
       ],
       didParseCell: (hookData) => {
         if (hookData.row.index === hookData.table.body.length - 1 && !services.length) {
@@ -247,7 +233,7 @@ export class WorkOrderPreviewComponent implements OnInit {
             margin: { top: 10, left: 30, right: 10 },
             body: services,
             columns: [{ header: 'Serviço', dataKey: 'name' },
-            { header: 'R$', dataKey: 'price' },
+            { header: 'Valor (R$)', dataKey: 'price' },
             ],
             didParseCell: (hookData) => {
               if (hookData.row.index === hookData.table.body.length - 1) {
@@ -269,7 +255,7 @@ export class WorkOrderPreviewComponent implements OnInit {
                 columns: [
                   { header: 'Produto', dataKey: 'name' },
                   { header: 'Quantidade', dataKey: 'amount' },
-                  { header: 'R$', dataKey: 'price' },
+                  { header: 'Valor (R$)', dataKey: 'price' },
                 ],
                 didParseCell: (hookData) => {
                   if (hookData.row.index === hookData.table.body.length - 1) {
@@ -292,7 +278,7 @@ export class WorkOrderPreviewComponent implements OnInit {
                       columns: [
                         { header: 'Produto', dataKey: 'name' },
                         { header: 'Quantidade', dataKey: 'amount' },
-                        { header: 'R$', dataKey: 'price' },
+                        { header: 'Valor (R$)', dataKey: 'price' },
                       ],
                       didParseCell: (hookData) => {
                         if (hookData.row.index === hookData.table.body.length - 1) {
@@ -330,7 +316,7 @@ export class WorkOrderPreviewComponent implements OnInit {
             columns: [
               { header: 'Produto', dataKey: 'name' },
               { header: 'Quantidade', dataKey: 'amount' },
-              { header: 'R$', dataKey: 'price' },
+              { header: 'Valor (R$)', dataKey: 'price' },
 
             ],
             didParseCell: (hookData) => {
@@ -350,7 +336,7 @@ export class WorkOrderPreviewComponent implements OnInit {
                   columns: [
                     { header: 'Produto', dataKey: 'name' },
                     { header: 'Quantidade', dataKey: 'amount' },
-                    { header: 'R$', dataKey: 'price' },
+                    { header: 'Valor (R$)', dataKey: 'price' },
                   ],
                   didParseCell: (hookData) => {
                     if (hookData.row.index === hookData.table.body.length - 1) {

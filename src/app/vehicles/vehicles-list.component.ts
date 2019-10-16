@@ -54,7 +54,7 @@ export class VehiclesListComponent implements OnInit {
         });
     } catch (err) {
       console.error(err);
-      this._snackBar.open('Não foi possível carregar o veículo', 'OK', {
+      this._snackBar.open('Não foi possível carregar o veículo.', 'OK', {
         duration: 2000,
       });
     }
@@ -86,7 +86,7 @@ export class VehiclesListComponent implements OnInit {
       });
     } catch (err) {
       console.error(err);
-      this._snackBar.open('Não foi possível desativar o veículo', 'OK', {
+      this._snackBar.open('Não foi possível desativar o veículo.', 'OK', {
         duration: 2000,
       });
     }

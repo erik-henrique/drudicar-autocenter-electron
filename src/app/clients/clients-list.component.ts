@@ -49,7 +49,7 @@ export class ClientsListComponent implements OnInit {
           });
       } catch (err) {
         console.error(err);
-        this._snackBar.open('Não foi possível carregar os clientes filtrando pelo nome', 'OK', {
+        this._snackBar.open('Não foi possível carregar os clientes filtrando pelo nome.', 'OK', {
           duration: 2000,
         });
       }
@@ -72,7 +72,7 @@ export class ClientsListComponent implements OnInit {
             });
         } catch (err) {
           console.error(err);
-          this._snackBar.open('Não foi possível carregar os clientes filtrando por CPF', 'OK', {
+          this._snackBar.open('Não foi possível carregar os clientes filtrando por CPF.', 'OK', {
             duration: 2000,
           });
         }
@@ -95,7 +95,7 @@ export class ClientsListComponent implements OnInit {
         });
     } catch (err) {
       console.error(err);
-      this._snackBar.open('Não foi possível carregar os clientes', 'OK', {
+      this._snackBar.open('Não foi possível carregar os clientes.', 'OK', {
         duration: 2000,
       });
     }
@@ -134,7 +134,7 @@ export class ClientsListComponent implements OnInit {
       });
     } catch (err) {
       console.error(err);
-      this._snackBar.open('Não foi possível desativar o cliente', 'OK', {
+      this._snackBar.open('Não foi possível desativar o cliente.', 'OK', {
         duration: 2000,
       });
     }

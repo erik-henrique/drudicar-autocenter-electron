@@ -65,7 +65,7 @@ export class ServiceAddEditComponent implements OnInit {
         });
     } catch (err) {
       console.error(err);
-      this._snackBar.open('Não foi possível carregar o serviço', 'OK', {
+      this._snackBar.open('Não foi possível carregar o serviço.', 'OK', {
         duration: 2000,
       });
     }
@@ -99,7 +99,7 @@ export class ServiceAddEditComponent implements OnInit {
       });
     } catch (err) {
       console.error(err);
-      this._snackBar.open('Não foi possível desativar o serviço', 'OK', {
+      this._snackBar.open('Não foi possível desativar o serviço.', 'OK', {
         duration: 2000,
       });
     }
@@ -110,7 +110,7 @@ export class ServiceAddEditComponent implements OnInit {
       const service = this.serviceForm.value as IService;
 
       const confirmation = {
-        message: 'Tem certeza que deseja ativar o serviço',
+        message: 'Tem certeza que deseja ativar o serviço.',
         data: service.name,
         action: 'Ativar'
       };
@@ -133,7 +133,7 @@ export class ServiceAddEditComponent implements OnInit {
       });
     } catch (err) {
       console.error(err);
-      this._snackBar.open('Não foi possível ativar o serviço', 'OK', {
+      this._snackBar.open('Não foi possível ativar o serviço.', 'OK', {
         duration: 2000,
       });
     }
@@ -155,11 +155,14 @@ export class ServiceAddEditComponent implements OnInit {
           .then(async () => {
             const saveResult = await serviceEntity.save();
             this.id.patchValue(saveResult.id);
+            this._snackBar.open('Serviço salvo com sucesso.', 'OK', {
+              duration: 2000,
+            });
           });
       }
     } catch (err) {
       console.error(err);
-      this._snackBar.open('Não foi possível salvar o serviço', 'OK', {
+      this._snackBar.open('Não foi possível salvar o serviço.', 'OK', {
         duration: 2000,
       });
     }

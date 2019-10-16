@@ -100,7 +100,7 @@ export class WorkOrderAddEditComponent implements OnInit {
             });
         } catch (err) {
           console.error(err);
-          this._snackBar.open('Não foi possível carregar os veículos', 'OK', {
+          this._snackBar.open('Não foi possível carregar os veículos.', 'OK', {
             duration: 2000,
           });
         }
@@ -213,7 +213,7 @@ export class WorkOrderAddEditComponent implements OnInit {
         });
     } catch (err) {
       console.error(err);
-      this._snackBar.open('Não foi possível carregar os clientes', 'OK', {
+      this._snackBar.open('Não foi possível carregar os clientes.', 'OK', {
         duration: 2000,
       });
     }
@@ -233,7 +233,7 @@ export class WorkOrderAddEditComponent implements OnInit {
         });
     } catch (err) {
       console.error(err);
-      this._snackBar.open('Não foi possível carregar os serviços', 'OK', {
+      this._snackBar.open('Não foi possível carregar os serviços.', 'OK', {
         duration: 2000,
       });
     }
@@ -285,7 +285,7 @@ export class WorkOrderAddEditComponent implements OnInit {
         });
     } catch (err) {
       console.error(err);
-      this._snackBar.open('Não foi possível carregar', 'OK', {
+      this._snackBar.open('Não foi possível carregar.', 'OK', {
         duration: 2000,
       });
     }
@@ -320,7 +320,7 @@ export class WorkOrderAddEditComponent implements OnInit {
       });
     } catch (err) {
       console.error(err);
-      this._snackBar.open('Não foi possível cancelar', 'OK', {
+      this._snackBar.open('Não foi possível cancelar.', 'OK', {
         duration: 2000,
       });
     }
@@ -356,7 +356,7 @@ export class WorkOrderAddEditComponent implements OnInit {
       });
     } catch (err) {
       console.error(err);
-      this._snackBar.open('Não foi possível cancelar', 'OK', {
+      this._snackBar.open('Não foi possível cancelar.', 'OK', {
         duration: 2000,
       });
     }
@@ -385,11 +385,15 @@ export class WorkOrderAddEditComponent implements OnInit {
               || this.orcamentoForm.controls.status.value === this.STATUS.Finished) {
               this.orcamentoForm.disable();
             }
+
+            this._snackBar.open('Salvo com sucesso.', 'OK', {
+              duration: 2000,
+            });
           });
       }
     } catch (err) {
       console.error(err);
-      this._snackBar.open('Não foi possível salvar', 'OK', {
+      this._snackBar.open('Não foi possível salvar.', 'OK', {
         duration: 2000,
       });
     }

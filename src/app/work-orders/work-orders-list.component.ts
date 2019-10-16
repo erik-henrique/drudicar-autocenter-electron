@@ -149,7 +149,7 @@ export class WorkOrdersComponent implements OnInit {
         });
     } catch (err) {
       console.error(err);
-      this._snackBar.open('Não foi possível carregar os dados', 'OK', {
+      this._snackBar.open('Não foi possível carregar os dados.', 'OK', {
         duration: 2000,
       });
     }
@@ -182,7 +182,7 @@ export class WorkOrdersComponent implements OnInit {
       });
     } catch (err) {
       console.error(err);
-      this._snackBar.open('Não foi possível cancelar', 'OK', {
+      this._snackBar.open('Não foi possível cancelar.', 'OK', {
         duration: 2000,
       });
     }

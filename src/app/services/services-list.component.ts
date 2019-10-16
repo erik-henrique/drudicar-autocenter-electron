@@ -46,7 +46,7 @@ export class ServicesListComponent implements OnInit {
           });
       } catch (err) {
         console.error(err);
-        this._snackBar.open('Não foi possível carregar os serviços filtrados', 'OK', {
+        this._snackBar.open('Não foi possível carregar os serviços filtrados.', 'OK', {
           duration: 2000,
         });
       }
@@ -75,7 +75,7 @@ export class ServicesListComponent implements OnInit {
         });
     } catch (err) {
       console.error(err);
-      this._snackBar.open('Não foi possível carregar os serviços', 'OK', {
+      this._snackBar.open('Não foi possível carregar os serviços.', 'OK', {
         duration: 2000,
       });
     }
@@ -107,7 +107,7 @@ export class ServicesListComponent implements OnInit {
       });
     } catch (err) {
       console.error(err);
-      this._snackBar.open('Não foi possível desativar o serviço', 'OK', {
+      this._snackBar.open('Não foi possível desativar o serviço.', 'OK', {
         duration: 2000,
       });
     }

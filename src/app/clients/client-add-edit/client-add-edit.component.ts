@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 
 import { IndividualRegistrationValidator } from '../../../shared/validators/individualRegistration.validator';
 import IZipCode from '../../../shared/interfaces/zipCode.interface';
@@ -27,6 +27,7 @@ export class ClientAddEditComponent implements OnInit {
     private _httpService: HttpService,
     private _databaseService: DatabaseService,
     private route: ActivatedRoute,
+    private _snackBar: MatSnackBar,
     private dialog: MatDialog) { }
 
   async ngOnInit() {
@@ -110,6 +111,9 @@ export class ClientAddEditComponent implements OnInit {
         });
     } catch (err) {
       console.error(err);
+      this._snackBar.open('Não foi possível carregar o cliente.', 'OK', {
+        duration: 2000,
+      });
     }
   }
 
@@ -118,7 +122,7 @@ export class ClientAddEditComponent implements OnInit {
       const client = this.clientForm.value as IClient;
 
       const confirmation = {
-        message: 'Tem certeza que deseja desativar o cliente',
+        message: 'Tem certeza que deseja desativar o cliente.',
         data: client.name,
         action: 'Desativar'
       };
@@ -141,6 +145,9 @@ export class ClientAddEditComponent implements OnInit {
       });
     } catch (err) {
       console.error(err);
+      this._snackBar.open('Não foi possível desativar o cliente.', 'OK', {
+        duration: 2000,
+      });
     }
   }
 
@@ -149,7 +156,7 @@ export class ClientAddEditComponent implements OnInit {
       const client = this.clientForm.value as IClient;
 
       const confirmation = {
-        message: 'Tem certeza que deseja ativar o cliente',
+        message: 'Tem certeza que deseja ativar o cliente.',
         data: client.name,
         action: 'Ativar'
       };
@@ -172,6 +179,9 @@ export class ClientAddEditComponent implements OnInit {
       });
     } catch (err) {
       console.error(err);
+      this._snackBar.open('Não foi possível ativar o cliente.', 'OK', {
+        duration: 2000,
+      });
     }
   }
 
@@ -191,10 +201,16 @@ export class ClientAddEditComponent implements OnInit {
           .then(async () => {
             const saveResult = await clientEntity.save();
             this.id.patchValue(saveResult.id);
+            this._snackBar.open('Cliente salvo com sucesso.', 'OK', {
+              duration: 2000,
+            });
           });
       }
     } catch (err) {
       console.error(err);
+      this._snackBar.open('Não foi possível salvar o cliente.', 'OK', {
+        duration: 2000,
+      });
     }
   }
 }
