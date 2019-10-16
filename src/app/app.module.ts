@@ -2,13 +2,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
-import { LOCALE_ID } from '@angular/core';
+import { LOCALE_ID, Injectable, ErrorHandler } from '@angular/core';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
+import * as Sentry from '@sentry/electron';
 
-import { NgxMaskModule, IConfig, MaskService } from 'ngx-mask';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -50,85 +51,105 @@ import { getPtBrPaginatorIntl } from '../shared/i18n/material/ptBr-paginator-int
 import { HttpConfigInterceptor } from '../shared/interceptors/http.token.interceptor';
 import { FormatOnlyNamesPipe } from '../shared/pipes/format-only-names/format-only-names.pipe';
 import { WorkOrderPreviewComponent } from './work-orders/work-order-preview/work-order-preview.component';
+import { environment } from 'src/environments/environment';
+
+@Injectable()
+export class SentryErrorHandler implements ErrorHandler {
+  constructor() {
+     if (environment.production) {
+    Sentry.init({ dsn: 'https://ab7bb4ef495746639c8ef42f24f5b8e8@sentry.io/1781934' });
+     }
+  }
+  handleError(error) {
+    console.error(error);
+    if (environment.production) {
+    Sentry.captureException(error.originalError || error);
+    }
+  }
+}
 
 registerLocaleData(localePt, 'pt-BR');
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
 
 const appRoutes: Routes = [
-    { path: '', component: ClientsListComponent },
-    { path: 'clients', component: ClientsListComponent },
-    { path: 'clients/:id', component: ClientAddEditComponent },
-    { path: 'work-orders', component: WorkOrdersComponent },
-    { path: 'work-orders/:type', component: WorkOrdersComponent },
-    { path: 'work-orders/:type/:id', component: WorkOrderAddEditComponent },
-    { path: 'services', component: ServicesListComponent },
-    { path: 'services/:id', component: ServiceAddEditComponent },
+  { path: '', component: ClientsListComponent },
+  { path: 'clients', component: ClientsListComponent },
+  { path: 'clients/:id', component: ClientAddEditComponent },
+  { path: 'work-orders', component: WorkOrdersComponent },
+  { path: 'work-orders/:type', component: WorkOrdersComponent },
+  { path: 'work-orders/:type/:id', component: WorkOrderAddEditComponent },
+  { path: 'services', component: ServicesListComponent },
+  { path: 'services/:id', component: ServiceAddEditComponent },
 ];
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        MenuComponent,
-        ClientsListComponent,
-        WorkOrdersComponent,
-        WorkOrderAddEditComponent,
-        ClientAddEditComponent,
-        VehiclesListComponent,
-        VehicleAddEditComponent,
-        ConfirmationComponent,
-        ServicesListComponent,
-        ServiceAddEditComponent,
-        FormatOnlyNamesPipe,
-        WorkOrderPreviewComponent
-    ],
-    imports: [
-        RouterModule.forRoot(
-            appRoutes,
-            { enableTracing: true } // <-- debugging purposes only
-        ),
-        NgxMaskModule.forRoot(options),
-        BrowserModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        HttpClientModule,
-        ReactiveFormsModule,
-        NgxSpinnerModule,
-        MatTableModule,
-        MatCardModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatGridListModule,
-        MatButtonModule,
-        MatMenuModule,
-        MatListModule,
-        MatChipsModule,
-        MatIconModule,
-        MatTabsModule,
-        MatBadgeModule,
-        MatDividerModule,
-        MatPaginatorModule,
-        MatDialogModule,
-        MatStepperModule,
-        MatSnackBarModule,
-        MatProgressSpinnerModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatSlideToggleModule,
-        MatSelectModule
-    ],
-    providers: [
-        { provide: MatPaginatorIntl, useValue: getPtBrPaginatorIntl() },
-        { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true },
-        { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
-        { provide: LOCALE_ID, useValue: 'pt-BR' },
-    ],
-    bootstrap: [AppComponent],
-    entryComponents: [
-        VehicleAddEditComponent,
-        ConfirmationComponent,
-        WorkOrderPreviewComponent
-    ],
+  declarations: [
+    AppComponent,
+    MenuComponent,
+    ClientsListComponent,
+    WorkOrdersComponent,
+    WorkOrderAddEditComponent,
+    ClientAddEditComponent,
+    VehiclesListComponent,
+    VehicleAddEditComponent,
+    ConfirmationComponent,
+    ServicesListComponent,
+    ServiceAddEditComponent,
+    FormatOnlyNamesPipe,
+    WorkOrderPreviewComponent
+  ],
+  imports: [
+    RouterModule.forRoot(
+      appRoutes,
+      { enableTracing: true } // <-- debugging purposes only
+    ),
+    NgxMaskModule.forRoot(options),
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    NgxSpinnerModule,
+    MatTableModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatGridListModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatListModule,
+    MatChipsModule,
+    MatIconModule,
+    MatTabsModule,
+    MatBadgeModule,
+    MatDividerModule,
+    MatPaginatorModule,
+    MatDialogModule,
+    MatStepperModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSlideToggleModule,
+    MatSelectModule
+  ],
+  providers: [
+    { provide: MatPaginatorIntl, useValue: getPtBrPaginatorIntl() },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true },
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
+    { provide: LOCALE_ID, useValue: 'pt-BR' },
+    {
+      provide: ErrorHandler,
+      useClass: SentryErrorHandler
+    },
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [
+    VehicleAddEditComponent,
+    ConfirmationComponent,
+    WorkOrderPreviewComponent
+  ],
 })
 export class AppModule {
 }

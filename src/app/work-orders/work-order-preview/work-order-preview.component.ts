@@ -118,7 +118,6 @@ export class WorkOrderPreviewComponent implements OnInit {
 
     pdfDoc.doc.setFontSize(12);
     pdfDoc.doc.setFontType('bold');
-    pdfDoc.doc.text(150, 10, this.workOrder.status);
 
     pdfDoc.doc.addImage(this.canvas.toDataURL(), 'PNG', 90, 10, 150, 140);
 
@@ -212,7 +211,7 @@ export class WorkOrderPreviewComponent implements OnInit {
     pdfDoc.doc.autoTable({
       styles: { fontSize: 12 },
       theme: 'plain',
-      margin: { top: 130, left: 30, right: 10 },
+      margin: { top: 130, left: 45, right: 10 },
       body: firstPageServicos,
       columns: [
         { header: 'Serviço', dataKey: 'name' },
@@ -230,7 +229,7 @@ export class WorkOrderPreviewComponent implements OnInit {
           pdfDoc.doc.autoTable({
             styles: { fontSize: 12 },
             theme: 'plain',
-            margin: { top: 10, left: 30, right: 10 },
+            margin: { top: 10, left: 45, right: 10 },
             body: services,
             columns: [{ header: 'Serviço', dataKey: 'name' },
             { header: 'Valor (R$)', dataKey: 'price' },
@@ -250,7 +249,7 @@ export class WorkOrderPreviewComponent implements OnInit {
               pdfDoc.doc.autoTable({
                 styles: { fontSize: 12 },
                 theme: 'plain',
-                margin: { top: hookData.cursor.y + 20, left: 17.5, right: 10 },
+                margin: { top: hookData.cursor.y + 20, left: 35, right: 10 },
                 body: firstPageProdutos.length ? firstPageProdutos : products,
                 columns: [
                   { header: 'Produto', dataKey: 'name' },
@@ -273,7 +272,7 @@ export class WorkOrderPreviewComponent implements OnInit {
                     pdfDoc.doc.autoTable({
                       styles: { fontSize: 12 },
                       theme: 'plain',
-                      margin: { top: hookData.cursor.y + 20, left: 17.5, right: 10 },
+                      margin: { top: hookData.cursor.y + 20, left: 35, right: 10 },
                       body: products,
                       columns: [
                         { header: 'Produto', dataKey: 'name' },
@@ -311,7 +310,7 @@ export class WorkOrderPreviewComponent implements OnInit {
           pdfDoc.doc.autoTable({
             styles: { fontSize: 12 },
             theme: 'plain',
-            margin: { top: y + 20, left: 17.5, right: 10 },
+            margin: { top: y + 20, left: 35, right: 10 },
             body: firstPageProdutos.length ? firstPageProdutos : products,
             columns: [
               { header: 'Produto', dataKey: 'name' },
@@ -331,7 +330,7 @@ export class WorkOrderPreviewComponent implements OnInit {
                 pdfDoc.doc.autoTable({
                   styles: { fontSize: 12 },
                   theme: 'plain',
-                  margin: { top: 10, left: 17.5, right: 10 },
+                  margin: { top: 10, left: 35, right: 10 },
                   body: products,
                   columns: [
                     { header: 'Produto', dataKey: 'name' },
