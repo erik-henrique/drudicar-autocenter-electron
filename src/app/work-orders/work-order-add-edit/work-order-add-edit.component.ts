@@ -296,7 +296,7 @@ export class WorkOrderAddEditComponent implements OnInit {
       const orcamento = this.orcamentoForm.value as IWorkOrder;
 
       const confirmation = {
-        message: 'Tem certeza que deseja cancelar o',
+        message: 'Deseja cancelar o',
         data: `${orcamento.type} Nº ${orcamento.id}`,
         action: 'Sim'
       };

@@ -158,7 +158,7 @@ export class WorkOrdersComponent implements OnInit {
   async deleteService(service: IWorkOrder) {
     try {
       const confirmation = {
-        message: `Tem certeza que deseja cancelar ${
+        message: `Deseja cancelar ${
           this.type === this.WORK_ORDER_TYPES.Budget ? 'o orçamento' : 'a ordem de serviço'} nº`,
         data: service.id,
         action: 'Cancelar'

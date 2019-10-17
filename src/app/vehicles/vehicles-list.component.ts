@@ -63,7 +63,7 @@ export class VehiclesListComponent implements OnInit {
   async deleteVehicle(vehicle: IVehicle) {
     try {
       const confirmation = {
-        message: 'Tem certeza que deseja desativar o veículo',
+        message: 'Deseja desativar o veículo',
         data: vehicle.carLicense.toUpperCase().substr(0, 3) + '-' + vehicle.carLicense.substr(3),
         action: 'Desativar'
       };

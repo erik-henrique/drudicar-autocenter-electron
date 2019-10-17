@@ -76,7 +76,7 @@ export class ServiceAddEditComponent implements OnInit {
       const service = this.serviceForm.value as IService;
 
       const confirmation = {
-        message: 'Tem certeza que deseja desativar o serviço',
+        message: 'Deseja desativar o serviço',
         data: service.name,
         action: 'Desativar'
       };
@@ -110,7 +110,7 @@ export class ServiceAddEditComponent implements OnInit {
       const service = this.serviceForm.value as IService;
 
       const confirmation = {
-        message: 'Tem certeza que deseja ativar o serviço.',
+        message: 'Deseja ativar o serviço.',
         data: service.name,
         action: 'Ativar'
       };

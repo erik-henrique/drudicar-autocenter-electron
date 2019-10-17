@@ -84,7 +84,7 @@ export class ServicesListComponent implements OnInit {
   async deleteService(service: IService) {
     try {
       const confirmation = {
-        message: 'Tem certeza que deseja desativar o serviço',
+        message: 'Deseja desativar o serviço',
         data: service.name,
         action: 'Desativar'
       };

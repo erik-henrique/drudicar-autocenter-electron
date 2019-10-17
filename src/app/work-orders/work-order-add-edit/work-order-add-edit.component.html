@@ -99,15 +99,15 @@
     <div formArrayName="services">
       <div class="form-row" *ngFor="let serviceForm of serviceForms.controls; let i=index" [formGroupName]="i">
         <mat-form-field class="form__input" appearance="fill">
-          <mat-label>Serviço {{this.serviceForms.controls[i].value.name}}</mat-label>
+          <mat-label>Serviço {{this.serviceForms.controls[i].value.name | titlecase }}</mat-label>
           <mat-select formControlName="name">
             <mat-option
               *ngIf="serviceForms.controls[i].value.name && filterServices(serviceForms.controls[i].value.name)"
               [value]="this.serviceForms.controls[i].value.name">
-              {{this.serviceForms.controls[i].value.name}}
+              {{this.serviceForms.controls[i].value.name | titlecase }}
             </mat-option>
             <mat-option *ngFor="let service of services" [value]="service.name">
-              {{service.name}}
+              {{service.name | titlecase}}
             </mat-option>
           </mat-select>
         </mat-form-field>

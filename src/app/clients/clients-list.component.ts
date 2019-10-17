@@ -111,7 +111,7 @@ export class ClientsListComponent implements OnInit {
   async deleteClient(client: IClient) {
     try {
       const confirmation = {
-        message: 'Tem certeza que deseja desativar o cliente',
+        message: 'Deseja desativar o cliente',
         data: client.name,
         action: 'Desativar'
       };

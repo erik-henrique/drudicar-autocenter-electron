@@ -122,7 +122,7 @@ export class ClientAddEditComponent implements OnInit {
       const client = this.clientForm.value as IClient;
 
       const confirmation = {
-        message: 'Tem certeza que deseja desativar o cliente.',
+        message: 'Deseja desativar o cliente',
         data: client.name,
         action: 'Desativar'
       };
@@ -156,7 +156,7 @@ export class ClientAddEditComponent implements OnInit {
       const client = this.clientForm.value as IClient;
 
       const confirmation = {
-        message: 'Tem certeza que deseja ativar o cliente.',
+        message: 'Deseja ativar o cliente',
         data: client.name,
         action: 'Ativar'
       };

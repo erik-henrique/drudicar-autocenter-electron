@@ -86,7 +86,9 @@ export class WorkOrderPreviewComponent implements OnInit {
         .connection
         .then(async () => {
           const workOrder = await WorkOrderEntity.findOne(id, { relations: ['vehicle', 'vehicle.client'] });
-          workOrder.services = JSON.parse(workOrder.services);
+          workOrder.services = JSON.parse(workOrder.services).map(service => {
+            return { name: this.titlecasePipe.transform(service.name), price: service.price };
+          });
           workOrder.products = JSON.parse(workOrder.products);
           this.workOrder = workOrder;
 
