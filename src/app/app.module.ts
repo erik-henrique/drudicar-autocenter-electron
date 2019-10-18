@@ -52,18 +52,19 @@ import { HttpConfigInterceptor } from '../shared/interceptors/http.token.interce
 import { FormatOnlyNamesPipe } from '../shared/pipes/format-only-names/format-only-names.pipe';
 import { WorkOrderPreviewComponent } from './work-orders/work-order-preview/work-order-preview.component';
 import { environment } from 'src/environments/environment';
+import { HomeComponent } from './home/home.component';
 
 @Injectable()
 export class SentryErrorHandler implements ErrorHandler {
   constructor() {
-     if (environment.production) {
-    Sentry.init({ dsn: 'https://ab7bb4ef495746639c8ef42f24f5b8e8@sentry.io/1781934' });
-     }
+    if (environment.production) {
+      Sentry.init({ dsn: 'https://ab7bb4ef495746639c8ef42f24f5b8e8@sentry.io/1781934' });
+    }
   }
   handleError(error) {
     console.error(error);
     if (environment.production) {
-    Sentry.captureException(error.originalError || error);
+      Sentry.captureException(error.originalError || error);
     }
   }
 }
@@ -81,6 +82,7 @@ const appRoutes: Routes = [
   { path: 'work-orders/:type/:id', component: WorkOrderAddEditComponent },
   { path: 'services', component: ServicesListComponent },
   { path: 'services/:id', component: ServiceAddEditComponent },
+  { path: 'home', component: HomeComponent },
 ];
 
 @NgModule({
@@ -97,7 +99,8 @@ const appRoutes: Routes = [
     ServicesListComponent,
     ServiceAddEditComponent,
     FormatOnlyNamesPipe,
-    WorkOrderPreviewComponent
+    WorkOrderPreviewComponent,
+    HomeComponent
   ],
   imports: [
     RouterModule.forRoot(

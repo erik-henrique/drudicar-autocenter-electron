@@ -5,13 +5,13 @@
   <mat-card-subtitle>Todos cadastrados</mat-card-subtitle>
   <form [formGroup]="serviceFilterForm">
     <mat-form-field appearance="outline" style="width: 49%">
-      <mat-label>Pesquisar por model de veículo</mat-label>
-      <input matInput placeholder="Modelo" formControlName="veiculo" class="text-capitalize">
+      <mat-label>Pesquisar por modelo de veículo</mat-label>
+      <input matInput placeholder="Modelo" formControlName="veiculo">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
     <mat-form-field appearance="outline" style="width: 49%;float: right;">
       <mat-label>Pesquisar por cliente</mat-label>
-      <input matInput placeholder="Nome" formControlName="cliente" class="text-capitalize">
+      <input matInput placeholder="Nome" formControlName="cliente">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
   </form>

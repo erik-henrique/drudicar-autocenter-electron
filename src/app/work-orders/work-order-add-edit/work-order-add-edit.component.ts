@@ -41,7 +41,7 @@ export class WorkOrderAddEditComponent implements OnInit {
       label: 'Em Andamento', value: 'Em Andamento'
     },
     {
-      label: 'Finished', value: 'Finished'
+      label: 'Finished', value: 'Finalizado'
     },
     {
       label: 'Disponível', value: 'Disponível'

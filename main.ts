@@ -21,7 +21,6 @@ function createWindow() {
     icon: path.join(__dirname, '/src/assets/icons/favicon.png')
   });
 
-
   if (serve) {
     // get dynamic version from localhost:4200
     require('electron-reload')(__dirname, {
@@ -32,6 +31,7 @@ function createWindow() {
     // The following is optional and will open the DevTools:
     win.webContents.openDevTools();
   } else {
+    win.removeMenu();
     // load the dist folder from Angular
     win.loadURL(
       url.format({
