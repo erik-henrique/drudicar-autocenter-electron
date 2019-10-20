@@ -99,15 +99,15 @@
     <div formArrayName="services">
       <div class="form-row" *ngFor="let serviceForm of serviceForms.controls; let i=index" [formGroupName]="i">
         <mat-form-field class="form__input" appearance="fill">
-          <mat-label>Serviço {{this.serviceForms.controls[i].value.name | titlecase }}</mat-label>
+          <mat-label>Serviço {{this.serviceForms.controls[i].value.name }}</mat-label>
           <mat-select formControlName="name">
             <mat-option
               *ngIf="serviceForms.controls[i].value.name && filterServices(serviceForms.controls[i].value.name)"
               [value]="this.serviceForms.controls[i].value.name">
-              {{this.serviceForms.controls[i].value.name | titlecase }}
+              {{this.serviceForms.controls[i].value.name }}
             </mat-option>
             <mat-option *ngFor="let service of services" [value]="service.name">
-              {{service.name | titlecase}}
+              {{service.name}}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -167,18 +167,19 @@
 </form>
 
 <div class="fixed-bottom fixed-bottom--right">
-  <button [disabled]="this.orcamentoForm.invalid || statusFromForm.value === STATUS.Canceled" type="submit"
-    (click)="onSubmit()" mat-fab [color]="statusFromForm.value === STATUS.Canceled ? 'light-grey' : 'light-blue'">
+  <button [disabled]="this.orcamentoForm.invalid || statusFromForm.value === STATUS.Canceled || statusFromForm.value === STATUS.Finished" type="submit"
+    (click)="onSubmit()" mat-fab color="light-blue">
     <mat-icon>save</mat-icon>
   </button>
 </div>
 
 <div class="fixed-bottom fixed-bottom--left">
-  <button type="button" style="margin-right: 1rem;" *ngIf="statusFromForm.value !== STATUS.Canceled && id.value"
-    (click)="cancelWorkOrder()" mat-fab color="warn">
+  <button type="button" style="margin-right: 1rem;" *ngIf="(statusFromForm.value !== STATUS.Canceled || statusFromForm.value !== STATUS.Finished) && id.value"
+    (click)="cancelWorkOrder()" mat-fab color="warn"
+    [disabled]="statusFromForm.value === STATUS.Canceled || statusFromForm.value === STATUS.Finished">
     <mat-icon>close</mat-icon>
   </button>
-  <button type="button" *ngIf="statusFromForm.value === STATUS.AwaitingApproval && id.value"
+  <button type="button" *ngIf="(statusFromForm.value === STATUS.AwaitingApproval) && id.value"
     (click)="transformIntoWorkOrder()" mat-fab [color]="'success'">
     <mat-icon>check</mat-icon>
   </button>

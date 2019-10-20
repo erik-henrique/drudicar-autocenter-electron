@@ -6,7 +6,7 @@
             Valor Total: <span style="font-weight: bold;">{{totalValue | currency:'BRL' }}</span></p>
     </div>
 
-    <mat-card-title>Pre-visualização ({{ workOrder.type }})</mat-card-title>
+    <mat-card-title>Pré-visualização</mat-card-title>
     <mat-card-subtitle>{{ workOrder.type }} nº {{workOrder.id}}
         <mat-chip color="warn" style="margin-left: 1rem;">{{workOrder.status}}</mat-chip>
     </mat-card-subtitle>
@@ -65,7 +65,7 @@
         <h3 mat-subheader>Serviços</h3>
         <mat-list-item *ngFor="let service of workOrder.services">
             <mat-icon mat-list-icon>build</mat-icon>
-            <h4 mat-line>{{service.name | titlecase }}</h4>
+            <h4 mat-line>{{service.name }}</h4>
             <p mat-line> {{service.price | currency:'BRL'}} </p>
         </mat-list-item>
         <mat-list-item>

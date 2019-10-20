@@ -1,7 +1,8 @@
 <ngx-spinner type="ball-clip-rotate" size="large"></ngx-spinner>
 
 <mat-card class="card--margin">
-  <mat-card-title>{{type}}s</mat-card-title>
+  <mat-card-title *ngIf="type === WORK_ORDER_TYPES.Budget">Orçamentos</mat-card-title>
+  <mat-card-title *ngIf="type === WORK_ORDER_TYPES.WorkWorder">Ordens de serviço</mat-card-title>
   <mat-card-subtitle>Todos cadastrados</mat-card-subtitle>
   <form [formGroup]="serviceFilterForm">
     <mat-form-field appearance="outline" style="width: 49%">
@@ -38,7 +39,7 @@
         </mat-chip-list>
       </p>
       <mat-chip-list aria-label="Status">
-        <mat-chip color="warn" *ngIf="workOrder.status === STATUS.Canceled" selected>Canceled</mat-chip>
+        <mat-chip color="warn" *ngIf="workOrder.status === STATUS.Canceled" selected>Canceleda</mat-chip>
         <mat-chip *ngIf="workOrder.status !== STATUS.Canceled">{{workOrder.status}}</mat-chip>
       </mat-chip-list>
       <button routerLink="{{workOrder.id}}" queryParamsHandling preserveFragment style="margin-left: 24px;"

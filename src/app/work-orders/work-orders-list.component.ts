@@ -95,7 +95,6 @@ export class WorkOrdersComponent implements OnInit {
                   .andWhere('work.type = :type', { type: this.type })
                   .getMany();
 
-                console.log(workOrders);
                 this.workOrders = workOrders as IWorkOrder[];
               }
             }).finally(() => {
@@ -117,12 +116,9 @@ export class WorkOrdersComponent implements OnInit {
   }
 
   public showPreview(id: number) {
-    console.log('id', id)
     this.dialog.open(WorkOrderPreviewComponent, {
       minWidth: '50%',
       minHeight: '50%',
-      width: '90%',
-      height: '90%',
       data: id.toString()
     });
   }
@@ -142,7 +138,6 @@ export class WorkOrdersComponent implements OnInit {
         .then(async () => {
           const workOrders = await WorkOrderEntity
             .find({ relations: ['vehicle', 'vehicle.client'], where: { type: this.type } });
-          console.log(workOrders);
           this.workOrders = workOrders as IWorkOrder[];
         }).finally(() => {
           this.spinner.hide();

@@ -11,6 +11,7 @@ import { DatabaseService } from '../../../shared/services/database/database.serv
 import { ClientEntity } from '../../../shared/services/database/entities/client.entity';
 import { ConfirmationComponent } from '../../../shared/components/confirmation/confirmation.component';
 import Localization from '../../../shared/entities/zip.entity';
+import { pairwise } from 'rxjs/internal/operators/pairwise';
 
 @Component({
   selector: 'app-client-add-edit',
@@ -40,14 +41,14 @@ export class ClientAddEditComponent implements OnInit {
       Validators.maxLength(11), IndividualRegistrationValidator.validate]
       ],
       status: true,
-      email: [null, [Validators.email]],
-      cellphone: null,
-      zip: [null, [Validators.minLength(8),
+      email: ['', [Validators.email]],
+      cellphone: '',
+      zip: ['', [Validators.minLength(8),
       Validators.maxLength(8)]],
-      state: null,
-      city: null,
-      district: null,
-      street: null,
+      state: '',
+      city: '',
+      district: '',
+      street: '',
       num: null,
       birthDate: null
     });
@@ -60,9 +61,9 @@ export class ClientAddEditComponent implements OnInit {
       }
     });
 
-    this.clientForm.controls.zip.valueChanges.subscribe((value: string) => {
-      if (value.length === 8) {
-        this.findClientZipCode(value);
+    this.clientForm.controls.zip.valueChanges.pipe(pairwise()).subscribe(([prev, next]: [any, any]) => {
+      if (next.length === 8 && prev !== next) {
+        this.findClientZipCode(next);
       }
     });
   }

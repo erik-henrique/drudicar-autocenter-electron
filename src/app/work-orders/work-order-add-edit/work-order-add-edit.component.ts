@@ -41,7 +41,7 @@ export class WorkOrderAddEditComponent implements OnInit {
       label: 'Em Andamento', value: 'Em Andamento'
     },
     {
-      label: 'Finished', value: 'Finalizado'
+      label: 'Finalizado', value: 'Finalizado'
     },
     {
       label: 'Disponível', value: 'Disponível'
@@ -78,7 +78,7 @@ export class WorkOrderAddEditComponent implements OnInit {
       products: this._fb.array([]),
       status: 'Aguardando Aprovação',
       type: ['Orçamento', Validators.required],
-      comments: null,
+      comments: '',
       paymentDate: null,
       paymentMethod: null,
       valor: null
@@ -262,7 +262,6 @@ export class WorkOrderAddEditComponent implements OnInit {
             amount: [p.amount, Validators.required]
           })));
 
-          console.log(workOrder);
           this.orcamentoForm.patchValue(workOrder);
 
           if (!workOrder.vehicle.client.status) {
@@ -331,7 +330,7 @@ export class WorkOrderAddEditComponent implements OnInit {
       const orcamento = this.orcamentoForm.value as IWorkOrder;
 
       const confirmation = {
-        message: 'Transformar em Ordem de Serviço o ',
+        message: 'Aprovar ',
         data: `Orçamento Nº ${orcamento.id}`,
         action: 'Sim'
       };

@@ -86,13 +86,10 @@ export class WorkOrderPreviewComponent implements OnInit {
         .connection
         .then(async () => {
           const workOrder = await WorkOrderEntity.findOne(id, { relations: ['vehicle', 'vehicle.client'] });
-          workOrder.services = JSON.parse(workOrder.services).map(service => {
-            return { name: this.titlecasePipe.transform(service.name), price: service.price };
-          });
+          workOrder.services = JSON.parse(workOrder.services);
           workOrder.products = JSON.parse(workOrder.products);
-          this.workOrder = workOrder;
 
-          console.log(this.workOrder);
+          this.workOrder = workOrder;
         });
     } catch (err) {
       console.error(err);
@@ -302,7 +299,6 @@ export class WorkOrderPreviewComponent implements OnInit {
 
           let y = hookData.cursor.y + 15;
 
-          console.log(((products.length - 1) * 6) + hookData.cursor.y + 15, pdfDoc, y);
           y = this.breakPageAndSetStartY(((products.length - 1) * 6) + hookData.cursor.y + 15, pdfDoc, y);
 
           pdfDoc.doc.setFontType('bold');
