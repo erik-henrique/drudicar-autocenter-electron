@@ -61,7 +61,7 @@ export class ClientAddEditComponent implements OnInit {
       }
     });
 
-    this.clientForm.controls.zip.valueChanges.pipe(pairwise()).subscribe(([prev, next]: [any, any]) => {
+    this.clientForm.controls.zip.valueChanges.pipe(pairwise()).subscribe(([prev, next]: [string, string]) => {
       if (next.length === 8 && prev !== next) {
         this.findClientZipCode(next);
       }
