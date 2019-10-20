@@ -357,7 +357,7 @@ export class WorkOrderPreviewComponent implements OnInit {
       }
     });
 
-    pdfDoc.doc.save('asdsada.pdf');
+    pdfDoc.doc.save(`${this.workOrder.type}${this.workOrder.id}_${now.toLocaleDateString().replace(new RegExp('/', 'g'), '-')}.pdf`);
   }
 
   public breakPageAndSetStartY(height, pdfDoc, y: number) {
@@ -377,7 +377,7 @@ export class WorkOrderPreviewComponent implements OnInit {
 
     const splitTitle = pdfDoc.doc.splitTextToSize(this.workOrder.comments, 180);
 
-    startY = this.breakPageAndSetStartY(((splitTitle.length - 1) * 6) + hookData.cursor.y + 30, pdfDoc, startY);
+    startY = this.breakPageAndSetStartY(((splitTitle.length - 1) * 6) + hookData.cursor.y + 50, pdfDoc, startY);
 
     const endY = startY + 5;
 

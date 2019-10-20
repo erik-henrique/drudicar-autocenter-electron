@@ -15,7 +15,7 @@
         <h3 mat-subheader>Cliente</h3>
         <mat-grid-list cols="3" rowHeight="3rem">
             <mat-grid-tile>
-                <p><b>Cliente: </b> {{ workOrder.vehicle.client.name | titlecase }}</p>
+                <p><b>Nome: </b> {{ workOrder.vehicle.client.name | titlecase }}</p>
             </mat-grid-tile>
             <mat-grid-tile>
                 <p><b>Contato: </b> {{ workOrder.vehicle.client.cellphone | mask: '(00) 00000-0000' }}</p>
