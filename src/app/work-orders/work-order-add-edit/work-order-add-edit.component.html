@@ -137,7 +137,7 @@
         <mat-icon>add</mat-icon>
       </button>
     </mat-card-title>
-    <mat-card-subtitle>Preecha todas as informações marcadas como *</mat-card-subtitle>
+    <mat-card-subtitle>Preecha todas as informações marcadas como * {{statusFromForm.value }}</mat-card-subtitle>
 
     <div formArrayName="products">
       <div class="form-row" *ngFor="let productForm of productForms.controls; let i=index" [formGroupName]="i">
@@ -167,19 +167,21 @@
 </form>
 
 <div class="fixed-bottom fixed-bottom--right">
-  <button [disabled]="this.orcamentoForm.invalid || statusFromForm.value === STATUS.Canceled || statusFromForm.value === STATUS.Finished" type="submit"
-    (click)="onSubmit()" mat-fab color="light-blue">
+  <button
+    [disabled]="this.orcamentoForm.invalid || statusFromForm.value === STATUS.Canceled || statusFromForm.value === STATUS.Finished"
+    type="submit" (click)="onSubmit()" mat-fab color="light-blue">
     <mat-icon>save</mat-icon>
   </button>
 </div>
 
 <div class="fixed-bottom fixed-bottom--left">
-  <button type="button" style="margin-right: 1rem;" *ngIf="(statusFromForm.value !== STATUS.Canceled || statusFromForm.value !== STATUS.Finished) && id.value"
+  <button type="button" style="margin-right: 1rem;"
+    *ngIf="(statusFromForm.value !== STATUS.Canceled || statusFromForm.value !== STATUS.Finished) && id.value"
     (click)="cancelWorkOrder()" mat-fab color="warn"
     [disabled]="statusFromForm.value === STATUS.Canceled || statusFromForm.value === STATUS.Finished">
     <mat-icon>close</mat-icon>
   </button>
-  <button type="button" *ngIf="(statusFromForm.value === STATUS.AwaitingApproval) && id.value"
+  <button type="button" *ngIf="statusFromForm.value === STATUS.AwaitingApproval && id.value"
     (click)="transformIntoWorkOrder()" mat-fab [color]="'success'">
     <mat-icon>check</mat-icon>
   </button>
