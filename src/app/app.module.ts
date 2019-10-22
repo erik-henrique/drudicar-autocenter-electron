@@ -7,7 +7,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
-import * as Sentry from '@sentry/electron';
+import * as Sentry from '@sentry/browser';
 
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -65,6 +65,7 @@ export class SentryErrorHandler implements ErrorHandler {
     console.error(error);
     if (environment.production) {
       Sentry.captureException(error.originalError || error);
+      throw error;
     }
   }
 }
