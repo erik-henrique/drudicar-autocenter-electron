@@ -117,7 +117,7 @@ export class WorkOrdersComponent implements OnInit {
 
   public showPreview(id: number) {
     this.dialog.open(WorkOrderPreviewComponent, {
-      minWidth: '50%',
+      minWidth: '75%',
       minHeight: '50%',
       data: id.toString()
     });

@@ -15,13 +15,13 @@
         <h3 mat-subheader>Cliente</h3>
         <mat-grid-list cols="3" rowHeight="3rem">
             <mat-grid-tile>
-                <p><b>Nome: </b> {{ workOrder.vehicle.client.name | titlecase }}</p>
+                <p><b>Nome: </b> {{ workOrder.vehicle?.client?.name | titlecase }}</p>
             </mat-grid-tile>
             <mat-grid-tile>
-                <p><b>Contato: </b> {{ workOrder.vehicle.client.cellphone | mask: '(00) 00000-0000' }}</p>
+                <p><b>Contato: </b> {{ workOrder.vehicle?.client?.cellphone | mask: '(00) 00000-0000' }}</p>
             </mat-grid-tile>
             <mat-grid-tile>
-                <p><b>E-mail: </b> {{ workOrder.vehicle.client.email  }}</p>
+                <p><b>E-mail: </b> {{ workOrder.vehicle?.client?.email  }}</p>
             </mat-grid-tile>
         </mat-grid-list>
     </mat-list>
@@ -30,31 +30,31 @@
         <h3 mat-subheader>Veículo</h3>
         <mat-grid-list cols="3" rowHeight="3rem">
             <mat-grid-tile>
-                <p><b>Placa: </b> {{ workOrder.vehicle.carLicense.toUpperCase() | mask: 'AAA-0000' }}</p>
+                <p><b>Placa: </b> {{ workOrder.vehicle?.carLicense?.toUpperCase() | mask: 'AAA-0000' }}</p>
             </mat-grid-tile>
             <mat-grid-tile>
-                <p><b>Cor: </b> {{workOrder.vehicle.color.toUpperCase()}}</p>
+                <p><b>Cor: </b> {{workOrder.vehicle?.color?.toUpperCase()}}</p>
             </mat-grid-tile>
             <mat-grid-tile>
-                <p><b>Modelo: </b> {{workOrder.vehicle.model.toUpperCase()}}</p>
+                <p><b>Modelo: </b> {{workOrder.vehicle?.model?.toUpperCase()}}</p>
             </mat-grid-tile>
             <mat-grid-tile>
-                <p><b>Marca: </b> {{workOrder.vehicle.brand.toUpperCase()}}</p>
+                <p><b>Marca: </b> {{workOrder.vehicle?.brand?.toUpperCase()}}</p>
             </mat-grid-tile>
             <mat-grid-tile>
-                <p><b>Ano: </b> {{workOrder.vehicle.year.getFullYear().toString()}}</p>
+                <p><b>Ano: </b> {{workOrder.vehicle?.year?.getFullYear().toString()}}</p>
             </mat-grid-tile>
             <mat-grid-tile>
-                <p><b>Ano Modelo: </b> {{workOrder.vehicle.yearModel.getFullYear().toString()}}</p>
+                <p><b>Ano Modelo: </b> {{workOrder.vehicle?.yearModel?.getFullYear().toString()}}</p>
             </mat-grid-tile>
             <mat-grid-tile>
-                <p><b>UF: </b> {{workOrder.vehicle.state.toUpperCase()}}</p>
+                <p><b>UF: </b> {{workOrder.vehicle?.state?.toUpperCase()}}</p>
             </mat-grid-tile>
             <mat-grid-tile>
-                <p><b>Município: </b> {{workOrder.vehicle.district | titlecase}} </p>
+                <p><b>Município: </b> {{workOrder.vehicle?.district | titlecase}} </p>
             </mat-grid-tile>
             <mat-grid-tile>
-                <p><b>Chassi: </b> {{workOrder.vehicle.chassis.toUpperCase()}} </p>
+                <p><b>Chassi: </b> {{workOrder.vehicle?.chassis?.toUpperCase()}} </p>
             </mat-grid-tile>
         </mat-grid-list>
 

@@ -112,7 +112,7 @@ export class WorkOrderPreviewComponent implements OnInit {
     pdfDoc.addLabelAndValue(
       {
         startX: 10, startY: 15, endX: 18, endY: 15, label: 'Nº:',
-        value: this.workOrder.id.toString()
+        value: this.workOrder.id ? this.workOrder.id.toString() : ''
       });
 
     pdfDoc.doc.setFontSize(12);
@@ -132,16 +132,16 @@ export class WorkOrderPreviewComponent implements OnInit {
 
     pdfDoc.addLabelAndValue({
       startX: 10, startY: 50, endX: 27, endY: 50, label: 'Cliente:',
-      value: this.titlecasePipe.transform(this.workOrder.vehicle.client.name)
+      value: this.titlecasePipe.transform(this.workOrder.vehicle.client.name ? this.workOrder.vehicle.client.name : '')
     });
     pdfDoc.addLabelAndValue({
       startX: 10, startY: 55, endX: 22, endY: 55, label: 'CPF:',
-      value: this.maskService.applyMask(this.workOrder.vehicle.client.individualRegistration, '000.000.000-00')
+      value: this.maskService.applyMask(this.workOrder.vehicle.client.individualRegistration ? this.workOrder.vehicle.client.individualRegistration : '', '000.000.000-00')
     });
-    pdfDoc.addLabelAndValue({ startX: 75, startY: 55, endX: 90, endY: 55, label: 'E-mail:', value: this.workOrder.vehicle.client.email });
+    pdfDoc.addLabelAndValue({ startX: 75, startY: 55, endX: 90, endY: 55, label: 'E-mail:', value: this.workOrder.vehicle.client.email ? this.workOrder.vehicle.client.email : '' });
     pdfDoc.addLabelAndValue({
       startX: 10, startY: 60, endX: 28, endY: 60, label: 'Contato:',
-      value: this.maskService.applyMask(this.workOrder.vehicle.client.cellphone, '(00) 00000-0000')
+      value: this.maskService.applyMask(this.workOrder.vehicle ? this.workOrder.vehicle.client.cellphone : '', '(00) 00000-0000')
     });
 
     pdfDoc.doc.setLineDash([]);
@@ -158,28 +158,28 @@ export class WorkOrderPreviewComponent implements OnInit {
 
     pdfDoc.addLabelAndValue({
       startX: 15, startY: 87, endX: 30, endY: 87, label: 'Placa:',
-      value: this.maskService.applyMask(this.workOrder.vehicle.carLicense.toUpperCase(), 'AAA-0000')
+      value: this.maskService.applyMask(this.workOrder.vehicle.carLicense ? this.workOrder.vehicle.carLicense.toUpperCase() : '', 'AAA-0000')
     });
     pdfDoc.addLabelAndValue({
-      startX: 105, startY: 87, endX: 115, endY: 87, label: 'Cor:', value: this.workOrder.vehicle.color.toUpperCase()
+      startX: 105, startY: 87, endX: 115, endY: 87, label: 'Cor:', value: this.workOrder.vehicle.color ? this.workOrder.vehicle.color.toUpperCase() : ''
     });
 
     pdfDoc.doc.line(10, 90, 200, 90);
 
     pdfDoc.addLabelAndValue({
-      startX: 15, startY: 97, endX: 35, endY: 97, label: 'Modelo:', value: this.workOrder.vehicle.model.toUpperCase()
+      startX: 15, startY: 97, endX: 35, endY: 97, label: 'Modelo:', value: this.workOrder.vehicle.model ? this.workOrder.vehicle.model.toUpperCase() : ''
     });
     pdfDoc.addLabelAndValue({
-      startX: 105, startY: 97, endX: 120, endY: 97, label: 'Marca:', value: this.workOrder.vehicle.brand.toUpperCase()
+      startX: 105, startY: 97, endX: 120, endY: 97, label: 'Marca:', value: this.workOrder.vehicle.brand ? this.workOrder.vehicle.brand.toUpperCase() : ''
     });
 
     pdfDoc.doc.line(10, 100, 200, 100);
 
     pdfDoc.addLabelAndValue({
-      startX: 15, startY: 107, endX: 30, endY: 107, label: 'Ano:', value: this.workOrder.vehicle.year.getFullYear().toString()
+      startX: 15, startY: 107, endX: 30, endY: 107, label: 'Ano:', value: this.workOrder.vehicle.year ? this.workOrder.vehicle.year.getFullYear().toString() : ''
     });
     pdfDoc.addLabelAndValue({
-      startX: 105, startY: 107, endX: 135, endY: 107, label: 'Ano modelo:', value: this.workOrder.vehicle.yearModel.getFullYear().toString()
+      startX: 105, startY: 107, endX: 135, endY: 107, label: 'Ano modelo:', value: this.workOrder.vehicle.yearModel ? this.workOrder.vehicle.yearModel.getFullYear().toString() : ''
     });
 
     pdfDoc.titleFontSize = 14;
@@ -191,14 +191,14 @@ export class WorkOrderPreviewComponent implements OnInit {
     pdfDoc.doc.setFontType('normal');
 
     const services = Object.assign([], this.workOrder.services.map(service => {
-      return { name: service.name, price: this.currencyPipe.transform(service.price.toString(), 'BRL') };
+      return { name: service.name, price: this.currencyPipe.transform(service.price ? service.price.toString() : '', 'BRL') };
     }));
 
     const products = Object.assign([], this.workOrder.products.map(product => {
       return {
         name: product.name,
         amount: product.amount,
-        price: this.currencyPipe.transform(product.price.toString(), 'BRL')
+        price: this.currencyPipe.transform(product.price ? product.price.toString() : '', 'BRL')
       };
     }));
 
@@ -371,7 +371,7 @@ export class WorkOrderPreviewComponent implements OnInit {
 
     let startY = hookData.cursor.y + 15;
 
-    const splitTitle = pdfDoc.doc.splitTextToSize(this.workOrder.comments, 180);
+    const splitTitle = pdfDoc.doc.splitTextToSize(this.workOrder.comments ? this.workOrder.comments : '', 180);
 
     startY = this.breakPageAndSetStartY(((splitTitle.length - 1) * 6) + hookData.cursor.y + 50, pdfDoc, startY);
 
@@ -392,7 +392,7 @@ export class WorkOrderPreviewComponent implements OnInit {
       endX: 155,
       endY: ((splitTitle.length - 1) * 6) + endY + 10,
       label: 'Total:',
-      value: this.currencyPipe.transform(this.totalValue.toString(), 'BRL')
+      value: this.currencyPipe.transform(this.totalValue ? this.totalValue.toString() : '', 'BRL')
     });
   }
 }

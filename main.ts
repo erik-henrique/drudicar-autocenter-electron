@@ -31,7 +31,7 @@ function createWindow() {
     // The following is optional and will open the DevTools:
     win.webContents.openDevTools();
   } else {
-    // win.removeMenu();
+    win.removeMenu();
     // load the dist folder from Angular
     win.loadURL(
       url.format({

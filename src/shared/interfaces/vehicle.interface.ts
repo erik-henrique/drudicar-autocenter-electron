@@ -2,7 +2,6 @@ import IClient from './client.interface';
 
 export default interface IVehicle {
     id?: number;
-    clientId?: number;
     client?: IClient;
     carLicense: string;
     year: Date;

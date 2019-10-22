@@ -8,6 +8,9 @@ module.exports = {
         typeorm: "require('typeorm')",
         sqlite3: "require('sqlite3')",
     },
+    optimization: {
+        minimize: false
+    },
     resolve: {
         alias: {
             typeorm: path.resolve(__dirname, "../node_modules/typeorm/typeorm-model-shim")

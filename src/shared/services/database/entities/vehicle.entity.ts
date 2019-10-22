@@ -34,13 +34,8 @@ export class VehicleEntity extends BaseEntity {
     @Column({ nullable: true })
     chassis: string;
 
-    @Column({
-        name: 'clientId',
-    })
-    @ManyToOne(type => ClientEntity)
-    @JoinTable()
+    @ManyToOne(type => ClientEntity, client => client.id) @JoinTable()
     client: ClientEntity;
-    clientId: number;
 
     @Column({ default: true })
     status: boolean;
