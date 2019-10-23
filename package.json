@@ -1,6 +1,6 @@
 {
   "name": "drudicar_autocenter_electron",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "main": "main.js",
   "description": "Angular 6(+) and Electron (Typescript + SCSS + Hot Reload) for creating cross platform applications.",
   "homepage": "https://github.com/erikhenriq/drudicar_autocenter_electron",
