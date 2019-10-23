@@ -16,9 +16,11 @@
 
 </div>
 
-
 [![Electron Logo](https://electronjs.org/images/electron-logo.svg)](https://electronjs.org)
-  
+
+[![Watch on GitHub][github-watch-badge]][github-watch]
+[![Star on GitHub][github-star-badge]][github-star]
+
 # Começo rápido
   
 ``` bash
@@ -99,14 +101,14 @@ Você pode desativar as "Ferramentas de desenvolvimento" comentando `win.webCont
 
 ## Comandos incluídos
 
-|Comando|Descrição|
-|--|--|
-|`npm run build`| cria o build. Os arquivos gerados ficam no diretório/dist . |
-|`npm run build:prod`| cria o build com Angular *aot*. Os arquivos gerados ficam no diretório/dist. |
-|`npm run electron:local`| cria o build e inicia o electron |
-|`npm run electron:linux`| cria o build e cria um arquivo executável para linux OS |
-|`npm run electron:windows`| Em um Windows OS, cria o build e cria um arquivo executável para Windows 32/64 bit |
-|`npm run electron:mac`| Em um MacOS , cria o build e cria um arquivo `.app` que pode ser executado em um Mac |
+| Comando                    | Descrição                                                                            |
+| -------------------------- | ------------------------------------------------------------------------------------ |
+| `npm run build`            | cria o build. Os arquivos gerados ficam no diretório/dist .                          |
+| `npm run build:prod`       | cria o build com Angular *aot*. Os arquivos gerados ficam no diretório/dist.         |
+| `npm run electron:local`   | cria o build e inicia o electron                                                     |
+| `npm run electron:linux`   | cria o build e cria um arquivo executável para linux OS                              |
+| `npm run electron:windows` | Em um Windows OS, cria o build e cria um arquivo executável para Windows 32/64 bit   |
+| `npm run electron:mac`     | Em um MacOS , cria o build e cria um arquivo `.app` que pode ser executado em um Mac |
 
 **A aplicação é otimizada. Somente o diretório /dist e dependências Node são incluídas no executável.**
 
@@ -118,9 +120,6 @@ Você pode desativar as "Ferramentas de desenvolvimento" comentando `win.webCont
 1. **Windows Build.** Você não pode criar build para `windows` se o caminho para a pasta do projeto contiver espaços ou não letras latinas.
 
 [github-watch-badge]: https://img.shields.io/github/watchers/erikhenriq/drudicar_autocenter_electron.svg?style=social
-
 [github-watch]: https://github.com/erikhenriq/drudicar_autocenter_electron/watchers
-
 [github-star-badge]: https://img.shields.io/github/stars/erikhenriq/drudicar_autocenter_electron.svg?style=social
-
 [github-star]: https://github.com/erikhenriq/drudicar_autocenter_electron/stargazers
