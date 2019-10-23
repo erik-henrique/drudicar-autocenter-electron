@@ -35,7 +35,7 @@ npm start
 
 # Introdução
 
-Este projeto é uma ferramenta para geração de orçamentos e ordens de serviço com foco em centro automotivo feito com Electron, Angular 6 e TypeORM.
+Este projeto é uma ferramenta para geração de orçamentos e ordens de serviço com foco em centro automotivo.
 
 Atualmente é executado com:
 
@@ -51,13 +51,11 @@ Atualmente é executado com:
 
  - SQLite v4.0.9;
 
-  Podemos desenvolver :
+  Podemos desenvolver:
 
-- Executar em ambiente de desenvolvimento local com Hot Reload;
+- Executando em ambiente de desenvolvimento local com Hot Reload;
   
-- Executar simulando em ambiente de produção;
-
-- Empacote em um arquivo executável para Linux, Windows e Mac;
+- Simulando em ambiente de produção;
 
 ## Começando
   
@@ -77,7 +75,7 @@ npm install
 
 ```
 
-Se você deseja gerar componentes Angular com Angular-cli, **NECESSÁRIO** instalar `@ angular / cli` no contexto global npm.
+Se você deseja gerar componentes Angular com angular-cli, **NECESSÁRIO** instalar `@ angular / cli` no contexto global npm.
 
 Por favor, siga a [documentação do angular-cli](https://github.com/angular/angular-cli) se você instalou uma versão anterior do `angular-cli`.
 
@@ -117,7 +115,7 @@ Você pode desativar as "Ferramentas de desenvolvimento" comentando `win.webCont
 
 1. **Browser mode.** Você não pode usar o TypeORM no navegador, não é possível. Se você precisar executar o aplicativo no navegador e não precisar do TypeORM, pode ser usado [angular-electron](https://github.com/maximegris/angular-electron) para isso.
   
-1. **Windows Build.** Você não pode criar build para `windows` se o caminho para a pasta do projeto contiver espaços ou não letras latinas.
+2. **Windows Build.** Você não pode criar build para `windows` se o caminho para a pasta do projeto contiver espaços ou não letras latinas.
 
 [github-watch-badge]: https://img.shields.io/github/watchers/erikhenriq/drudicar_autocenter_electron.svg?style=social
 [github-watch]: https://github.com/erikhenriq/drudicar_autocenter_electron/watchers
