@@ -2,7 +2,7 @@
   "name": "drudicar_autocenter_electron",
   "version": "1.0.0",
   "main": "main.js",
-  "description": "Angular 6(+) and Electron (Typescript + SCSS + Hot Reload) for creating cross platform applications.",
+  "description": "Ferramenta para geração de orçamentos e ordens de serviço com foco em centro automotivo. Desenvolvido com Angular 6(+) and Electron (Typescript + SCSS + Hot Reload)",
   "homepage": "https://github.com/erikhenriq/drudicar_autocenter_electron",
   "author": {
     "name": "Erik Henrique",
