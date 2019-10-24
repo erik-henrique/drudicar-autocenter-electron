@@ -89,7 +89,7 @@ npm install -g @angular/cli
   
 - **Em um terminal** -> npm start
 
-O código do aplicativo é gerenciado por `main.ts`.O aplicativo é executado com um aplicativo Angular ([http: // localhost: 4200](http:%20//%20localhost:%204200)) e uma janela do Electron que pode editar dados no banco de dados.
+O código do aplicativo é gerenciado por `main.ts`. O aplicativo é executado com Angular ([http: // localhost: 4200](http:%20//%20localhost:%204200)) e um executável em Electron que pode editar dados no banco de dados.
   
 O componente Angular contém um exemplo de importação de lib nativa Electron, TypeORM e NodeJS.
 
@@ -103,7 +103,7 @@ Você pode desativar as "Ferramentas de desenvolvimento" comentando `win.webCont
 | -------------------------- | ------------------------------------------------------------------------------------ |
 | `npm run build`            | cria o build. Os arquivos gerados ficam no diretório/dist .                          |
 | `npm run build:prod`       | cria o build com Angular *aot*. Os arquivos gerados ficam no diretório/dist.         |
-| `npm run electron:local`   | cria o build e inicia o electron                                                     |
+| `npm run electron:local`   | cria o build e inicia o Electron                                                     |
 | `npm run electron:linux`   | cria o build e cria um arquivo executável para linux OS                              |
 | `npm run electron:windows` | Em um Windows OS, cria o build e cria um arquivo executável para Windows 32/64 bit   |
 | `npm run electron:mac`     | Em um MacOS , cria o build e cria um arquivo `.app` que pode ser executado em um Mac |
