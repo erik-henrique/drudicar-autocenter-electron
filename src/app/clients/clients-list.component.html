@@ -41,8 +41,9 @@
         aria-label="Editar cliente">
         <mat-icon>edit</mat-icon>
       </button>
-      <button style="margin-left: 24px;" mat-icon-button aria-label="Deletar cliente">
-        <mat-icon (click)="deleteClient(client)">delete</mat-icon>
+      <button (click)="deleteClient(client)" [disabled]="!client.status" style="margin-left: 24px;" mat-icon-button
+        aria-label="Deletar cliente">
+        <mat-icon>delete</mat-icon>
       </button>
       <mat-divider></mat-divider>
     </mat-list-item>

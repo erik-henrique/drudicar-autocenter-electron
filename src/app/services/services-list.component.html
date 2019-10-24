@@ -22,8 +22,9 @@
         aria-label="Editar Serviço">
         <mat-icon>edit</mat-icon>
       </button>
-      <button style="margin-left: 24px;" mat-icon-button aria-label="Deletar serviço">
-        <mat-icon (click)="deleteService(service)">delete</mat-icon>
+      <button (click)="deleteService(service)" [disabled]="!service.status" style="margin-left: 24px;" mat-icon-button
+        aria-label="Deletar serviço">
+        <mat-icon>delete</mat-icon>
       </button>
       <mat-divider></mat-divider>
     </mat-list-item>

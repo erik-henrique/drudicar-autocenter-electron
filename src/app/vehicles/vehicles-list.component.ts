@@ -60,6 +60,38 @@ export class VehiclesListComponent implements OnInit {
     }
   }
 
+  async activateVehicle(vehicle: IVehicle) {
+    try {
+      const confirmation = {
+        message: 'Deseja ativar o veículo',
+        data: vehicle.carLicense.toUpperCase().substr(0, 3) + '-' + vehicle.carLicense.substr(3),
+        action: 'Ativar'
+      };
+
+      const dialogRef = this.dialog.open(ConfirmationComponent, {
+        minWidth: '25%',
+        minHeight: '25%',
+        data: { ...confirmation }
+      });
+
+      dialogRef.afterClosed().subscribe(async (data) => {
+        if (data) {
+          await this._databaseService
+            .connection
+            .then(async () => {
+              await VehicleEntity.update({ id: vehicle.id }, { status: true });
+              await this.getVehicles();
+            });
+        }
+      });
+    } catch (err) {
+      console.error(err);
+      this._snackBar.open('Não foi possível ativar o veículo.', 'OK', {
+        duration: 2000,
+      });
+    }
+  }
+
   async deleteVehicle(vehicle: IVehicle) {
     try {
       const confirmation = {

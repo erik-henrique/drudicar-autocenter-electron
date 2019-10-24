@@ -11,63 +11,63 @@
                 <!-- carLicense Column -->
                 <ng-container matColumnDef="carLicense">
                     <th mat-header-cell *matHeaderCellDef> Placa </th>
-                    <td mat-cell *matCellDef="let element" class="text-uppercase">
-                        {{element.carLicense.toUpperCase().substr(0, 3) + '-' + element   .carLicense.substr(3)}} </td>
+                    <td mat-cell *matCellDef="let vehicle" class="text-uppercase">
+                        {{vehicle.carLicense.toUpperCase().substr(0, 3) + '-' + vehicle   .carLicense.substr(3)}} </td>
                 </ng-container>
 
                 <!-- model Column -->
                 <ng-container matColumnDef="model">
                     <th mat-header-cell *matHeaderCellDef> Modelo </th>
-                    <td mat-cell *matCellDef="let element" class="text-uppercase"> {{element.model}} </td>
+                    <td mat-cell *matCellDef="let vehicle" class="text-uppercase"> {{vehicle.model}} </td>
                 </ng-container>
 
                 <!-- brand Column -->
                 <ng-container matColumnDef="brand">
                     <th mat-header-cell *matHeaderCellDef> Marca </th>
-                    <td mat-cell *matCellDef="let element" class="text-uppercase"> {{element.brand}} </td>
+                    <td mat-cell *matCellDef="let vehicle" class="text-uppercase"> {{vehicle.brand}} </td>
                 </ng-container>
 
                 <!-- color Column -->
                 <ng-container matColumnDef="color">
                     <th mat-header-cell *matHeaderCellDef> Cor </th>
-                    <td mat-cell *matCellDef="let element" class="text-uppercase"> {{element.color}} </td>
+                    <td mat-cell *matCellDef="let vehicle" class="text-uppercase"> {{vehicle.color}} </td>
                 </ng-container>
 
                 <!-- year Column -->
                 <ng-container matColumnDef="year">
                     <th mat-header-cell *matHeaderCellDef> Ano </th>
-                    <td mat-cell *matCellDef="let element"> {{element.year | date: 'yyyy'}} </td>
+                    <td mat-cell *matCellDef="let vehicle"> {{vehicle.year | date: 'yyyy'}} </td>
                 </ng-container>
 
                 <!-- yearModel Column -->
                 <ng-container matColumnDef="yearModel">
                     <th mat-header-cell *matHeaderCellDef> Ano modelo </th>
-                    <td mat-cell *matCellDef="let element"> {{element.yearModel | date: 'yyyy'}} </td>
+                    <td mat-cell *matCellDef="let vehicle"> {{vehicle.yearModel | date: 'yyyy'}} </td>
                 </ng-container>
 
                 <!-- state Column -->
                 <ng-container matColumnDef="state">
                     <th mat-header-cell *matHeaderCellDef> UF </th>
-                    <td mat-cell *matCellDef="let element" class="text-uppercase"> {{element.state}} </td>
+                    <td mat-cell *matCellDef="let vehicle" class="text-uppercase"> {{vehicle.state}} </td>
                 </ng-container>
 
                 <!-- district Column -->
                 <ng-container matColumnDef="district">
                     <th mat-header-cell *matHeaderCellDef> Município </th>
-                    <td mat-cell *matCellDef="let element" class="text-capitalize"> {{element.district}} </td>
+                    <td mat-cell *matCellDef="let vehicle" class="text-capitalize"> {{vehicle.district}} </td>
                 </ng-container>
 
                 <!-- chassis Column -->
                 <ng-container matColumnDef="chassis">
                     <th mat-header-cell *matHeaderCellDef> Chassi </th>
-                    <td mat-cell *matCellDef="let element" class="text-uppercase"> {{element.chassis}} </td>
+                    <td mat-cell *matCellDef="let vehicle" class="text-uppercase"> {{vehicle.chassis}} </td>
                 </ng-container>
 
                 <!-- edit Column -->
                 <ng-container matColumnDef="edit">
                     <th mat-header-cell *matHeaderCellDef></th>
-                    <td mat-cell *matCellDef="let element">
-                        <span (click)="editOrAddVehicle(element)">
+                    <td mat-cell *matCellDef="let vehicle">
+                        <span (click)="editOrAddVehicle(vehicle)">
                             <mat-icon style="height: 20px;font-size: 20px; cursor: pointer;margin-right: 2vw;">edit
                             </mat-icon>
                         </span>
@@ -77,9 +77,12 @@
                 <!-- delete Column -->
                 <ng-container matColumnDef="delete">
                     <th mat-header-cell *matHeaderCellDef></th>
-                    <td mat-cell *matCellDef="let element">
-                        <span (click)="deleteVehicle(element)">
-                            <mat-icon style="height: 20px;font-size: 20px; cursor: pointer;">delete</mat-icon>
+                    <td mat-cell *matCellDef="let vehicle">
+                        <span *ngIf="vehicle.status" (click)="deleteVehicle(vehicle)">
+                            <mat-icon style=" height: 20px;font-size: 20px; cursor: pointer;">delete</mat-icon>
+                        </span>
+                        <span *ngIf="!vehicle.status" (click)="activateVehicle(vehicle)">
+                            <mat-icon style=" height: 20px;font-size: 20px; cursor: pointer;">check</mat-icon>
                         </span>
                     </td>
                 </ng-container>
