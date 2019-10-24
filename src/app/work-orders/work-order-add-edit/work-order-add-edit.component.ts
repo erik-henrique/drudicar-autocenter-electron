@@ -56,6 +56,8 @@ export class WorkOrderAddEditComponent implements OnInit {
   public STATUS = Status;
   public WORK_ORDER_TYPES = WorkOrderTypes;
 
+  public hasFinished = false;
+
   constructor(
     private _fb: FormBuilder,
     private _databaseService: DatabaseService,
@@ -280,6 +282,7 @@ export class WorkOrderAddEditComponent implements OnInit {
           if (this.orcamentoForm.controls.status.value === this.STATUS.Canceled
             || this.orcamentoForm.controls.status.value === this.STATUS.Finished) {
             this.orcamentoForm.disable();
+            this.hasFinished = true;
           }
         });
     } catch (err) {
@@ -383,6 +386,7 @@ export class WorkOrderAddEditComponent implements OnInit {
             if (this.orcamentoForm.controls.status.value === this.STATUS.Canceled
               || this.orcamentoForm.controls.status.value === this.STATUS.Finished) {
               this.orcamentoForm.disable();
+              this.hasFinished = true;
             }
 
             this._snackBar.open('Salvo com sucesso.', 'OK', {

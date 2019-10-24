@@ -167,8 +167,7 @@
 </form>
 
 <div class="fixed-bottom fixed-bottom--right">
-  <button
-    [disabled]="this.orcamentoForm.invalid || statusFromForm.value === STATUS.Canceled || statusFromForm.value === STATUS.Finished"
+  <button [disabled]="this.orcamentoForm.invalid || statusFromForm.value === STATUS.Canceled || hasFinished"
     type="submit" (click)="onSubmit()" mat-fab color="light-blue">
     <mat-icon>save</mat-icon>
   </button>
