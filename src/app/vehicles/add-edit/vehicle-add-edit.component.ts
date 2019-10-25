@@ -76,6 +76,10 @@ export class VehicleAddEditComponent implements OnInit {
     return this.vehicleForm.get('year');
   }
 
+  get id() {
+    return this.vehicleForm.get('id');
+  }
+
   closeAnoDatePicker(event: any) {
     this.vehicleForm.controls.year.patchValue(new Date(event));
     this.datePickerAno.close();

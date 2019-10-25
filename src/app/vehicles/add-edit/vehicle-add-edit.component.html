@@ -1,5 +1,7 @@
 <mat-card class="card--margin">
-  <mat-card-title>Cadastrar novo veículo <mat-icon matSuffix>directions_car</mat-icon>
+  <mat-card-title *ngIf="!id.value">Cadastrar novo veículo <mat-icon matSuffix>directions_car</mat-icon>
+  </mat-card-title>
+  <mat-card-title *ngIf="id.value">Editar veículo <mat-icon matSuffix>directions_car</mat-icon>
   </mat-card-title>
   <mat-card-subtitle>Preecha todas as informações marcadas como *</mat-card-subtitle>
   <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
