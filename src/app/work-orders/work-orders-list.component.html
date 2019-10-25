@@ -50,7 +50,7 @@
         aria-label="Editar Serviço">
         <mat-icon>pageview</mat-icon>
       </button>
-      <button (click)="deleteService(workOrder)" [disabled]="workOrder.status !== STATUS.Canceled"
+      <button (click)="deleteService(workOrder)" [disabled]="workOrder.status === STATUS.Canceled"
         style="margin-left: 24px;" mat-icon-button aria-label="Deletar serviço">
         <mat-icon>delete</mat-icon>
       </button>
