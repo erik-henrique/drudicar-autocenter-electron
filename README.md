@@ -21,6 +21,8 @@
 [![Watch on GitHub][github-watch-badge]][github-watch]
 [![Star on GitHub][github-star-badge]][github-star]
 
+![Example CLI running](drudicar.gif)
+
 # Começo rápido
   
 ``` bash
