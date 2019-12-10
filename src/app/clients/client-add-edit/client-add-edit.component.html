@@ -5,9 +5,9 @@
   <mat-card-title *ngIf="id.value"
     >Editar cliente <mat-icon matSuffix>person</mat-icon>
   </mat-card-title>
-  <mat-card-subtitle
-    >Preecha todas as informações marcadas como *</mat-card-subtitle
-  >
+  <mat-card-subtitle>
+    Preecha todas as informações marcadas como *
+  </mat-card-subtitle>
   <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
     <mat-card-content>
       <div class="form-row">
@@ -41,8 +41,8 @@
               individualRegistration.touched
             "
           >
-            CPF é obrigatório</mat-error
-          >
+            CPF é obrigatório
+          </mat-error>
           <mat-error
             *ngIf="
               individualRegistration.errors &&
@@ -67,8 +67,8 @@
           />
           <mat-icon matSuffix>mail</mat-icon>
           <mat-error *ngIf="email.invalid && email.touched"
-            >Necessário ser um e-mail válido.</mat-error
-          >
+            >Necessário ser um e-mail válido.
+          </mat-error>
         </mat-form-field>
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Celular</mat-label>

@@ -52,7 +52,7 @@ import { WorkOrderAddEditComponent } from './work-orders/work-order-add-edit/wor
 
 import { getPtBrPaginatorIntl } from '../shared/i18n/material/ptBr-paginator-intl';
 import { HttpConfigInterceptor } from '../shared/interceptors/http.token.interceptor';
-import { FormatOnlyNamesPipe } from '../shared/pipes/format-only-names/format-only-names.pipe';
+import { DisplayNamesPipe } from '../shared/pipes/display-names/display-names.pipe';
 import { WorkOrderPreviewComponent } from './work-orders/work-order-preview/work-order-preview.component';
 import { environment } from 'src/environments/environment';
 import { HomeComponent } from './home/home.component';
@@ -104,7 +104,7 @@ const appRoutes: Routes = [
     ConfirmationComponent,
     ServicesListComponent,
     ServiceAddEditComponent,
-    FormatOnlyNamesPipe,
+    DisplayNamesPipe,
     WorkOrderPreviewComponent,
     HomeComponent
   ],

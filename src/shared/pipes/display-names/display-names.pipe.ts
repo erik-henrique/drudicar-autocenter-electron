@@ -1,15 +1,16 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'formatOnlyNames'
+  name: 'displayNames'
 })
-export class FormatOnlyNamesPipe implements PipeTransform {
+export class DisplayNamesPipe implements PipeTransform {
   transform(value: any, ...args: any[]): any {
     if (value) {
       return JSON.parse(value)
-        .map(genericItem => genericItem.name)
+        .map(item => item.name)
         .join(', ');
     }
+
     return null;
   }
 }

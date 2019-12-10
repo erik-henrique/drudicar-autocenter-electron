@@ -40,9 +40,11 @@ export class IndividualRegistrationValidator {
 
     for (let i = 0; i < 9; i++) {
       chars = individualRegistrationAux.charAt(i);
+
       if (nums.search(chars) === -1) {
         return { individualRegistrationInvalid: true };
       }
+
       num = Number(chars);
       sum = sum + num * j;
       j--;
@@ -50,6 +52,7 @@ export class IndividualRegistrationValidator {
 
     rest = sum % 11;
     firstNum = 11 - rest;
+
     if (firstNum > 9) {
       firstNum = 0;
     }
@@ -67,6 +70,7 @@ export class IndividualRegistrationValidator {
 
     rest = sum % 11;
     secondNum = 11 - rest;
+
     if (secondNum > 9) {
       secondNum = 0;
     }

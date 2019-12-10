@@ -47,7 +47,7 @@
       </p>
       <p style="margin-right: 24px;width: 100%;">
         <span style="font-weight: bold;">Serviços:</span>
-        {{ workOrder.services | formatOnlyNames }}
+        {{ workOrder.services | displayNames }}
       </p>
       <p style="margin-right: 24px;">
         <mat-chip-list aria-label="Pagamento">
@@ -74,7 +74,7 @@
           color="warn"
           *ngIf="workOrder.status === STATUS.CANCELED"
           selected
-          >CANCELEDa</mat-chip
+          >Cancelada</mat-chip
         >
         <mat-chip *ngIf="workOrder.status !== STATUS.CANCELED">{{
           workOrder.status
