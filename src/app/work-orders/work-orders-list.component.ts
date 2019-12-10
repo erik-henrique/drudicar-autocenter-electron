@@ -48,24 +48,25 @@ export class WorkOrdersComponent implements OnInit {
       .subscribe(async (value: string) => {
         try {
           this.spinner.show();
+
           await this._databaseService.connection
             .then(async () => {
               if (typeof value === 'string') {
                 this.serviceFilterForm.controls.cliente.reset();
+
                 const vehicles = await VehicleEntity.find({
                   model: Like(`%${value}%`)
                 });
+
                 const vehicleIds = vehicles.map(v => v.id);
 
-                const workOrders = await WorkOrderEntity.find({
+                this.workOrders = (await WorkOrderEntity.find({
                   relations: ['vehicle', 'vehicle.client'],
                   where: {
                     vehicle: In(vehicleIds),
                     type: this.type
                   }
-                });
-
-                this.workOrders = workOrders as IWorkOrder[];
+                })) as IWorkOrder[];
               }
             })
             .finally(() => {
@@ -88,24 +89,26 @@ export class WorkOrdersComponent implements OnInit {
       .subscribe(async (value: string) => {
         try {
           this.spinner.show();
+
           await this._databaseService.connection
             .then(async () => {
               if (typeof value === 'string') {
                 this.serviceFilterForm.controls.veiculo.reset();
+
                 const clients = await ClientEntity.find({
                   name: Like(`%${value}%`)
                 });
+
                 const clientIds = clients.map(v => v.id);
-                const workOrders = await WorkOrderEntity.createQueryBuilder(
+
+                this.workOrders = (await WorkOrderEntity.createQueryBuilder(
                   'work'
                 )
                   .innerJoinAndSelect('work.vehicle', 'vehicle')
                   .innerJoinAndSelect('vehicle.client', 'client')
                   .where('vehicle.client.id IN (:...ids)', { ids: clientIds })
                   .andWhere('work.type = :type', { type: this.type })
-                  .getMany();
-
-                this.workOrders = workOrders as IWorkOrder[];
+                  .getMany()) as IWorkOrder[];
               }
             })
             .finally(() => {
@@ -128,6 +131,7 @@ export class WorkOrdersComponent implements OnInit {
         params['params'].type === 'orcamento'
           ? this.WORK_ORDER_TYPES.BUDGET
           : this.WORK_ORDER_TYPES.WORK_ORDER;
+
       await this.getWorkOrders();
     });
   }
@@ -150,13 +154,13 @@ export class WorkOrdersComponent implements OnInit {
   async getWorkOrders() {
     try {
       this.spinner.show();
+
       await this._databaseService.connection
         .then(async () => {
-          const workOrders = await WorkOrderEntity.find({
+          this.workOrders = (await WorkOrderEntity.find({
             relations: ['vehicle', 'vehicle.client'],
             where: { type: this.type }
-          });
-          this.workOrders = workOrders as IWorkOrder[];
+          })) as IWorkOrder[];
         })
         .finally(() => {
           this.spinner.hide();
@@ -194,6 +198,7 @@ export class WorkOrdersComponent implements OnInit {
               { id: service.id },
               { status: this.STATUS.CANCELED }
             );
+
             await this.getWorkOrders();
           });
         }

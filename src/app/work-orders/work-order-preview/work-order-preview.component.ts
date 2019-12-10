@@ -97,13 +97,15 @@ export class WorkOrderPreviewComponent implements OnInit {
   async getWorkOrder(id: number) {
     try {
       await this._databaseService.connection.then(async () => {
-        const workOrder = await WorkOrderEntity.findOne(id, {
+        this.workOrder = (await WorkOrderEntity.findOne(id, {
           relations: ['vehicle', 'vehicle.client']
-        });
-        workOrder.services = JSON.parse(workOrder.services);
-        workOrder.products = JSON.parse(workOrder.products);
-
-        this.workOrder = workOrder;
+        }).then(workOrder => {
+          return {
+            ...workOrder,
+            services: JSON.parse(workOrder.services),
+            products: JSON.parse(workOrder.products)
+          };
+        })) as IWorkOrder;
       });
     } catch (err) {
       console.error(err);

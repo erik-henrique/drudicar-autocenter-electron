@@ -38,14 +38,15 @@ export class ClientsListComponent implements OnInit {
       .subscribe(async (value: string) => {
         try {
           this.spinner.show();
+
           await this._databaseService.connection
             .then(async () => {
               if (typeof value === 'string') {
                 this.clientFilterForm.controls.individualRegistration.reset();
-                const clients = await ClientEntity.find({
+
+                this.clients = (await ClientEntity.find({
                   name: Like(`%${value}%`)
-                });
-                this.clients = clients as IClient[];
+                })) as IClient[];
               }
             })
             .finally(() => {
@@ -72,10 +73,10 @@ export class ClientsListComponent implements OnInit {
             .then(async () => {
               if (typeof value === 'string') {
                 this.clientFilterForm.controls.name.reset();
-                const clients = await ClientEntity.find({
+
+                this.clients = (await ClientEntity.find({
                   individualRegistration: Like(`%${value}%`)
-                });
-                this.clients = clients as IClient[];
+                })) as IClient[];
               }
             })
             .finally(() => {
@@ -102,8 +103,7 @@ export class ClientsListComponent implements OnInit {
 
       await this._databaseService.connection
         .then(async () => {
-          const clients = await ClientEntity.find();
-          this.clients = clients as IClient[];
+          this.clients = (await ClientEntity.find()) as IClient[];
         })
         .finally(() => {
           this.spinner.hide();
