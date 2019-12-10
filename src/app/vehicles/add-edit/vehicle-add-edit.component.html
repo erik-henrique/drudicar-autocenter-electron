@@ -1,49 +1,102 @@
 <mat-card class="card--margin">
-  <mat-card-title *ngIf="!id.value">Cadastrar novo veículo <mat-icon matSuffix>directions_car</mat-icon>
+  <mat-card-title *ngIf="!id.value"
+    >Cadastrar novo veículo <mat-icon matSuffix>directions_car</mat-icon>
   </mat-card-title>
-  <mat-card-title *ngIf="id.value">Editar veículo <mat-icon matSuffix>directions_car</mat-icon>
+  <mat-card-title *ngIf="id.value"
+    >Editar veículo <mat-icon matSuffix>directions_car</mat-icon>
   </mat-card-title>
-  <mat-card-subtitle>Preecha todas as informações marcadas como *</mat-card-subtitle>
+  <mat-card-subtitle
+    >Preecha todas as informações marcadas como *</mat-card-subtitle
+  >
   <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
     <mat-card-content>
       <div class="form-row">
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Placa *</mat-label>
-          <input type="text" class="text-uppercase" matInput placeholder="Placa" formControlName="carLicense"
-            mask="AAA-0000">
-          <mat-error *ngIf="carLicense.invalid && carLicense.touched">Placa é obrigatório.</mat-error>
+          <input
+            type="text"
+            class="text-uppercase"
+            matInput
+            placeholder="Placa"
+            formControlName="carLicense"
+            mask="AAA-0000"
+          />
+          <mat-error *ngIf="carLicense.invalid && carLicense.touched"
+            >Placa é obrigatório.</mat-error
+          >
         </mat-form-field>
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Cor</mat-label>
-          <input type="text" class="text-uppercase" matInput placeholder="Cor" formControlName="color">
+          <input
+            type="text"
+            class="text-uppercase"
+            matInput
+            placeholder="Cor"
+            formControlName="color"
+          />
         </mat-form-field>
       </div>
 
       <div class="form-row">
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Modelo</mat-label>
-          <input type="text" class="text-uppercase" matInput placeholder="Modelo" formControlName="model">
+          <input
+            type="text"
+            class="text-uppercase"
+            matInput
+            placeholder="Modelo"
+            formControlName="model"
+          />
         </mat-form-field>
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Marca</mat-label>
-          <input type="text" class="text-uppercase" matInput placeholder="Marca" formControlName="brand">
+          <input
+            type="text"
+            class="text-uppercase"
+            matInput
+            placeholder="Marca"
+            formControlName="brand"
+          />
         </mat-form-field>
       </div>
 
       <div class="form-row">
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Ano</mat-label>
-          <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="year" placeholder="Ano"
-            formControlName="year">
+          <input
+            matInput
+            [min]="minDate"
+            [max]="maxDate"
+            [matDatepicker]="year"
+            placeholder="Ano"
+            formControlName="year"
+          />
           <mat-datepicker-toggle matSuffix [for]="year"></mat-datepicker-toggle>
-          <mat-datepicker #year (yearSelected)="closeAnoDatePicker($event)" startView="multi-year"></mat-datepicker>
+          <mat-datepicker
+            #year
+            (yearSelected)="closeAnoDatePicker($event)"
+            startView="multi-year"
+          ></mat-datepicker>
         </mat-form-field>
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Ano Modelo</mat-label>
-          <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="yearModel" placeholder="Ano model"
-            formControlName="yearModel">
-          <mat-datepicker-toggle matSuffix [for]="yearModel"></mat-datepicker-toggle>
-          <mat-datepicker #yearModel (yearSelected)="closeAnoModeloDatePicker($event)" startView="multi-year">
+          <input
+            matInput
+            [min]="minDate"
+            [max]="maxDate"
+            [matDatepicker]="yearModel"
+            placeholder="Ano model"
+            formControlName="yearModel"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="yearModel"
+          ></mat-datepicker-toggle>
+          <mat-datepicker
+            #yearModel
+            (yearSelected)="closeAnoModeloDatePicker($event)"
+            startView="multi-year"
+          >
           </mat-datepicker>
         </mat-form-field>
       </div>
@@ -51,33 +104,60 @@
       <div class="form-row">
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>UF</mat-label>
-          <input type="text" matInput placeholder="UF" formControlName="state" mask="SS" class="text-uppercase">
+          <input
+            type="text"
+            matInput
+            placeholder="UF"
+            formControlName="state"
+            mask="SS"
+            class="text-uppercase"
+          />
         </mat-form-field>
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Município</mat-label>
-          <input type="text" matInput placeholder="Município" formControlName="district">
+          <input
+            type="text"
+            matInput
+            placeholder="Município"
+            formControlName="district"
+          />
         </mat-form-field>
       </div>
 
       <div class="form-row">
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Chassi</mat-label>
-          <input type="text" class="text-uppercase" matInput placeholder="Chassi" formControlName="chassis">
+          <input
+            type="text"
+            class="text-uppercase"
+            matInput
+            placeholder="Chassi"
+            formControlName="chassis"
+          />
         </mat-form-field>
       </div>
-
     </mat-card-content>
   </form>
 </mat-card>
 
 <mat-dialog-actions style="float: left;">
   <button mat-icon-button class="mat-list-option" [mat-dialog-close]="true">
-    <mat-icon style="font-size: 28px;height: 28px; width: 28px;cursor: pointer;">close</mat-icon>
+    <mat-icon style="font-size: 28px;height: 28px; width: 28px;cursor: pointer;"
+      >close</mat-icon
+    >
   </button>
 </mat-dialog-actions>
 
 <mat-dialog-actions style="float: right;">
-  <button type="submit" (click)="onSubmit()" [disabled]="!vehicleForm.valid" mat-icon-button class="mat-list-option">
-    <mat-icon style="font-size: 28px;height: 28px; width: 28px;cursor: pointer;">check</mat-icon>
+  <button
+    type="submit"
+    (click)="onSubmit()"
+    [disabled]="!vehicleForm.valid"
+    mat-icon-button
+    class="mat-list-option"
+  >
+    <mat-icon style="font-size: 28px;height: 28px; width: 28px;cursor: pointer;"
+      >check</mat-icon
+    >
   </button>
 </mat-dialog-actions>

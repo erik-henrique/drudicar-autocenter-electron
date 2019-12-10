@@ -6,28 +6,47 @@
   <form [formGroup]="clientFilterForm">
     <mat-form-field appearance="outline" style="width: 49%">
       <mat-label>Pesquisar por nome</mat-label>
-      <input matInput placeholder="Digite o nome" formControlName="name">
+      <input matInput placeholder="Digite o nome" formControlName="name" />
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
     <mat-form-field appearance="outline" style="width: 49%;float: right;">
       <mat-label>Pesquisar por CPF</mat-label>
-      <input matInput placeholder="Digite o CPF" formControlName="individualRegistration">
+      <input
+        matInput
+        placeholder="Digite o CPF"
+        formControlName="individualRegistration"
+      />
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
   </form>
   <mat-list>
-    <mat-list-item class="mat-list-option ng-star-inserted" *ngFor="let client of clients">
-      <img matListAvatar src="assets/images/man.png" alt="...">
-      <h3 matLine style="text-transform: capitalize;margin-left: 0.5rem"> {{client.name}} </h3>
+    <mat-list-item
+      class="mat-list-option ng-star-inserted"
+      *ngFor="let client of clients"
+    >
+      <img matListAvatar src="assets/images/man.png" alt="..." />
+      <h3 matLine style="text-transform: capitalize;margin-left: 0.5rem">
+        {{ client.name }}
+      </h3>
       <p matLine>
         <mat-chip-list aria-label="Status">
-          <mat-chip><span style="font-weight:bold">CPF:</span>
-            {{ client.individualRegistration | mask: '000.000.000-00' }}</mat-chip>
+          <mat-chip
+            ><span style="font-weight:bold">CPF:</span>
+            {{
+              client.individualRegistration | mask: '000.000.000-00'
+            }}</mat-chip
+          >
         </mat-chip-list>
       </p>
       <mat-chip-list aria-label="Status">
-        <mat-chip color="warn" *ngIf="!client.status" selected>Desativado</mat-chip>
-        <mat-chip *ngIf="client.status" style=" background-color: #00A86B;color: #fff;">Ativo</mat-chip>
+        <mat-chip color="warn" *ngIf="!client.status" selected
+          >Desativado</mat-chip
+        >
+        <mat-chip
+          *ngIf="client.status"
+          style=" background-color: #00A86B;color: #fff;"
+          >Ativo</mat-chip
+        >
       </mat-chip-list>
       <!-- <button mat-icon-button aria-label="Adicionar veículos do cliente" matBadge="2" matBadgePosition="before"
         matBadgeColor="warn">
@@ -37,27 +56,38 @@
         matBadgePosition="before" matBadgeColor="warn">
         <mat-icon>build</mat-icon>
       </button> -->
-      <button routerLink="/clients/{{client.id}}" style="margin-left: 24px;" mat-icon-button
-        aria-label="Editar cliente">
+      <button
+        routerLink="/clients/{{ client.id }}"
+        style="margin-left: 24px;"
+        mat-icon-button
+        aria-label="Editar cliente"
+      >
         <mat-icon>edit</mat-icon>
       </button>
-      <button (click)="deleteClient(client)" [disabled]="!client.status" style="margin-left: 24px;" mat-icon-button
-        aria-label="Deletar cliente">
+      <button
+        (click)="deleteClient(client)"
+        [disabled]="!client.status"
+        style="margin-left: 24px;"
+        mat-icon-button
+        aria-label="Deletar cliente"
+      >
         <mat-icon>delete</mat-icon>
       </button>
       <mat-divider></mat-divider>
     </mat-list-item>
   </mat-list>
-
 </mat-card>
 
 <div class="fixed-bottom fixed-bottom--right">
-
-  <button [color]="'light-blue'" mat-fab routerLink="/clients/:id" style="margin-right : 14px;">
+  <button
+    [color]="'light-blue'"
+    mat-fab
+    routerLink="/clients/:id"
+    style="margin-right : 14px;"
+  >
     <mat-icon>add</mat-icon>
   </button>
   <button mat-fab color="warn" style="margin-right : 14px;" (click)="goToTop()">
     <mat-icon>keyboard_arrow_up</mat-icon>
   </button>
-
 </div>

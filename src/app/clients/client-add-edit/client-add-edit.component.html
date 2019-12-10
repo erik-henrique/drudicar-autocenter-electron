@@ -1,30 +1,55 @@
 <mat-card class="card--margin">
-  <mat-card-title *ngIf="!id.value">Cadastrar novo cliente <mat-icon matSuffix>person</mat-icon>
+  <mat-card-title *ngIf="!id.value"
+    >Cadastrar novo cliente <mat-icon matSuffix>person</mat-icon>
   </mat-card-title>
-  <mat-card-title *ngIf="id.value">Editar cliente <mat-icon matSuffix>person</mat-icon>
+  <mat-card-title *ngIf="id.value"
+    >Editar cliente <mat-icon matSuffix>person</mat-icon>
   </mat-card-title>
-  <mat-card-subtitle>Preecha todas as informações marcadas como *</mat-card-subtitle>
+  <mat-card-subtitle
+    >Preecha todas as informações marcadas como *</mat-card-subtitle
+  >
   <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
     <mat-card-content>
       <div class="form-row">
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Nome *</mat-label>
-          <input type="text" matInput placeholder="Nome" formControlName="name">
+          <input
+            type="text"
+            matInput
+            placeholder="Nome"
+            formControlName="name"
+          />
           <mat-icon matSuffix>person_pin</mat-icon>
-          <mat-error *ngIf="name.invalid && name.touched">Nome é obrigatório
+          <mat-error *ngIf="name.invalid && name.touched"
+            >Nome é obrigatório
           </mat-error>
-
         </mat-form-field>
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>CPF *</mat-label>
-          <input type="text" matInput placeholder="CPF" formControlName="individualRegistration" mask="000.000.000-00">
+          <input
+            type="text"
+            matInput
+            placeholder="CPF"
+            formControlName="individualRegistration"
+            mask="000.000.000-00"
+          />
           <mat-icon matSuffix>vpn_key</mat-icon>
           <mat-error
-            *ngIf="individualRegistration.errors && individualRegistration.errors.required && individualRegistration.touched">
-            CPF é
-            obrigatório</mat-error>
+            *ngIf="
+              individualRegistration.errors &&
+              individualRegistration.errors.required &&
+              individualRegistration.touched
+            "
+          >
+            CPF é obrigatório</mat-error
+          >
           <mat-error
-            *ngIf="individualRegistration.errors && individualRegistration.errors.individualRegistrationInvalid && !individualRegistration.errors.required">
+            *ngIf="
+              individualRegistration.errors &&
+              individualRegistration.errors.individualRegistrationInvalid &&
+              !individualRegistration.errors.required
+            "
+          >
             CPF inválido
           </mat-error>
         </mat-form-field>
@@ -33,13 +58,27 @@
       <div class="form-row">
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>E-mail</mat-label>
-          <input type="text" matInput type="email" placeholder="E-mail" formControlName="email">
+          <input
+            type="text"
+            matInput
+            type="email"
+            placeholder="E-mail"
+            formControlName="email"
+          />
           <mat-icon matSuffix>mail</mat-icon>
-          <mat-error *ngIf="email.invalid && email.touched">Necessário ser um e-mail válido.</mat-error>
+          <mat-error *ngIf="email.invalid && email.touched"
+            >Necessário ser um e-mail válido.</mat-error
+          >
         </mat-form-field>
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Celular</mat-label>
-          <input type="text" matInput placeholder="Celular" formControlName="cellphone" mask="(00) 00000-0000">
+          <input
+            type="text"
+            matInput
+            placeholder="Celular"
+            formControlName="cellphone"
+            mask="(00) 00000-0000"
+          />
           <mat-icon matSuffix>call</mat-icon>
         </mat-form-field>
       </div>
@@ -47,52 +86,92 @@
       <div class="form-row">
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Data de nascimento</mat-label>
-          <input matInput [matDatepicker]="birthDate" placeholder="Data de nascimento" formControlName="birthDate">
-          <mat-datepicker-toggle matSuffix [for]="birthDate"></mat-datepicker-toggle>
+          <input
+            matInput
+            [matDatepicker]="birthDate"
+            placeholder="Data de nascimento"
+            formControlName="birthDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="birthDate"
+          ></mat-datepicker-toggle>
           <mat-datepicker #birthDate></mat-datepicker>
         </mat-form-field>
       </div>
-
     </mat-card-content>
 
-    <mat-card-subtitle style="font-weight: bold;margin-left: 16px; font-size: 18px;">
+    <mat-card-subtitle
+      style="font-weight: bold;margin-left: 16px; font-size: 18px;"
+    >
       Endereço <mat-icon>location_on</mat-icon>
     </mat-card-subtitle>
 
     <mat-card-content>
-
       <div class="form-row">
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>CEP</mat-label>
-          <input type="text" matInput placeholder="CEP" mask="00000-000" formControlName="zip">
+          <input
+            type="text"
+            matInput
+            placeholder="CEP"
+            mask="00000-000"
+            formControlName="zip"
+          />
           <mat-error *ngIf="zip.errors && zip.touched">CEP inválido.</mat-error>
         </mat-form-field>
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>UF</mat-label>
-          <input type="text" matInput placeholder="UF" mask="SS" oninput="this.value = this.value.toUpperCase()"
-            formControlName="state">
+          <input
+            type="text"
+            matInput
+            placeholder="UF"
+            mask="SS"
+            oninput="this.value = this.value.toUpperCase()"
+            formControlName="state"
+          />
         </mat-form-field>
       </div>
 
       <div class="form-row">
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Cidade</mat-label>
-          <input type="text" matInput placeholder="Cidade" formControlName="city">
+          <input
+            type="text"
+            matInput
+            placeholder="Cidade"
+            formControlName="city"
+          />
         </mat-form-field>
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Bairro</mat-label>
-          <input type="text" matInput placeholder="Bairro" formControlName="district">
+          <input
+            type="text"
+            matInput
+            placeholder="Bairro"
+            formControlName="district"
+          />
         </mat-form-field>
       </div>
 
       <div class="form-row">
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Logradouro</mat-label>
-          <input type="text" matInput placeholder="Logradouro" formControlName="street">
+          <input
+            type="text"
+            matInput
+            placeholder="Logradouro"
+            formControlName="street"
+          />
         </mat-form-field>
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Número</mat-label>
-          <input type="number" matInput placeholder="Número" formControlName="num">
+          <input
+            type="number"
+            matInput
+            placeholder="Número"
+            formControlName="num"
+          />
         </mat-form-field>
       </div>
     </mat-card-content>
@@ -102,16 +181,31 @@
 <app-vehicles-list *ngIf="id.value" [clientId]="id.value"></app-vehicles-list>
 
 <div class="fixed-bottom fixed-bottom--right">
-  <button [disabled]="this.clientForm.invalid" (click)="onSubmit()" mat-fab [color]="'light-blue'">
+  <button
+    [disabled]="this.clientForm.invalid"
+    (click)="onSubmit()"
+    mat-fab
+    [color]="'light-blue'"
+  >
     <mat-icon>save</mat-icon>
   </button>
 </div>
 
 <div class="fixed-bottom fixed-bottom--left">
-  <button *ngIf="status.value && id" (click)="deactivateClient()" mat-fab color="warn">
+  <button
+    *ngIf="status.value && id"
+    (click)="deactivateClient()"
+    mat-fab
+    color="warn"
+  >
     <mat-icon>close</mat-icon>
   </button>
-  <button *ngIf="!status.value && id" (click)="activateClient()" mat-fab [color]="'success'">
+  <button
+    *ngIf="!status.value && id"
+    (click)="activateClient()"
+    mat-fab
+    [color]="'success'"
+  >
     <mat-icon>how_to_reg</mat-icon>
   </button>
 </div>

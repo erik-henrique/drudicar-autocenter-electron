@@ -24,8 +24,8 @@ export class ClientsListComponent implements OnInit {
     private dialog: MatDialog,
     private _fb: FormBuilder,
     private spinner: NgxSpinnerService,
-    private _snackBar: MatSnackBar) {
-  }
+    private _snackBar: MatSnackBar
+  ) {}
 
   async ngOnInit() {
     this.clientFilterForm = this._fb.group({
@@ -33,48 +33,63 @@ export class ClientsListComponent implements OnInit {
       individualRegistration: null
     });
 
-    this.clientFilterForm.controls.name.valueChanges.pipe(debounceTime(2000), distinctUntilChanged()).subscribe(async (value: string) => {
-      try {
-        this.spinner.show();
-        await this._databaseService
-          .connection
-          .then(async () => {
-            if (typeof value === 'string') {
-              this.clientFilterForm.controls.individualRegistration.reset();
-              const clients = await ClientEntity.find({ name: Like(`%${value}%`) });
-              this.clients = clients as IClient[];
-            }
-          }).finally(() => {
-            this.spinner.hide();
-          });
-      } catch (err) {
-        console.error(err);
-        this._snackBar.open('Não foi possível carregar os clientes filtrando pelo nome.', 'OK', {
-          duration: 2000,
-        });
-      }
-    });
-
-    this.clientFilterForm.controls.individualRegistration.valueChanges.pipe(debounceTime(2000), distinctUntilChanged())
+    this.clientFilterForm.controls.name.valueChanges
+      .pipe(debounceTime(2000), distinctUntilChanged())
       .subscribe(async (value: string) => {
         try {
           this.spinner.show();
-          await this._databaseService
-            .connection
+          await this._databaseService.connection
             .then(async () => {
               if (typeof value === 'string') {
-                this.clientFilterForm.controls.name.reset();
-                const clients = await ClientEntity.find({ individualRegistration: Like(`%${value}%`) });
+                this.clientFilterForm.controls.individualRegistration.reset();
+                const clients = await ClientEntity.find({
+                  name: Like(`%${value}%`)
+                });
                 this.clients = clients as IClient[];
               }
-            }).finally(() => {
+            })
+            .finally(() => {
               this.spinner.hide();
             });
         } catch (err) {
           console.error(err);
-          this._snackBar.open('Não foi possível carregar os clientes filtrando por CPF.', 'OK', {
-            duration: 2000,
-          });
+          this._snackBar.open(
+            'Não foi possível carregar os clientes filtrando pelo nome.',
+            'OK',
+            {
+              duration: 2000
+            }
+          );
+        }
+      });
+
+    this.clientFilterForm.controls.individualRegistration.valueChanges
+      .pipe(debounceTime(2000), distinctUntilChanged())
+      .subscribe(async (value: string) => {
+        try {
+          this.spinner.show();
+          await this._databaseService.connection
+            .then(async () => {
+              if (typeof value === 'string') {
+                this.clientFilterForm.controls.name.reset();
+                const clients = await ClientEntity.find({
+                  individualRegistration: Like(`%${value}%`)
+                });
+                this.clients = clients as IClient[];
+              }
+            })
+            .finally(() => {
+              this.spinner.hide();
+            });
+        } catch (err) {
+          console.error(err);
+          this._snackBar.open(
+            'Não foi possível carregar os clientes filtrando por CPF.',
+            'OK',
+            {
+              duration: 2000
+            }
+          );
         }
       });
 
@@ -85,18 +100,18 @@ export class ClientsListComponent implements OnInit {
     try {
       this.spinner.show();
 
-      await this._databaseService
-        .connection
+      await this._databaseService.connection
         .then(async () => {
           const clients = await ClientEntity.find();
           this.clients = clients as IClient[];
-        }).finally(() => {
+        })
+        .finally(() => {
           this.spinner.hide();
         });
     } catch (err) {
       console.error(err);
       this._snackBar.open('Não foi possível carregar os clientes.', 'OK', {
-        duration: 2000,
+        duration: 2000
       });
     }
   }
@@ -104,7 +119,7 @@ export class ClientsListComponent implements OnInit {
   public goToTop() {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: 'smooth'
     });
   }
 
@@ -122,20 +137,18 @@ export class ClientsListComponent implements OnInit {
         data: { ...confirmation }
       });
 
-      dialogRef.afterClosed().subscribe(async (data) => {
+      dialogRef.afterClosed().subscribe(async data => {
         if (data) {
-          await this._databaseService
-            .connection
-            .then(async () => {
-              await ClientEntity.update({ id: client.id }, { status: false });
-              await this.getClients();
-            });
+          await this._databaseService.connection.then(async () => {
+            await ClientEntity.update({ id: client.id }, { status: false });
+            await this.getClients();
+          });
         }
       });
     } catch (err) {
       console.error(err);
       this._snackBar.open('Não foi possível desativar o cliente.', 'OK', {
-        duration: 2000,
+        duration: 2000
       });
     }
   }

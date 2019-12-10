@@ -1,4 +1,3 @@
-
 import IViaCEPLocation from '../interfaces/zipCode.interface';
 
 export default class Localization {

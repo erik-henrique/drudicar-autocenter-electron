@@ -1,9 +1,11 @@
+import * as Sentry from '@sentry/electron';
 import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
-import * as Sentry from '@sentry/electron';
 
-Sentry.init({ dsn: 'https://ab7bb4ef495746639c8ef42f24f5b8e8@sentry.io/1781934' });
+Sentry.init({
+  dsn: 'https://ab7bb4ef495746639c8ef42f24f5b8e8@sentry.io/1781934'
+});
 
 let win: BrowserWindow = null;
 // detect serve mode
@@ -11,7 +13,6 @@ const args = process.argv.slice(1);
 const serve: boolean = args.some(val => val === '--serve');
 
 function createWindow() {
-
   win = new BrowserWindow({
     width: 800,
     height: 600,
@@ -48,7 +49,6 @@ function createWindow() {
 }
 
 try {
-
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
@@ -69,7 +69,6 @@ try {
       createWindow();
     }
   });
-
 } catch (e) {
   // Catch Error
   // throw e;

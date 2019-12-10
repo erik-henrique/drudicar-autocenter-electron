@@ -23,34 +23,42 @@ export class ServicesListComponent implements OnInit {
     private _databaseService: DatabaseService,
     private dialog: MatDialog,
     private spinner: NgxSpinnerService,
-    private _snackBar: MatSnackBar) {
-  }
+    private _snackBar: MatSnackBar
+  ) {}
 
   async ngOnInit() {
     this.serviceFilterForm = this._fb.group({
       name: ''
     });
 
-    this.serviceFilterForm.controls.name.valueChanges.pipe(debounceTime(2000), distinctUntilChanged()).subscribe(async (value: string) => {
-      try {
-        this.spinner.show();
-        await this._databaseService
-          .connection
-          .then(async () => {
-            if (typeof value === 'string') {
-              const services = await ServiceEntity.find({ name: Like(`%${value}%`) });
-              this.services = services as IService[];
+    this.serviceFilterForm.controls.name.valueChanges
+      .pipe(debounceTime(2000), distinctUntilChanged())
+      .subscribe(async (value: string) => {
+        try {
+          this.spinner.show();
+          await this._databaseService.connection
+            .then(async () => {
+              if (typeof value === 'string') {
+                const services = await ServiceEntity.find({
+                  name: Like(`%${value}%`)
+                });
+                this.services = services as IService[];
+              }
+            })
+            .finally(() => {
+              this.spinner.hide();
+            });
+        } catch (err) {
+          console.error(err);
+          this._snackBar.open(
+            'Não foi possível carregar os serviços filtrados.',
+            'OK',
+            {
+              duration: 2000
             }
-          }).finally(() => {
-            this.spinner.hide();
-          });
-      } catch (err) {
-        console.error(err);
-        this._snackBar.open('Não foi possível carregar os serviços filtrados.', 'OK', {
-          duration: 2000,
-        });
-      }
-    });
+          );
+        }
+      });
 
     await this.getServices();
   }
@@ -58,25 +66,25 @@ export class ServicesListComponent implements OnInit {
   public goToTop() {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: 'smooth'
     });
   }
 
   async getServices() {
     try {
       this.spinner.show();
-      await this._databaseService
-        .connection
+      await this._databaseService.connection
         .then(async () => {
           const services = await ServiceEntity.find();
           this.services = services as IService[];
-        }).finally(() => {
+        })
+        .finally(() => {
           this.spinner.hide();
         });
     } catch (err) {
       console.error(err);
       this._snackBar.open('Não foi possível carregar os serviços.', 'OK', {
-        duration: 2000,
+        duration: 2000
       });
     }
   }
@@ -95,20 +103,18 @@ export class ServicesListComponent implements OnInit {
         data: { ...confirmation }
       });
 
-      dialogRef.afterClosed().subscribe(async (data) => {
+      dialogRef.afterClosed().subscribe(async data => {
         if (data) {
-          await this._databaseService
-            .connection
-            .then(async () => {
-              await ServiceEntity.update({ id: service.id }, { status: false });
-              await this.getServices();
-            });
+          await this._databaseService.connection.then(async () => {
+            await ServiceEntity.update({ id: service.id }, { status: false });
+            await this.getServices();
+          });
         }
       });
     } catch (err) {
       console.error(err);
       this._snackBar.open('Não foi possível desativar o serviço.', 'OK', {
-        duration: 2000,
+        duration: 2000
       });
     }
   }

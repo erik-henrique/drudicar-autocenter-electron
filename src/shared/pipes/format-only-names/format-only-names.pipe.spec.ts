@@ -1,4 +1,4 @@
-import { FormatOnlyNamesPipe } from "./format-only-names.pipe";
+import { FormatOnlyNamesPipe } from './format-only-names.pipe';
 
 describe('FormatOnlyNamesPipe', () => {
   it('create an instance', () => {

@@ -6,39 +6,65 @@
   <form [formGroup]="serviceFilterForm">
     <mat-form-field appearance="outline" style="width: 49%">
       <mat-label>Pesquisar</mat-label>
-      <input matInput placeholder="Digite o serviço" formControlName="name">
+      <input matInput placeholder="Digite o serviço" formControlName="name" />
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
   </form>
   <mat-list>
-    <mat-list-item class="mat-list-option ng-star-inserted" *ngFor="let service of services">
-      <img matListAvatar src="assets/images/service.png" alt="Serviço" style="border-radius:0%">
-      <h3 matLine style="margin-left: 0.5rem"> {{ service.name }} </h3>
+    <mat-list-item
+      class="mat-list-option ng-star-inserted"
+      *ngFor="let service of services"
+    >
+      <img
+        matListAvatar
+        src="assets/images/service.png"
+        alt="Serviço"
+        style="border-radius:0%"
+      />
+      <h3 matLine style="margin-left: 0.5rem">{{ service.name }}</h3>
       <mat-chip-list aria-label="Status">
-        <mat-chip color="warn" *ngIf="!service.status" selected>Desativado</mat-chip>
-        <mat-chip *ngIf="service.status" style=" background-color: #00A86B;color: #fff;">Ativo</mat-chip>
+        <mat-chip color="warn" *ngIf="!service.status" selected
+          >Desativado</mat-chip
+        >
+        <mat-chip
+          *ngIf="service.status"
+          style=" background-color: #00A86B;color: #fff;"
+          >Ativo</mat-chip
+        >
       </mat-chip-list>
-      <button routerLink="/services/{{service.id}}" style="margin-left: 24px;" mat-icon-button
-        aria-label="Editar Serviço">
+      <button
+        routerLink="/services/{{ service.id }}"
+        style="margin-left: 24px;"
+        mat-icon-button
+        aria-label="Editar Serviço"
+      >
         <mat-icon>edit</mat-icon>
       </button>
-      <button (click)="deleteService(service)" [disabled]="!service.status" style="margin-left: 24px;" mat-icon-button
-        aria-label="Deletar serviço">
+      <button
+        (click)="deleteService(service)"
+        [disabled]="!service.status"
+        style="margin-left: 24px;"
+        mat-icon-button
+        aria-label="Deletar serviço"
+      >
         <mat-icon>delete</mat-icon>
       </button>
       <mat-divider></mat-divider>
     </mat-list-item>
   </mat-list>
-
 </mat-card>
 
 <div class="fixed-bottom fixed-bottom--right">
-
-  <button [color]="'light-blue'" mat-fab routerLink="/services/:id" style="margin-right : 14px;">
+  <button
+    [color]="'light-blue'"
+    mat-fab
+    routerLink="/services/:id"
+    style="margin-right : 14px;"
+  >
     <mat-icon>add</mat-icon>
   </button>
   <button mat-fab color="warn" style="margin-right : 14px;" (click)="goToTop()">
     <mat-icon>keyboard_arrow_up</mat-icon>
   </button>
-
-</div>\
+</div>
+\

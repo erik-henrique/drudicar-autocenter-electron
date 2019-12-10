@@ -11,16 +11,18 @@ export class IndividualRegistrationValidator {
       return { individualRegistrationInvalid: true };
     }
 
-    if ((identifierKey === '00000000000')
-      || (identifierKey === '11111111111')
-      || (identifierKey === '22222222222')
-      || (identifierKey === '33333333333')
-      || (identifierKey === '44444444444')
-      || (identifierKey === '55555555555')
-      || (identifierKey === '66666666666')
-      || (identifierKey === '77777777777')
-      || (identifierKey === '88888888888')
-      || (identifierKey === '99999999999')) {
+    if (
+      identifierKey === '00000000000' ||
+      identifierKey === '11111111111' ||
+      identifierKey === '22222222222' ||
+      identifierKey === '33333333333' ||
+      identifierKey === '44444444444' ||
+      identifierKey === '55555555555' ||
+      identifierKey === '66666666666' ||
+      identifierKey === '77777777777' ||
+      identifierKey === '88888888888' ||
+      identifierKey === '99999999999'
+    ) {
       return { individualRegistrationInvalid: true };
     }
 
@@ -42,7 +44,7 @@ export class IndividualRegistrationValidator {
         return { individualRegistrationInvalid: true };
       }
       num = Number(chars);
-      sum = sum + (num * j);
+      sum = sum + num * j;
       j--;
     }
 
@@ -59,7 +61,7 @@ export class IndividualRegistrationValidator {
     for (let i = 0; i < 10; i++) {
       chars = individualRegistrationAux.charAt(i);
       num = Number(chars);
-      sum = sum + (num * j);
+      sum = sum + num * j;
       j--;
     }
 

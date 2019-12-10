@@ -26,26 +26,32 @@ import { WorkOrderTypes } from '../../../shared/enums/work-order-types.enum';
 export class WorkOrderAddEditComponent implements OnInit {
   public payments = [
     {
-      label: 'Dinheiro', value: 'Dinheiro'
+      label: 'Dinheiro',
+      value: 'Dinheiro'
     },
     {
-      label: 'Cartão de Débito', value: 'Cartão de Débito'
+      label: 'Cartão de Débito',
+      value: 'Cartão de Débito'
     },
     {
-      label: 'Cartão de Crédito', value: 'Cartão de Crédito'
+      label: 'Cartão de Crédito',
+      value: 'Cartão de Crédito'
     }
   ];
 
   public status = [
     {
-      label: 'Em Andamento', value: 'Em Andamento'
+      label: 'Em Andamento',
+      value: 'Em Andamento'
     },
     {
-      label: 'Finalizado', value: 'Finalizado'
+      label: 'Finalizado',
+      value: 'Finalizado'
     },
     {
-      label: 'Disponível', value: 'Disponível'
-    },
+      label: 'Disponível',
+      value: 'Disponível'
+    }
   ];
 
   public orcamentoForm: FormGroup;
@@ -56,7 +62,7 @@ export class WorkOrderAddEditComponent implements OnInit {
   public STATUS = Status;
   public WORK_ORDER_TYPES = WorkOrderTypes;
 
-  public hasFinished = false;
+  public hasFINISHED = false;
 
   constructor(
     private _fb: FormBuilder,
@@ -64,18 +70,14 @@ export class WorkOrderAddEditComponent implements OnInit {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private spinner: NgxSpinnerService,
-    private _snackBar: MatSnackBar) {
-  }
+    private _snackBar: MatSnackBar
+  ) {}
 
   async ngOnInit() {
     this.orcamentoForm = this._fb.group({
       id: null,
-      vehicle: [null, [
-        Validators.required
-      ]],
-      client: [null, [
-        Validators.required
-      ]],
+      vehicle: [null, [Validators.required]],
+      client: [null, [Validators.required]],
       services: this._fb.array([], Validators.required),
       products: this._fb.array([]),
       status: 'Aguardando Aprovação',
@@ -87,23 +89,26 @@ export class WorkOrderAddEditComponent implements OnInit {
     });
 
     this.orcamentoForm.controls.client.valueChanges
-      .pipe(distinctUntilChanged()).subscribe(async (value: number) => {
+      .pipe(distinctUntilChanged())
+      .subscribe(async (value: number) => {
         try {
           this.spinner.show();
-          await this._databaseService
-            .connection
+          await this._databaseService.connection
             .then(async () => {
               if (typeof value === 'number') {
-                const vechicles = await VehicleEntity.find({ where: { client: value, status: true } });
+                const vechicles = await VehicleEntity.find({
+                  where: { client: value, status: true }
+                });
                 this.vehicles = vechicles as IVehicle[];
               }
-            }).finally(() => {
+            })
+            .finally(() => {
               this.spinner.hide();
             });
         } catch (err) {
           console.error(err);
           this._snackBar.open('Não foi possível carregar os veículos.', 'OK', {
-            duration: 2000,
+            duration: 2000
           });
         }
       });
@@ -184,39 +189,47 @@ export class WorkOrderAddEditComponent implements OnInit {
     }
 
     if (products.value.length && !services.value.length) {
-      return parseFloat(products.value.map(product => product.price * product.amount)
-        .reduce((accum, curr) => accum + curr));
+      return parseFloat(
+        products.value
+          .map(product => product.price * product.amount)
+          .reduce((accum, curr) => accum + curr)
+      );
     }
 
     if (!products.value.length && services.value.length) {
-      return parseFloat(services.value
-        .map(value => value.price ? value.price : 0)
-        .reduce((accum, curr) => accum + curr));
+      return parseFloat(
+        services.value
+          .map(value => (value.price ? value.price : 0))
+          .reduce((accum, curr) => accum + curr)
+      );
     }
 
-    return parseFloat(products.value
-      .map(product => product.price * product.amount)
-      .reduce((accum, curr) => accum + curr) + services.value
-        .map(value => value.price)
-        .reduce((accum, curr) => accum + curr));
+    return parseFloat(
+      products.value
+        .map(product => product.price * product.amount)
+        .reduce((accum, curr) => accum + curr) +
+        services.value
+          .map(value => value.price)
+          .reduce((accum, curr) => accum + curr)
+    );
   }
 
   async getClients() {
     try {
       this.spinner.show();
 
-      await this._databaseService
-        .connection
+      await this._databaseService.connection
         .then(async () => {
           const clients = await ClientEntity.find();
           this.clients = clients;
-        }).finally(() => {
+        })
+        .finally(() => {
           this.spinner.hide();
         });
     } catch (err) {
       console.error(err);
       this._snackBar.open('Não foi possível carregar os clientes.', 'OK', {
-        duration: 2000,
+        duration: 2000
       });
     }
   }
@@ -225,70 +238,82 @@ export class WorkOrderAddEditComponent implements OnInit {
     try {
       this.spinner.show();
 
-      await this._databaseService
-        .connection
+      await this._databaseService.connection
         .then(async () => {
           const clients = await ServiceEntity.find({ status: true });
           this.services = clients as IService[];
-        }).finally(() => {
+        })
+        .finally(() => {
           this.spinner.hide();
         });
     } catch (err) {
       console.error(err);
       this._snackBar.open('Não foi possível carregar os serviços.', 'OK', {
-        duration: 2000,
+        duration: 2000
       });
     }
   }
 
   async getWorkOrder(id: number) {
     try {
-      await this._databaseService
-        .connection
-        .then(async () => {
-          const workOrder = await WorkOrderEntity.findOne(id, { relations: ['vehicle', 'vehicle.client'] });
-          const services = JSON.parse(workOrder.services) as any[];
-          const products = JSON.parse(workOrder.products) as any[];
-
-          delete workOrder.services;
-          delete workOrder.products;
-
-          services.forEach(s => this.serviceForms.push(this._fb.group({
-            name: [s.name, Validators.required],
-            price: [s.price, Validators.required]
-          })));
-
-          products.forEach(p => this.productForms.push(this._fb.group({
-            name: [p.name, Validators.required],
-            price: [p.price, Validators.required],
-            amount: [p.amount, Validators.required]
-          })));
-
-          this.orcamentoForm.patchValue(workOrder);
-
-          if (!workOrder.vehicle.client.status) {
-            this.clients.push(workOrder.vehicle.client);
-          }
-
-          if (!workOrder.vehicle.status) {
-            this.vehicles.push(workOrder.vehicle);
-          }
-
-          this.orcamentoForm.controls.client.patchValue(workOrder.vehicle.client.id);
-
-          this.orcamentoForm.controls.client.disable();
-          this.orcamentoForm.controls.vehicle.patchValue(workOrder.vehicle.id);
-
-          if (this.orcamentoForm.controls.status.value === this.STATUS.Canceled
-            || this.orcamentoForm.controls.status.value === this.STATUS.Finished) {
-            this.orcamentoForm.disable();
-            this.hasFinished = true;
-          }
+      await this._databaseService.connection.then(async () => {
+        const workOrder = await WorkOrderEntity.findOne(id, {
+          relations: ['vehicle', 'vehicle.client']
         });
+        const services = JSON.parse(workOrder.services) as any[];
+        const products = JSON.parse(workOrder.products) as any[];
+
+        delete workOrder.services;
+        delete workOrder.products;
+
+        services.forEach(s =>
+          this.serviceForms.push(
+            this._fb.group({
+              name: [s.name, Validators.required],
+              price: [s.price, Validators.required]
+            })
+          )
+        );
+
+        products.forEach(p =>
+          this.productForms.push(
+            this._fb.group({
+              name: [p.name, Validators.required],
+              price: [p.price, Validators.required],
+              amount: [p.amount, Validators.required]
+            })
+          )
+        );
+
+        this.orcamentoForm.patchValue(workOrder);
+
+        if (!workOrder.vehicle.client.status) {
+          this.clients.push(workOrder.vehicle.client);
+        }
+
+        if (!workOrder.vehicle.status) {
+          this.vehicles.push(workOrder.vehicle);
+        }
+
+        this.orcamentoForm.controls.client.patchValue(
+          workOrder.vehicle.client.id
+        );
+
+        this.orcamentoForm.controls.client.disable();
+        this.orcamentoForm.controls.vehicle.patchValue(workOrder.vehicle.id);
+
+        if (
+          this.orcamentoForm.controls.status.value === this.STATUS.CANCELED ||
+          this.orcamentoForm.controls.status.value === this.STATUS.FINISHED
+        ) {
+          this.orcamentoForm.disable();
+          this.hasFINISHED = true;
+        }
+      });
     } catch (err) {
       console.error(err);
       this._snackBar.open('Não foi possível carregar.', 'OK', {
-        duration: 2000,
+        duration: 2000
       });
     }
   }
@@ -309,21 +334,22 @@ export class WorkOrderAddEditComponent implements OnInit {
         data: { ...confirmation }
       });
 
-      dialogRef.afterClosed().subscribe(async (data) => {
+      dialogRef.afterClosed().subscribe(async data => {
         if (data) {
-          await this._databaseService
-            .connection
-            .then(async () => {
-              await WorkOrderEntity.update({ id: orcamento.id }, { status: this.STATUS.Canceled });
-              this.orcamentoForm.controls.status.setValue(this.STATUS.Canceled);
-              this.orcamentoForm.disable();
-            });
+          await this._databaseService.connection.then(async () => {
+            await WorkOrderEntity.update(
+              { id: orcamento.id },
+              { status: this.STATUS.CANCELED }
+            );
+            this.orcamentoForm.controls.status.setValue(this.STATUS.CANCELED);
+            this.orcamentoForm.disable();
+          });
         }
       });
     } catch (err) {
       console.error(err);
       this._snackBar.open('Não foi possível cancelar.', 'OK', {
-        duration: 2000,
+        duration: 2000
       });
     }
   }
@@ -344,22 +370,27 @@ export class WorkOrderAddEditComponent implements OnInit {
         data: { ...confirmation }
       });
 
-      dialogRef.afterClosed().subscribe(async (data) => {
+      dialogRef.afterClosed().subscribe(async data => {
         if (data) {
-          await this._databaseService
-            .connection
-            .then(async () => {
-              await WorkOrderEntity
-                .update({ id: orcamento.id }, { status: this.STATUS.Available, type: this.WORK_ORDER_TYPES.WorkWorder });
-              this.orcamentoForm.controls.status.setValue(this.STATUS.Available);
-              this.orcamentoForm.controls.type.setValue(this.WORK_ORDER_TYPES.WorkWorder);
-            });
+          await this._databaseService.connection.then(async () => {
+            await WorkOrderEntity.update(
+              { id: orcamento.id },
+              {
+                status: this.STATUS.AVAILABLE,
+                type: this.WORK_ORDER_TYPES.WORK_ORDER
+              }
+            );
+            this.orcamentoForm.controls.status.setValue(this.STATUS.AVAILABLE);
+            this.orcamentoForm.controls.type.setValue(
+              this.WORK_ORDER_TYPES.WORK_ORDER
+            );
+          });
         }
       });
     } catch (err) {
       console.error(err);
       this._snackBar.open('Não foi possível cancelar.', 'OK', {
-        duration: 2000,
+        duration: 2000
       });
     }
   }
@@ -377,27 +408,27 @@ export class WorkOrderAddEditComponent implements OnInit {
           delete workOrderEntity.id;
         }
 
-        await this._databaseService
-          .connection
-          .then(async () => {
-            const saveResult = await workOrderEntity.save();
-            this.id.patchValue(saveResult.id);
+        await this._databaseService.connection.then(async () => {
+          const saveResult = await workOrderEntity.save();
+          this.id.patchValue(saveResult.id);
 
-            if (this.orcamentoForm.controls.status.value === this.STATUS.Canceled
-              || this.orcamentoForm.controls.status.value === this.STATUS.Finished) {
-              this.orcamentoForm.disable();
-              this.hasFinished = true;
-            }
+          if (
+            this.orcamentoForm.controls.status.value === this.STATUS.CANCELED ||
+            this.orcamentoForm.controls.status.value === this.STATUS.FINISHED
+          ) {
+            this.orcamentoForm.disable();
+            this.hasFINISHED = true;
+          }
 
-            this._snackBar.open('Salvo com sucesso.', 'OK', {
-              duration: 2000,
-            });
+          this._snackBar.open('Salvo com sucesso.', 'OK', {
+            duration: 2000
           });
+        });
       }
     } catch (err) {
       console.error(err);
       this._snackBar.open('Não foi possível salvar.', 'OK', {
-        duration: 2000,
+        duration: 2000
       });
     }
   }

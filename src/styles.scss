@@ -6,115 +6,116 @@
 
 html,
 body {
-    height: 100vh;
-    font-family: "Roboto", "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    margin: 0;
-    padding: 0;
-    background-color: #f1f1f1;
-    overflow-y: auto;
+  height: 100vh;
+  font-family: 'Roboto', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  margin: 0;
+  padding: 0;
+  background-color: #f1f1f1;
+  overflow-y: auto;
 }
 
 .active-link {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .fixed-bottom {
-    z-index:5; 
-    position:fixed;
-    display:flex; 
-    align-self:flex-end;
-    bottom: 1%;
+  z-index: 5;
+  position: fixed;
+  display: flex;
+  align-self: flex-end;
+  bottom: 1%;
 }
 
 .fixed-bottom--right {
-    right: 0; 
-    margin-right: 32px;
+  right: 0;
+  margin-right: 32px;
 }
 
 .fixed-bottom--left {
-    left: 0; 
-    margin-left: 32px;
+  left: 0;
+  margin-left: 32px;
 }
 
 .card--margin {
-    margin: 16px;
+  margin: 16px;
 }
 
 .mat-valid {
-    background-color: #1BB54E;
-    color: #fff;
+  background-color: #1bb54e;
+  color: #fff;
 }
 
 .mat-invalid {
-    background-color: #ED5742;
-    color: #fff;
+  background-color: #ed5742;
+  color: #fff;
 }
 
 .mat-invalid--inverted {
-    background-color: #fff;
-    color: #ED5742;
+  background-color: #fff;
+  color: #ed5742;
 }
 
 .mat-dark-green {
-    background-color: #004F2D;
-    color: #fff;
+  background-color: #004f2d;
+  color: #fff;
 }
 
 .mat-light-grey {
-    background-color: #91AEC1;
-    color: #fff;
+  background-color: #91aec1;
+  color: #fff;
 }
 
 .mat-violet {
-    background-color: #2541B2;
-    color: #fff;
+  background-color: #2541b2;
+  color: #fff;
 }
 
 .mat-light-blue {
-    background-color: #2589BD;
-    color: #fff;
+  background-color: #2589bd;
+  color: #fff;
 }
 
 .mat-blue {
-    background-color: #1768AC;
-    color: #fff;
+  background-color: #1768ac;
+  color: #fff;
 }
 
 .valid--font-bold {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .mat-success {
-    background-color: #1BB54E;
-    color: #fff;
+  background-color: #1bb54e;
+  color: #fff;
 }
 
 .mat-form-field-subscript-wrapper {
-    margin-top: .36667em;
+  margin-top: 0.36667em;
 }
 
 .mat-form-field-appearance-fill .mat-form-field-subscript-wrapper {
-    padding: 0 !important;
+  padding: 0 !important;
 }
 
 .form__input {
-    width: 48%;
-    margin-right: 1%;
-    margin-left: 1%;
+  width: 48%;
+  margin-right: 1%;
+  margin-left: 1%;
 }
 
 .form-row {
-    display: flex;
+  display: flex;
 }
 
-.form__input--capitalize input[type="text"] {
-    text-transform:capitalize;
+.form__input--capitalize input[type='text'] {
+  text-transform: capitalize;
 }
 
 .text-uppercase {
-    text-transform: uppercase !important;
+  text-transform: uppercase !important;
 }
 
 .text-capitalize {
-    text-transform:capitalize !important;
+  text-transform: capitalize !important;
 }

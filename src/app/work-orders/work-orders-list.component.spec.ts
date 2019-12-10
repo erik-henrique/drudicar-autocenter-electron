@@ -8,9 +8,8 @@ describe('WorkOrdersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WorkOrdersComponent ]
-    })
-    .compileComponents();
+      declarations: [WorkOrdersComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

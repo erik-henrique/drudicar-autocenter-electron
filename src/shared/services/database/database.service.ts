@@ -7,27 +7,21 @@ import { ServiceEntity } from './entities/service.entity';
 import { WorkOrderEntity } from './entities/work-order.entity';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class DatabaseService {
+  public connection: Promise<Connection>;
+  private readonly options: ConnectionOptions;
 
-    public connection: Promise<Connection>;
-    private readonly options: ConnectionOptions;
-
-    constructor() {
-        DataAcessSettings.initialize();
-        this.options = {
-            type: 'sqlite',
-            database: DataAcessSettings.dbPath,
-            entities: [
-                ClientEntity,
-                VehicleEntity,
-                ServiceEntity,
-                WorkOrderEntity
-            ],
-            synchronize: true,
-            logging: 'all',
-        };
-        this.connection = createConnection(this.options);
-    }
+  constructor() {
+    DataAcessSettings.initialize();
+    this.options = {
+      type: 'sqlite',
+      database: DataAcessSettings.dbPath,
+      entities: [ClientEntity, VehicleEntity, ServiceEntity, WorkOrderEntity],
+      synchronize: true,
+      logging: 'all'
+    };
+    this.connection = createConnection(this.options);
+  }
 }

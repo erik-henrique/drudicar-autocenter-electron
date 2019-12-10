@@ -1,4 +1,4 @@
 export enum WorkOrderTypes {
-    Budget = 'Orçamento',
-    WorkWorder = 'Ordem de serviço'
+  BUDGET = 'Orçamento',
+  WORK_ORDER = 'Ordem de serviço'
 }

@@ -8,9 +8,8 @@ describe('WorkOrderPreviewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WorkOrderPreviewComponent ]
-    })
-    .compileComponents();
+      declarations: [WorkOrderPreviewComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

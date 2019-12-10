@@ -30,7 +30,10 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
+import {
+  MatPaginatorModule,
+  MatPaginatorIntl
+} from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material';
 import { MatSelectModule } from '@angular/material/select';
@@ -58,7 +61,9 @@ import { HomeComponent } from './home/home.component';
 export class SentryErrorHandler implements ErrorHandler {
   constructor() {
     if (environment.production) {
-      Sentry.init({ dsn: 'https://ab7bb4ef495746639c8ef42f24f5b8e8@sentry.io/1781934' });
+      Sentry.init({
+        dsn: 'https://ab7bb4ef495746639c8ef42f24f5b8e8@sentry.io/1781934'
+      });
     }
   }
   handleError(error) {
@@ -83,7 +88,7 @@ const appRoutes: Routes = [
   { path: 'work-orders/:type/:id', component: WorkOrderAddEditComponent },
   { path: 'services', component: ServicesListComponent },
   { path: 'services/:id', component: ServiceAddEditComponent },
-  { path: 'home', component: HomeComponent },
+  { path: 'home', component: HomeComponent }
 ];
 
 @NgModule({
@@ -140,20 +145,23 @@ const appRoutes: Routes = [
   ],
   providers: [
     { provide: MatPaginatorIntl, useValue: getPtBrPaginatorIntl() },
-    { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpConfigInterceptor,
+      multi: true
+    },
     { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
     { provide: LOCALE_ID, useValue: 'pt-BR' },
     {
       provide: ErrorHandler,
       useClass: SentryErrorHandler
-    },
+    }
   ],
   bootstrap: [AppComponent],
   entryComponents: [
     VehicleAddEditComponent,
     ConfirmationComponent,
     WorkOrderPreviewComponent
-  ],
+  ]
 })
-export class AppModule {
-}
+export class AppModule {}

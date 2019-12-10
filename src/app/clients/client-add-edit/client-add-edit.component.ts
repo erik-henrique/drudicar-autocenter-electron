@@ -29,22 +29,26 @@ export class ClientAddEditComponent implements OnInit {
     private _databaseService: DatabaseService,
     private route: ActivatedRoute,
     private _snackBar: MatSnackBar,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog
+  ) {}
 
   async ngOnInit() {
     this.clientForm = this._fb.group({
       id: null,
-      name: [null, [
-        Validators.required
-      ]],
-      individualRegistration: [null, [Validators.required, Validators.minLength(11),
-      Validators.maxLength(11), IndividualRegistrationValidator.validate]
+      name: [null, [Validators.required]],
+      individualRegistration: [
+        null,
+        [
+          Validators.required,
+          Validators.minLength(11),
+          Validators.maxLength(11),
+          IndividualRegistrationValidator.validate
+        ]
       ],
       status: true,
       email: ['', [Validators.email]],
       cellphone: '',
-      zip: ['', [Validators.minLength(8),
-      Validators.maxLength(8)]],
+      zip: ['', [Validators.minLength(8), Validators.maxLength(8)]],
       state: '',
       city: '',
       district: '',
@@ -61,11 +65,13 @@ export class ClientAddEditComponent implements OnInit {
       }
     });
 
-    this.clientForm.controls.zip.valueChanges.pipe(pairwise()).subscribe(([prev, next]: [string, string]) => {
-      if (next.length === 8 && prev !== next) {
-        this.findClientZipCode(next);
-      }
-    });
+    this.clientForm.controls.zip.valueChanges
+      .pipe(pairwise())
+      .subscribe(([prev, next]: [string, string]) => {
+        if (next.length === 8 && prev !== next) {
+          this.findClientZipCode(next);
+        }
+      });
   }
 
   get email() {
@@ -95,7 +101,11 @@ export class ClientAddEditComponent implements OnInit {
   public async findClientZipCode(zipcode: string) {
     try {
       // tslint:disable-next-line: max-line-length
-      const zip = new Localization(await this._httpService.get(this.ZIP_SERVICE_URL, this.ZIP_RETURN_TYPE, zipcode).toPromise() as IZipCode);
+      const zip = new Localization(
+        (await this._httpService
+          .get(this.ZIP_SERVICE_URL, this.ZIP_RETURN_TYPE, zipcode)
+          .toPromise()) as IZipCode
+      );
       this.clientForm.patchValue(zip);
     } catch (err) {
       console.error(err);
@@ -104,16 +114,14 @@ export class ClientAddEditComponent implements OnInit {
 
   async getClient(id: number) {
     try {
-      await this._databaseService
-        .connection
-        .then(async () => {
-          const client = await ClientEntity.findOne(id);
-          this.clientForm.patchValue(client);
-        });
+      await this._databaseService.connection.then(async () => {
+        const client = await ClientEntity.findOne(id);
+        this.clientForm.patchValue(client);
+      });
     } catch (err) {
       console.error(err);
       this._snackBar.open('Não foi possível carregar o cliente.', 'OK', {
-        duration: 2000,
+        duration: 2000
       });
     }
   }
@@ -134,20 +142,18 @@ export class ClientAddEditComponent implements OnInit {
         data: { ...confirmation }
       });
 
-      dialogRef.afterClosed().subscribe(async (data) => {
+      dialogRef.afterClosed().subscribe(async data => {
         if (data) {
-          await this._databaseService
-            .connection
-            .then(async () => {
-              await ClientEntity.update({ id: client.id }, { status: false });
-              this.clientForm.controls.status.setValue(false);
-            });
+          await this._databaseService.connection.then(async () => {
+            await ClientEntity.update({ id: client.id }, { status: false });
+            this.clientForm.controls.status.setValue(false);
+          });
         }
       });
     } catch (err) {
       console.error(err);
       this._snackBar.open('Não foi possível desativar o cliente.', 'OK', {
-        duration: 2000,
+        duration: 2000
       });
     }
   }
@@ -168,20 +174,20 @@ export class ClientAddEditComponent implements OnInit {
         data: { ...confirmation }
       });
 
-      dialogRef.afterClosed().subscribe(async (data) => {
+      dialogRef.afterClosed().subscribe(async data => {
         if (data) {
-          await this._databaseService
-            .connection
+          await this._databaseService.connection
             .then(async () => {
               await ClientEntity.update({ id: client.id }, { status: true });
               this.clientForm.controls.status.setValue(true);
-            }).catch(err => console.error(err));
+            })
+            .catch(err => console.error(err));
         }
       });
     } catch (err) {
       console.error(err);
       this._snackBar.open('Não foi possível ativar o cliente.', 'OK', {
-        duration: 2000,
+        duration: 2000
       });
     }
   }
@@ -197,20 +203,18 @@ export class ClientAddEditComponent implements OnInit {
           delete clientEntity.id;
         }
 
-        await this._databaseService
-          .connection
-          .then(async () => {
-            const saveResult = await clientEntity.save();
-            this.id.patchValue(saveResult.id);
-            this._snackBar.open('Cliente salvo com sucesso.', 'OK', {
-              duration: 2000,
-            });
+        await this._databaseService.connection.then(async () => {
+          const saveResult = await clientEntity.save();
+          this.id.patchValue(saveResult.id);
+          this._snackBar.open('Cliente salvo com sucesso.', 'OK', {
+            duration: 2000
           });
+        });
       }
     } catch (err) {
       console.error(err);
       this._snackBar.open('Não foi possível salvar o cliente.', 'OK', {
-        duration: 2000,
+        duration: 2000
       });
     }
   }

@@ -1,99 +1,126 @@
-<canvas id="canvasLogo" width=1173 height=1042 onload="getCanvasLogo();" style="display: none"></canvas>
+<canvas
+  id="canvasLogo"
+  width="1173"
+  height="1042"
+  onload="getCanvasLogo();"
+  style="display: none"
+></canvas>
 
 <mat-card class="card--margin" *ngIf="workOrder">
-    <div style="float:right;margin: 0px;">
-        <p style="margin: 0px;float:right;">
-            Valor Total: <span style="font-weight: bold;">{{totalValue | currency:'BRL' }}</span></p>
-    </div>
+  <div style="float:right;margin: 0px;">
+    <p style="margin: 0px;float:right;">
+      Valor Total:
+      <span style="font-weight: bold;">{{ totalValue | currency: 'BRL' }}</span>
+    </p>
+  </div>
 
-    <mat-card-title>Pré-visualização</mat-card-title>
-    <mat-card-subtitle>{{ workOrder.type }} nº {{workOrder.id}}
-        <mat-chip color="warn" style="margin-left: 1rem;">{{workOrder.status}}</mat-chip>
-    </mat-card-subtitle>
+  <mat-card-title>Pré-visualização</mat-card-title>
+  <mat-card-subtitle
+    >{{ workOrder.type }} nº {{ workOrder.id }}
+    <mat-chip color="warn" style="margin-left: 1rem;">{{
+      workOrder.status
+    }}</mat-chip>
+  </mat-card-subtitle>
 
-    <mat-list>
-        <h3 mat-subheader>Cliente</h3>
-        <mat-grid-list cols="3" rowHeight="3rem">
-            <mat-grid-tile>
-                <p><b>Nome: </b> {{ workOrder.vehicle?.client?.name | titlecase }}</p>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <p><b>Contato: </b> {{ workOrder.vehicle?.client?.cellphone | mask: '(00) 00000-0000' }}</p>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <p><b>E-mail: </b> {{ workOrder.vehicle?.client?.email  }}</p>
-            </mat-grid-tile>
-        </mat-grid-list>
-    </mat-list>
+  <mat-list>
+    <h3 mat-subheader>Cliente</h3>
+    <mat-grid-list cols="3" rowHeight="3rem">
+      <mat-grid-tile>
+        <p><b>Nome: </b> {{ workOrder.vehicle?.client?.name | titlecase }}</p>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <p>
+          <b>Contato: </b>
+          {{ workOrder.vehicle?.client?.cellphone | mask: '(00) 00000-0000' }}
+        </p>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <p><b>E-mail: </b> {{ workOrder.vehicle?.client?.email }}</p>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-list>
 
-    <mat-list>
-        <h3 mat-subheader>Veículo</h3>
-        <mat-grid-list cols="3" rowHeight="3rem">
-            <mat-grid-tile>
-                <p><b>Placa: </b> {{ workOrder.vehicle?.carLicense?.toUpperCase() | mask: 'AAA-0000' }}</p>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <p><b>Cor: </b> {{workOrder.vehicle?.color?.toUpperCase()}}</p>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <p><b>Modelo: </b> {{workOrder.vehicle?.model?.toUpperCase()}}</p>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <p><b>Marca: </b> {{workOrder.vehicle?.brand?.toUpperCase()}}</p>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <p><b>Ano: </b> {{workOrder.vehicle?.year?.getFullYear().toString()}}</p>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <p><b>Ano Modelo: </b> {{workOrder.vehicle?.yearModel?.getFullYear().toString()}}</p>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <p><b>UF: </b> {{workOrder.vehicle?.state?.toUpperCase()}}</p>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <p><b>Município: </b> {{workOrder.vehicle?.district | titlecase}} </p>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <p><b>Chassi: </b> {{workOrder.vehicle?.chassis?.toUpperCase()}} </p>
-            </mat-grid-tile>
-        </mat-grid-list>
+  <mat-list>
+    <h3 mat-subheader>Veículo</h3>
+    <mat-grid-list cols="3" rowHeight="3rem">
+      <mat-grid-tile>
+        <p>
+          <b>Placa: </b>
+          {{ workOrder.vehicle?.carLicense?.toUpperCase() | mask: 'AAA-0000' }}
+        </p>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <p><b>Cor: </b> {{ workOrder.vehicle?.color?.toUpperCase() }}</p>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <p><b>Modelo: </b> {{ workOrder.vehicle?.model?.toUpperCase() }}</p>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <p><b>Marca: </b> {{ workOrder.vehicle?.brand?.toUpperCase() }}</p>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <p>
+          <b>Ano: </b> {{ workOrder.vehicle?.year?.getFullYear().toString() }}
+        </p>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <p>
+          <b>Ano Modelo: </b>
+          {{ workOrder.vehicle?.yearModel?.getFullYear().toString() }}
+        </p>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <p><b>UF: </b> {{ workOrder.vehicle?.state?.toUpperCase() }}</p>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <p><b>Município: </b> {{ workOrder.vehicle?.district | titlecase }}</p>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <p><b>Chassi: </b> {{ workOrder.vehicle?.chassis?.toUpperCase() }}</p>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-list>
 
-    </mat-list>
-
+  <mat-divider></mat-divider>
+  <mat-list>
+    <h3 mat-subheader>Serviços</h3>
+    <mat-list-item *ngFor="let service of workOrder.services">
+      <mat-icon mat-list-icon>build</mat-icon>
+      <h4 mat-line>{{ service.name }}</h4>
+      <p mat-line>{{ service.price | currency: 'BRL' }}</p>
+    </mat-list-item>
+    <mat-list-item>
+      Total:
+      <span style="font-weight: bold;margin-left: 1rem;">{{
+        getTotalServicePrice() | currency: 'BRL'
+      }}</span>
+    </mat-list-item>
     <mat-divider></mat-divider>
-    <mat-list>
-        <h3 mat-subheader>Serviços</h3>
-        <mat-list-item *ngFor="let service of workOrder.services">
-            <mat-icon mat-list-icon>build</mat-icon>
-            <h4 mat-line>{{service.name }}</h4>
-            <p mat-line> {{service.price | currency:'BRL'}} </p>
-        </mat-list-item>
-        <mat-list-item>
-            Total:
-            <span style="font-weight: bold;margin-left: 1rem;">{{ getTotalServicePrice() | currency:'BRL' }}</span>
-        </mat-list-item>
-        <mat-divider></mat-divider>
-        <h3 mat-subheader>Produtos</h3>
-        <mat-list-item *ngFor="let product of workOrder.products">
-            <mat-icon mat-list-icon>assignment_turned_in</mat-icon>
-            <h4 mat-line> {{product.name}} (x{{ product.amount }}) </h4>
-            <p mat-line> {{product.price | currency:'BRL'}} </p>
-        </mat-list-item>
-        <mat-list-item>
-            Total:
-            <span style="font-weight: bold;margin-left: 1rem;">{{ getTotalProductsPrice() | currency:'BRL' }}</span>
-        </mat-list-item>
-    </mat-list>
+    <h3 mat-subheader>Produtos</h3>
+    <mat-list-item *ngFor="let product of workOrder.products">
+      <mat-icon mat-list-icon>assignment_turned_in</mat-icon>
+      <h4 mat-line>{{ product.name }} (x{{ product.amount }})</h4>
+      <p mat-line>{{ product.price | currency: 'BRL' }}</p>
+    </mat-list-item>
+    <mat-list-item>
+      Total:
+      <span style="font-weight: bold;margin-left: 1rem;">{{
+        getTotalProductsPrice() | currency: 'BRL'
+      }}</span>
+    </mat-list-item>
+  </mat-list>
 </mat-card>
 
 <mat-dialog-actions style="float: left;">
-    <button mat-icon-button class="mat-list-option" [mat-dialog-close]="true">
-        <mat-icon style="font-size: 28px;height: 28px; width: 28px;cursor: pointer;">close</mat-icon>
-    </button>
+  <button mat-icon-button class="mat-list-option" [mat-dialog-close]="true">
+    <mat-icon style="font-size: 28px;height: 28px; width: 28px;cursor: pointer;"
+      >close</mat-icon
+    >
+  </button>
 </mat-dialog-actions>
 
 <mat-dialog-actions style="float: right;">
-    <button (click)="downloadWorkOrderPreview()" mat-button [color]="'success'">
-        <b>Baixar</b>
-    </button>
+  <button (click)="downloadWorkOrderPreview()" mat-button [color]="'success'">
+    <b>Baixar</b>
+  </button>
 </mat-dialog-actions>

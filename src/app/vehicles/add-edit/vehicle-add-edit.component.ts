@@ -1,8 +1,17 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MatDatepicker, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE
+} from '@angular/material/core';
+import {
+  MatDatepicker,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatSnackBar
+} from '@angular/material';
 
 import IVehicle from '../../../shared/interfaces/vehicle.interface';
 import { DatabaseService } from '../../../shared/services/database/database.service';
@@ -10,14 +19,14 @@ import { VehicleEntity } from '../../../shared/services/database/entities/vehicl
 
 export const MY_FORMATS = {
   parse: {
-    dateInput: 'LL',
+    dateInput: 'LL'
   },
   display: {
     dateInput: 'YYYY',
     monthYearLabel: 'YYYY',
     dateA11yLabel: 'YYYY',
-    monthYearA11yLabel: 'YYYY',
-  },
+    monthYearA11yLabel: 'YYYY'
+  }
 };
 
 @Component({
@@ -25,9 +34,13 @@ export const MY_FORMATS = {
   templateUrl: './vehicle-add-edit.component.html',
   styleUrls: ['./vehicle-add-edit.component.scss'],
   providers: [
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-  ],
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE]
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
+  ]
 })
 export class VehicleAddEditComponent implements OnInit {
   public vehicleForm: FormGroup;
@@ -43,13 +56,12 @@ export class VehicleAddEditComponent implements OnInit {
     public dialogRef: MatDialogRef<VehicleAddEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IVehicle,
     private _databaseService: DatabaseService,
-    private _snackBar: MatSnackBar) { }
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnInit() {
     this.vehicleForm = this._fb.group({
-      carLicense: ['',
-        Validators.required
-      ],
+      carLicense: ['', Validators.required],
       color: '',
       model: '',
       brand: '',
@@ -112,20 +124,18 @@ export class VehicleAddEditComponent implements OnInit {
           vehicleEntity.yearModel = new Date(vehicleEntity.yearModel);
         }
 
-        await this._databaseService
-          .connection
-          .then(async () => {
-            await vehicleEntity.save();
-            this._snackBar.open('Veículo salvo com sucesso.', 'OK', {
-              duration: 2000,
-            });
-            this.dialogRef.close();
+        await this._databaseService.connection.then(async () => {
+          await vehicleEntity.save();
+          this._snackBar.open('Veículo salvo com sucesso.', 'OK', {
+            duration: 2000
           });
+          this.dialogRef.close();
+        });
       }
     } catch (err) {
       console.error(err);
       this._snackBar.open('Não foi possível salvar o veículo.', 'OK', {
-        duration: 2000,
+        duration: 2000
       });
     }
   }

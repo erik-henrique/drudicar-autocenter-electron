@@ -1,27 +1,44 @@
 <form [formGroup]="orcamentoForm" (ngSubmit)="onSubmit()">
   <mat-card class="card--margin">
     <div style="float:right;margin: 0px;">
-      <p style="margin: 0px;float:right;"><span style="font-weight: bold;" *ngIf="id.value"> Nº {{id.value}} -</span>
-        Valor
-        Total <span style="font-weight: bold;">{{totalValue | currency:'BRL' }}</span></p>
+      <p style="margin: 0px;float:right;">
+        <span style="font-weight: bold;" *ngIf="id.value">
+          Nº {{ id.value }} -</span
+        >
+        Valor Total
+        <span style="font-weight: bold;">{{
+          totalValue | currency: 'BRL'
+        }}</span>
+      </p>
     </div>
-    <mat-card-title *ngIf="!id">Cadastrar novo orçamento <mat-icon matSuffix>assignment</mat-icon>
+    <mat-card-title *ngIf="!id"
+      >Cadastrar novo orçamento <mat-icon matSuffix>assignment</mat-icon>
     </mat-card-title>
-    <mat-card-title *ngIf="id && typeFromForm.value === WORK_ORDER_TYPES.Budget">Editar orçamento
+    <mat-card-title *ngIf="id && typeFromForm.value === WORK_ORDER_TYPES.BUDGET"
+      >Editar orçamento
       <mat-icon matSuffix>assignment</mat-icon>
     </mat-card-title>
-    <mat-card-title *ngIf="id && typeFromForm.value === WORK_ORDER_TYPES.WorkWorder">Editar ordem de serviço
+    <mat-card-title
+      *ngIf="id && typeFromForm.value === WORK_ORDER_TYPES.WORK_ORDER"
+      >Editar ordem de serviço
       <mat-icon matSuffix>assignment</mat-icon>
     </mat-card-title>
-    <mat-card-subtitle>Preecha todas as informações marcadas como *</mat-card-subtitle>
+    <mat-card-subtitle
+      >Preecha todas as informações marcadas como *</mat-card-subtitle
+    >
     <mat-card-content>
       <div class="form-row">
-
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Cliente</mat-label>
           <mat-select formControlName="client" class="text-capitalize">
-            <mat-option *ngFor="let client of clients" [value]="client.id" class="text-capitalize">
-              {{client.name}} ({{ client.individualRegistration | mask: '000.000.000-00' }})
+            <mat-option
+              *ngFor="let client of clients"
+              [value]="client.id"
+              class="text-capitalize"
+            >
+              {{ client.name }} ({{
+                client.individualRegistration | mask: '000.000.000-00'
+              }})
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -29,159 +46,330 @@
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Veículo</mat-label>
           <mat-select formControlName="vehicle" class="text-uppercase">
-            <mat-option *ngFor="let vehicle of vehicles" [value]="vehicle.id" class="text-uppercase">
-              {{ vehicle.carLicense | mask: 'AAA-0000'}} ({{vehicle.model}})
+            <mat-option
+              *ngFor="let vehicle of vehicles"
+              [value]="vehicle.id"
+              class="text-uppercase"
+            >
+              {{ vehicle.carLicense | mask: 'AAA-0000' }} ({{ vehicle.model }})
             </mat-option>
           </mat-select>
         </mat-form-field>
-
       </div>
 
-      <div class="form-row"
-        *ngIf="statusFromForm.value !== STATUS.Canceled && statusFromForm.value !== STATUS.AwaitingApproval">
-
+      <div
+        class="form-row"
+        *ngIf="
+          statusFromForm.value !== STATUS.CANCELED &&
+          statusFromForm.value !== STATUS.AWAITING_APPROVAL
+        "
+      >
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Data do Pagamento</mat-label>
-          <input matInput [matDatepicker]="paymentDate" placeholder="Data do Pagamento" formControlName="paymentDate">
-          <mat-datepicker-toggle matSuffix [for]="paymentDate"></mat-datepicker-toggle>
+          <input
+            matInput
+            [matDatepicker]="paymentDate"
+            placeholder="Data do Pagamento"
+            formControlName="paymentDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="paymentDate"
+          ></mat-datepicker-toggle>
           <mat-datepicker #paymentDate></mat-datepicker>
         </mat-form-field>
 
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Forma de pagamento</mat-label>
           <mat-select formControlName="paymentMethod">
-            <mat-option *ngFor="let payment of payments" [value]="payment.value">
-              {{payment.label}}
+            <mat-option
+              *ngFor="let payment of payments"
+              [value]="payment.value"
+            >
+              {{ payment.label }}
             </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
 
-      <div class="form-row" *ngIf="statusFromForm.value !== STATUS.AwaitingApproval">
+      <div
+        class="form-row"
+        *ngIf="statusFromForm.value !== STATUS.AWAITING_APPROVAL"
+      >
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Status</mat-label>
           <mat-select formControlName="status">
             <mat-option *ngFor="let state of status" [value]="state.value">
-              {{state.label}}
+              {{ state.label }}
             </mat-option>
-            <mat-option *ngIf="statusFromForm.value === STATUS.Canceled" [value]="STATUS.Canceled">
-              {{ STATUS.Canceled }}
+            <mat-option
+              *ngIf="statusFromForm.value === STATUS.CANCELED"
+              [value]="STATUS.CANCELED"
+            >
+              {{ STATUS.CANCELED }}
             </mat-option>
-            <mat-option *ngIf="statusFromForm.value === STATUS.AwaitingApproval" [value]="STATUS.AwaitingApproval">
-              {{ STATUS.AwaitingApproval }}
+            <mat-option
+              *ngIf="statusFromForm.value === STATUS.AWAITING_APPROVAL"
+              [value]="STATUS.AWAITING_APPROVAL"
+            >
+              {{ STATUS.AWAITING_APPROVAL }}
             </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
 
       <div class="form-row">
-        <mat-form-field class="form__input" style="width: 100%" appearance="fill">
+        <mat-form-field
+          class="form__input"
+          style="width: 100%"
+          appearance="fill"
+        >
           <mat-label>Observações *</mat-label>
-          <textarea matInput placeholder="Observações" formControlName="comments">  </textarea>
+          <textarea
+            matInput
+            placeholder="Observações"
+            formControlName="comments"
+          >
+          </textarea>
         </mat-form-field>
       </div>
     </mat-card-content>
   </mat-card>
 
   <mat-card class="card--margin">
-    <mat-card-title>Serviços <img matListAvatar src="assets/images/service.png" alt="Serviço" width=22
-        style="border-radius:0%">
-      <button type="button" mat-icon-button aria-label="Adicionar serviço" style="float:right;"
-        [disabled]="statusFromForm.value === STATUS.Canceled || statusFromForm.value === this.STATUS.Finished"
-        [attr.disabled]="statusFromForm.value === STATUS.Canceled || statusFromForm.value === this.STATUS.Finished"
-        [color]="statusFromForm.value !== STATUS.Canceled && statusFromForm.value !== this.STATUS.Finished ? 'light-blue' : ''"
-        (click)="addService()">
+    <mat-card-title
+      >Serviços
+      <img
+        matListAvatar
+        src="assets/images/service.png"
+        alt="Serviço"
+        width="22"
+        style="border-radius:0%"
+      />
+      <button
+        type="button"
+        mat-icon-button
+        aria-label="Adicionar serviço"
+        style="float:right;"
+        [disabled]="
+          statusFromForm.value === STATUS.CANCELED ||
+          statusFromForm.value === this.STATUS.FINISHED
+        "
+        [attr.disabled]="
+          statusFromForm.value === STATUS.CANCELED ||
+          statusFromForm.value === this.STATUS.FINISHED
+        "
+        [color]="
+          statusFromForm.value !== STATUS.CANCELED &&
+          statusFromForm.value !== this.STATUS.FINISHED
+            ? 'light-blue'
+            : ''
+        "
+        (click)="addService()"
+      >
         <mat-icon>add</mat-icon>
       </button>
     </mat-card-title>
-    <mat-card-subtitle>Preecha todas as informações marcadas como *</mat-card-subtitle>
+    <mat-card-subtitle
+      >Preecha todas as informações marcadas como *</mat-card-subtitle
+    >
 
     <div formArrayName="services">
-      <div class="form-row" *ngFor="let serviceForm of serviceForms.controls; let i=index" [formGroupName]="i">
+      <div
+        class="form-row"
+        *ngFor="let serviceForm of serviceForms.controls; let i = index"
+        [formGroupName]="i"
+      >
         <mat-form-field class="form__input" appearance="fill">
-          <mat-label>Serviço {{this.serviceForms.controls[i].value.name }}</mat-label>
+          <mat-label
+            >Serviço {{ this.serviceForms.controls[i].value.name }}</mat-label
+          >
           <mat-select formControlName="name">
             <mat-option
-              *ngIf="serviceForms.controls[i].value.name && filterServices(serviceForms.controls[i].value.name)"
-              [value]="this.serviceForms.controls[i].value.name">
-              {{this.serviceForms.controls[i].value.name }}
+              *ngIf="
+                serviceForms.controls[i].value.name &&
+                filterServices(serviceForms.controls[i].value.name)
+              "
+              [value]="this.serviceForms.controls[i].value.name"
+            >
+              {{ this.serviceForms.controls[i].value.name }}
             </mat-option>
             <mat-option *ngFor="let service of services" [value]="service.name">
-              {{service.name}}
+              {{ service.name }}
             </mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Valor</mat-label>
-          <input type="number" formControlName="price" matInput placeholder="Preço">
+          <input
+            type="number"
+            formControlName="price"
+            matInput
+            placeholder="Preço"
+          />
         </mat-form-field>
-        <button type="button" mat-icon-button aria-label="Adicionar serviço" style="float:right;margin-top: 12px;"
-          [attr.disabled]="statusFromForm.value === STATUS.Canceled || statusFromForm.value === this.STATUS.Finished"
-          [color]="statusFromForm.value !== STATUS.Canceled && statusFromForm.value !== this.STATUS.Finished ? 'invalid--inverted' : ''"
+        <button
+          type="button"
+          mat-icon-button
+          aria-label="Adicionar serviço"
+          style="float:right;margin-top: 12px;"
+          [attr.disabled]="
+            statusFromForm.value === STATUS.CANCELED ||
+            statusFromForm.value === this.STATUS.FINISHED
+          "
+          [color]="
+            statusFromForm.value !== STATUS.CANCELED &&
+            statusFromForm.value !== this.STATUS.FINISHED
+              ? 'invalid--inverted'
+              : ''
+          "
           (click)="deleteService(i)"
-          [disabled]="statusFromForm.value === STATUS.Canceled || statusFromForm.value === this.STATUS.Finished">
+          [disabled]="
+            statusFromForm.value === STATUS.CANCELED ||
+            statusFromForm.value === this.STATUS.FINISHED
+          "
+        >
           <mat-icon>close</mat-icon>
         </button>
       </div>
     </div>
-
   </mat-card>
 
   <mat-card class="card--margin">
-    <mat-card-title>Produtos <mat-icon matSuffix>assignment_turned_in</mat-icon>
-      <button type="button" mat-icon-button aria-label="Adicionar product" style="float:right;"
-        [disabled]="statusFromForm.value === STATUS.Canceled || statusFromForm.value === this.STATUS.Finished"
-        [attr.disabled]="statusFromForm.value === STATUS.Canceled || statusFromForm.value === this.STATUS.Finished"
-        [color]="statusFromForm.value !== STATUS.Canceled && statusFromForm.value !== this.STATUS.Finished ? 'light-blue' : ''"
-        (click)="addProduct()">
+    <mat-card-title
+      >Produtos <mat-icon matSuffix>assignment_turned_in</mat-icon>
+      <button
+        type="button"
+        mat-icon-button
+        aria-label="Adicionar product"
+        style="float:right;"
+        [disabled]="
+          statusFromForm.value === STATUS.CANCELED ||
+          statusFromForm.value === this.STATUS.FINISHED
+        "
+        [attr.disabled]="
+          statusFromForm.value === STATUS.CANCELED ||
+          statusFromForm.value === this.STATUS.FINISHED
+        "
+        [color]="
+          statusFromForm.value !== STATUS.CANCELED &&
+          statusFromForm.value !== this.STATUS.FINISHED
+            ? 'light-blue'
+            : ''
+        "
+        (click)="addProduct()"
+      >
         <mat-icon>add</mat-icon>
       </button>
     </mat-card-title>
-    <mat-card-subtitle>Preecha todas as informações marcadas como * {{statusFromForm.value }}</mat-card-subtitle>
+    <mat-card-subtitle
+      >Preecha todas as informações marcadas como *
+      {{ statusFromForm.value }}</mat-card-subtitle
+    >
 
     <div formArrayName="products">
-      <div class="form-row" *ngFor="let productForm of productForms.controls; let i=index" [formGroupName]="i">
+      <div
+        class="form-row"
+        *ngFor="let productForm of productForms.controls; let i = index"
+        [formGroupName]="i"
+      >
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Produto</mat-label>
-          <input type="text" formControlName="name" matInput placeholder="Produto">
+          <input
+            type="text"
+            formControlName="name"
+            matInput
+            placeholder="Produto"
+          />
         </mat-form-field>
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Quantidade</mat-label>
-          <input type="number" formControlName="amount" matInput placeholder="Quantidade">
+          <input
+            type="number"
+            formControlName="amount"
+            matInput
+            placeholder="Quantidade"
+          />
         </mat-form-field>
         <mat-form-field class="form__input" appearance="fill">
           <mat-label>Valor Unitário</mat-label>
-          <input type="number" formControlName="price" matInput placeholder="Preço">
+          <input
+            type="number"
+            formControlName="price"
+            matInput
+            placeholder="Preço"
+          />
         </mat-form-field>
-        <button type="button" mat-icon-button aria-label="Adicionar serviço" style="float:right;margin-top: 12px;"
-          [disabled]="statusFromForm.value === STATUS.Canceled || statusFromForm.value === this.STATUS.Finished"
-          [attr.disabled]="statusFromForm.value === STATUS.Canceled || statusFromForm.value === this.STATUS.Finished"
-          [color]="statusFromForm.value !== STATUS.Canceled && statusFromForm.value !== this.STATUS.Finished ? 'invalid--inverted' : ''"
-          (click)="deleteProduct(i)">
+        <button
+          type="button"
+          mat-icon-button
+          aria-label="Adicionar serviço"
+          style="float:right;margin-top: 12px;"
+          [disabled]="
+            statusFromForm.value === STATUS.CANCELED ||
+            statusFromForm.value === this.STATUS.FINISHED
+          "
+          [attr.disabled]="
+            statusFromForm.value === STATUS.CANCELED ||
+            statusFromForm.value === this.STATUS.FINISHED
+          "
+          [color]="
+            statusFromForm.value !== STATUS.CANCELED &&
+            statusFromForm.value !== this.STATUS.FINISHED
+              ? 'invalid--inverted'
+              : ''
+          "
+          (click)="deleteProduct(i)"
+        >
           <mat-icon>close</mat-icon>
         </button>
       </div>
     </div>
-
   </mat-card>
 </form>
 
 <div class="fixed-bottom fixed-bottom--right">
-  <button [disabled]="this.orcamentoForm.invalid || statusFromForm.value === STATUS.Canceled || hasFinished"
-    type="submit" (click)="onSubmit()" mat-fab color="light-blue">
+  <button
+    [disabled]="
+      this.orcamentoForm.invalid ||
+      statusFromForm.value === STATUS.CANCELED ||
+      hasFINISHED
+    "
+    type="submit"
+    (click)="onSubmit()"
+    mat-fab
+    color="light-blue"
+  >
     <mat-icon>save</mat-icon>
   </button>
 </div>
 
 <div class="fixed-bottom fixed-bottom--left">
-  <button type="button" style="margin-right: 1rem;"
-    *ngIf="(statusFromForm.value !== STATUS.Canceled || statusFromForm.value !== STATUS.Finished) && id.value"
-    (click)="cancelWorkOrder()" mat-fab color="warn"
-    [disabled]="statusFromForm.value === STATUS.Canceled || statusFromForm.value === STATUS.Finished">
+  <button
+    type="button"
+    style="margin-right: 1rem;"
+    *ngIf="
+      (statusFromForm.value !== STATUS.CANCELED ||
+        statusFromForm.value !== STATUS.FINISHED) &&
+      id.value
+    "
+    (click)="cancelWorkOrder()"
+    mat-fab
+    color="warn"
+    [disabled]="
+      statusFromForm.value === STATUS.CANCELED ||
+      statusFromForm.value === STATUS.FINISHED
+    "
+  >
     <mat-icon>close</mat-icon>
   </button>
-  <button type="button" *ngIf="statusFromForm.value === STATUS.AwaitingApproval && id.value"
-    (click)="transformIntoWorkOrder()" mat-fab [color]="'success'">
+  <button
+    type="button"
+    *ngIf="statusFromForm.value === STATUS.AWAITING_APPROVAL && id.value"
+    (click)="transformIntoWorkOrder()"
+    mat-fab
+    [color]="'success'"
+  >
     <mat-icon>check</mat-icon>
   </button>
 </div>

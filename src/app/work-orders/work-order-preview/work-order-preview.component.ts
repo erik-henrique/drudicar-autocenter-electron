@@ -23,7 +23,8 @@ export class WorkOrderPreviewComponent implements OnInit {
     private maskService: MaskService,
     private currencyPipe: CurrencyPipe,
     private titlecasePipe: TitleCasePipe,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
 
   async ngOnInit() {
     this.getWorkOrder(this.data);
@@ -33,7 +34,7 @@ export class WorkOrderPreviewComponent implements OnInit {
 
     const logoImage = new Image();
     logoImage.src = 'assets/images/drudicar_logo.png';
-    logoImage.onload = function () {
+    logoImage.onload = function() {
       context.drawImage(logoImage, 15, 5, 150, 140);
     };
   }
@@ -44,28 +45,38 @@ export class WorkOrderPreviewComponent implements OnInit {
     }
 
     if (this.workOrder.products.length && !this.workOrder.services.length) {
-      return parseFloat(this.workOrder.products.map(product => product.price * product.amount)
-        .reduce((accum, curr) => accum + curr));
+      return parseFloat(
+        this.workOrder.products
+          .map(product => product.price * product.amount)
+          .reduce((accum, curr) => accum + curr)
+      );
     }
 
     if (!this.workOrder.products.length && this.workOrder.services.length) {
-      return parseFloat(this.workOrder.services
-        .map(value => value.price ? value.price : 0)
-        .reduce((accum, curr) => accum + curr));
+      return parseFloat(
+        this.workOrder.services
+          .map(value => (value.price ? value.price : 0))
+          .reduce((accum, curr) => accum + curr)
+      );
     }
 
-    return parseFloat(this.workOrder.products
-      .map(product => product.price * product.amount)
-      .reduce((accum, curr) => accum + curr) + this.workOrder.services
-        .map(value => value.price)
-        .reduce((accum, curr) => accum + curr));
+    return parseFloat(
+      this.workOrder.products
+        .map(product => product.price * product.amount)
+        .reduce((accum, curr) => accum + curr) +
+        this.workOrder.services
+          .map(value => value.price)
+          .reduce((accum, curr) => accum + curr)
+    );
   }
 
   public getTotalServicePrice() {
     if (this.workOrder.services.length) {
-      return parseFloat(this.workOrder.services
-        .map(value => value.price ? value.price : 0)
-        .reduce((accum, curr) => accum + curr));
+      return parseFloat(
+        this.workOrder.services
+          .map(value => (value.price ? value.price : 0))
+          .reduce((accum, curr) => accum + curr)
+      );
     }
 
     return 0;
@@ -73,8 +84,11 @@ export class WorkOrderPreviewComponent implements OnInit {
 
   public getTotalProductsPrice() {
     if (this.workOrder.products.length) {
-      return parseFloat(this.workOrder.products.map(product => product.price * product.amount)
-        .reduce((accum, curr) => accum + curr));
+      return parseFloat(
+        this.workOrder.products
+          .map(product => product.price * product.amount)
+          .reduce((accum, curr) => accum + curr)
+      );
     }
 
     return 0;
@@ -82,19 +96,19 @@ export class WorkOrderPreviewComponent implements OnInit {
 
   async getWorkOrder(id: number) {
     try {
-      await this._databaseService
-        .connection
-        .then(async () => {
-          const workOrder = await WorkOrderEntity.findOne(id, { relations: ['vehicle', 'vehicle.client'] });
-          workOrder.services = JSON.parse(workOrder.services);
-          workOrder.products = JSON.parse(workOrder.products);
-
-          this.workOrder = workOrder;
+      await this._databaseService.connection.then(async () => {
+        const workOrder = await WorkOrderEntity.findOne(id, {
+          relations: ['vehicle', 'vehicle.client']
         });
+        workOrder.services = JSON.parse(workOrder.services);
+        workOrder.products = JSON.parse(workOrder.products);
+
+        this.workOrder = workOrder;
+      });
     } catch (err) {
       console.error(err);
       this._snackBar.open('Não foi possível carregar.', 'OK', {
-        duration: 2000,
+        duration: 2000
       });
     }
   }
@@ -102,18 +116,23 @@ export class WorkOrderPreviewComponent implements OnInit {
   public downloadWorkOrderPreview() {
     const pdfDoc = new Pdf();
 
-    pdfDoc.addLabelAndValue(
-      {
-        startX: 10, startY: 10, endX: 15, endY: 10, label: `${this.workOrder.type}`,
-        value: ''
-      });
+    pdfDoc.addLabelAndValue({
+      startX: 10,
+      startY: 10,
+      endX: 15,
+      endY: 10,
+      label: `${this.workOrder.type}`,
+      value: ''
+    });
 
-
-    pdfDoc.addLabelAndValue(
-      {
-        startX: 10, startY: 15, endX: 18, endY: 15, label: 'Nº:',
-        value: this.workOrder.id ? this.workOrder.id.toString() : ''
-      });
+    pdfDoc.addLabelAndValue({
+      startX: 10,
+      startY: 15,
+      endX: 18,
+      endY: 15,
+      label: 'Nº:',
+      value: this.workOrder.id ? this.workOrder.id.toString() : ''
+    });
 
     pdfDoc.doc.setFontSize(12);
     pdfDoc.doc.setFontType('bold');
@@ -126,22 +145,62 @@ export class WorkOrderPreviewComponent implements OnInit {
 
     pdfDoc.titleFontSize = 12;
     const now = new Date();
-    pdfDoc.addLabelAndValue({ startX: 160, startY: 40, endX: 175, endY: 40, label: 'DATA:', value: `${now.toLocaleDateString()}` });
+    pdfDoc.addLabelAndValue({
+      startX: 160,
+      startY: 40,
+      endX: 175,
+      endY: 40,
+      label: 'DATA:',
+      value: `${now.toLocaleDateString()}`
+    });
 
     pdfDoc.addDot({ startX: 10, startY: 42, endX: 200, endY: 42 });
 
     pdfDoc.addLabelAndValue({
-      startX: 10, startY: 50, endX: 27, endY: 50, label: 'Cliente:',
-      value: this.titlecasePipe.transform(this.workOrder.vehicle.client.name ? this.workOrder.vehicle.client.name : '')
+      startX: 10,
+      startY: 50,
+      endX: 27,
+      endY: 50,
+      label: 'Cliente:',
+      value: this.titlecasePipe.transform(
+        this.workOrder.vehicle.client.name
+          ? this.workOrder.vehicle.client.name
+          : ''
+      )
     });
     pdfDoc.addLabelAndValue({
-      startX: 10, startY: 55, endX: 22, endY: 55, label: 'CPF:',
-      value: this.maskService.applyMask(this.workOrder.vehicle.client.individualRegistration ? this.workOrder.vehicle.client.individualRegistration : '', '000.000.000-00')
+      startX: 10,
+      startY: 55,
+      endX: 22,
+      endY: 55,
+      label: 'CPF:',
+      value: this.maskService.applyMask(
+        this.workOrder.vehicle.client.individualRegistration
+          ? this.workOrder.vehicle.client.individualRegistration
+          : '',
+        '000.000.000-00'
+      )
     });
-    pdfDoc.addLabelAndValue({ startX: 75, startY: 55, endX: 90, endY: 55, label: 'E-mail:', value: this.workOrder.vehicle.client.email ? this.workOrder.vehicle.client.email : '' });
     pdfDoc.addLabelAndValue({
-      startX: 10, startY: 60, endX: 28, endY: 60, label: 'Contato:',
-      value: this.maskService.applyMask(this.workOrder.vehicle ? this.workOrder.vehicle.client.cellphone : '', '(00) 00000-0000')
+      startX: 75,
+      startY: 55,
+      endX: 90,
+      endY: 55,
+      label: 'E-mail:',
+      value: this.workOrder.vehicle.client.email
+        ? this.workOrder.vehicle.client.email
+        : ''
+    });
+    pdfDoc.addLabelAndValue({
+      startX: 10,
+      startY: 60,
+      endX: 28,
+      endY: 60,
+      label: 'Contato:',
+      value: this.maskService.applyMask(
+        this.workOrder.vehicle ? this.workOrder.vehicle.client.cellphone : '',
+        '(00) 00000-0000'
+      )
     });
 
     pdfDoc.doc.setLineDash([]);
@@ -157,29 +216,73 @@ export class WorkOrderPreviewComponent implements OnInit {
     pdfDoc.textFontSize = 12;
 
     pdfDoc.addLabelAndValue({
-      startX: 15, startY: 87, endX: 30, endY: 87, label: 'Placa:',
-      value: this.maskService.applyMask(this.workOrder.vehicle.carLicense ? this.workOrder.vehicle.carLicense.toUpperCase() : '', 'AAA-0000')
+      startX: 15,
+      startY: 87,
+      endX: 30,
+      endY: 87,
+      label: 'Placa:',
+      value: this.maskService.applyMask(
+        this.workOrder.vehicle.carLicense
+          ? this.workOrder.vehicle.carLicense.toUpperCase()
+          : '',
+        'AAA-0000'
+      )
     });
     pdfDoc.addLabelAndValue({
-      startX: 105, startY: 87, endX: 115, endY: 87, label: 'Cor:', value: this.workOrder.vehicle.color ? this.workOrder.vehicle.color.toUpperCase() : ''
+      startX: 105,
+      startY: 87,
+      endX: 115,
+      endY: 87,
+      label: 'Cor:',
+      value: this.workOrder.vehicle.color
+        ? this.workOrder.vehicle.color.toUpperCase()
+        : ''
     });
 
     pdfDoc.doc.line(10, 90, 200, 90);
 
     pdfDoc.addLabelAndValue({
-      startX: 15, startY: 97, endX: 35, endY: 97, label: 'Modelo:', value: this.workOrder.vehicle.model ? this.workOrder.vehicle.model.toUpperCase() : ''
+      startX: 15,
+      startY: 97,
+      endX: 35,
+      endY: 97,
+      label: 'Modelo:',
+      value: this.workOrder.vehicle.model
+        ? this.workOrder.vehicle.model.toUpperCase()
+        : ''
     });
     pdfDoc.addLabelAndValue({
-      startX: 105, startY: 97, endX: 120, endY: 97, label: 'Marca:', value: this.workOrder.vehicle.brand ? this.workOrder.vehicle.brand.toUpperCase() : ''
+      startX: 105,
+      startY: 97,
+      endX: 120,
+      endY: 97,
+      label: 'Marca:',
+      value: this.workOrder.vehicle.brand
+        ? this.workOrder.vehicle.brand.toUpperCase()
+        : ''
     });
 
     pdfDoc.doc.line(10, 100, 200, 100);
 
     pdfDoc.addLabelAndValue({
-      startX: 15, startY: 107, endX: 30, endY: 107, label: 'Ano:', value: this.workOrder.vehicle.year ? this.workOrder.vehicle.year.getFullYear().toString() : ''
+      startX: 15,
+      startY: 107,
+      endX: 30,
+      endY: 107,
+      label: 'Ano:',
+      value: this.workOrder.vehicle.year
+        ? this.workOrder.vehicle.year.getFullYear().toString()
+        : ''
     });
     pdfDoc.addLabelAndValue({
-      startX: 105, startY: 107, endX: 135, endY: 107, label: 'Ano modelo:', value: this.workOrder.vehicle.yearModel ? this.workOrder.vehicle.yearModel.getFullYear().toString() : ''
+      startX: 105,
+      startY: 107,
+      endX: 135,
+      endY: 107,
+      label: 'Ano modelo:',
+      value: this.workOrder.vehicle.yearModel
+        ? this.workOrder.vehicle.yearModel.getFullYear().toString()
+        : ''
     });
 
     pdfDoc.titleFontSize = 14;
@@ -190,20 +293,41 @@ export class WorkOrderPreviewComponent implements OnInit {
     pdfDoc.doc.text(10, 125, 'Serviços');
     pdfDoc.doc.setFontType('normal');
 
-    const services = Object.assign([], this.workOrder.services.map(service => {
-      return { name: service.name, price: this.currencyPipe.transform(service.price ? service.price.toString() : '', 'BRL') };
-    }));
+    const services = Object.assign(
+      [],
+      this.workOrder.services.map(service => {
+        return {
+          name: service.name,
+          price: this.currencyPipe.transform(
+            service.price ? service.price.toString() : '',
+            'BRL'
+          )
+        };
+      })
+    );
 
-    const products = Object.assign([], this.workOrder.products.map(product => {
-      return {
-        name: product.name,
-        amount: product.amount,
-        price: this.currencyPipe.transform(product.price ? product.price.toString() : '', 'BRL')
-      };
-    }));
+    const products = Object.assign(
+      [],
+      this.workOrder.products.map(product => {
+        return {
+          name: product.name,
+          amount: product.amount,
+          price: this.currencyPipe.transform(
+            product.price ? product.price.toString() : '',
+            'BRL'
+          )
+        };
+      })
+    );
 
-    services.push({ name: 'Total', price: this.currencyPipe.transform(this.getTotalServicePrice(), 'BRL') });
-    products.push({ name: 'Total', price: this.currencyPipe.transform(this.getTotalProductsPrice(), 'BRL') });
+    services.push({
+      name: 'Total',
+      price: this.currencyPipe.transform(this.getTotalServicePrice(), 'BRL')
+    });
+    products.push({
+      name: 'Total',
+      price: this.currencyPipe.transform(this.getTotalProductsPrice(), 'BRL')
+    });
 
     const firstPageServicos = services.splice(0, 17);
 
@@ -216,12 +340,15 @@ export class WorkOrderPreviewComponent implements OnInit {
         { header: 'Serviço', dataKey: 'name' },
         { header: 'Valor (R$)', dataKey: 'price' }
       ],
-      didParseCell: (hookData) => {
-        if (hookData.row.index === hookData.table.body.length - 1 && !services.length) {
+      didParseCell: hookData => {
+        if (
+          hookData.row.index === hookData.table.body.length - 1 &&
+          !services.length
+        ) {
           hookData.cell.styles.fontStyle = 'bold';
         }
       },
-      didDrawPage: (hookData) => {
+      didDrawPage: hookData => {
         if (firstPageServicos.length && services.length) {
           pdfDoc.doc.addPage();
 
@@ -230,16 +357,20 @@ export class WorkOrderPreviewComponent implements OnInit {
             theme: 'plain',
             margin: { top: 10, left: 45, right: 10 },
             body: services,
-            columns: [{ header: 'Serviço', dataKey: 'name' },
-            { header: 'Valor (R$)', dataKey: 'price' },
+            columns: [
+              { header: 'Serviço', dataKey: 'name' },
+              { header: 'Valor (R$)', dataKey: 'price' }
             ],
-            didParseCell: (hookData) => {
+            didParseCell: hookData => {
               if (hookData.row.index === hookData.table.body.length - 1) {
                 hookData.cell.styles.fontStyle = 'bold';
               }
             },
-            didDrawPage: (hookData) => {
-              const firstPageProdutos = products.splice(0, 17 - services.length);
+            didDrawPage: hookData => {
+              const firstPageProdutos = products.splice(
+                0,
+                17 - services.length
+              );
 
               pdfDoc.doc.setFontType('bold');
               pdfDoc.doc.text(10, hookData.cursor.y + 15, 'Produtos');
@@ -253,14 +384,14 @@ export class WorkOrderPreviewComponent implements OnInit {
                 columns: [
                   { header: 'Produto', dataKey: 'name' },
                   { header: 'Quantidade', dataKey: 'amount' },
-                  { header: 'Valor (R$)', dataKey: 'price' },
+                  { header: 'Valor (R$)', dataKey: 'price' }
                 ],
-                didParseCell: (hookData) => {
+                didParseCell: hookData => {
                   if (hookData.row.index === hookData.table.body.length - 1) {
                     hookData.cell.styles.fontStyle = 'bold';
                   }
                 },
-                didDrawPage: (hookData) => {
+                didDrawPage: hookData => {
                   if (firstPageProdutos.length && products.length) {
                     pdfDoc.doc.addPage();
 
@@ -271,19 +402,26 @@ export class WorkOrderPreviewComponent implements OnInit {
                     pdfDoc.doc.autoTable({
                       styles: { fontSize: 12 },
                       theme: 'plain',
-                      margin: { top: hookData.cursor.y + 20, left: 35, right: 10 },
+                      margin: {
+                        top: hookData.cursor.y + 20,
+                        left: 35,
+                        right: 10
+                      },
                       body: products,
                       columns: [
                         { header: 'Produto', dataKey: 'name' },
                         { header: 'Quantidade', dataKey: 'amount' },
-                        { header: 'Valor (R$)', dataKey: 'price' },
+                        { header: 'Valor (R$)', dataKey: 'price' }
                       ],
-                      didParseCell: (hookData) => {
-                        if (hookData.row.index === hookData.table.body.length - 1) {
+                      didParseCell: hookData => {
+                        if (
+                          hookData.row.index ===
+                          hookData.table.body.length - 1
+                        ) {
                           hookData.cell.styles.fontStyle = 'bold';
                         }
                       },
-                      didDrawPage: (hookData) => {
+                      didDrawPage: hookData => {
                         this.buildFooterSection(hookData, pdfDoc);
                       }
                     });
@@ -295,11 +433,18 @@ export class WorkOrderPreviewComponent implements OnInit {
             }
           });
         } else {
-          const firstPageProdutos = products.splice(0, firstPageServicos.length);
+          const firstPageProdutos = products.splice(
+            0,
+            firstPageServicos.length
+          );
 
           let y = hookData.cursor.y + 15;
 
-          y = this.breakPageAndSetStartY(((products.length - 1) * 6) + hookData.cursor.y + 15, pdfDoc, y);
+          y = this.breakPageAndSetStartY(
+            (products.length - 1) * 6 + hookData.cursor.y + 15,
+            pdfDoc,
+            y
+          );
 
           pdfDoc.doc.setFontType('bold');
           pdfDoc.doc.text(10, y + 10, 'Produtos');
@@ -313,15 +458,17 @@ export class WorkOrderPreviewComponent implements OnInit {
             columns: [
               { header: 'Produto', dataKey: 'name' },
               { header: 'Quantidade', dataKey: 'amount' },
-              { header: 'Valor (R$)', dataKey: 'price' },
-
+              { header: 'Valor (R$)', dataKey: 'price' }
             ],
-            didParseCell: (hookData) => {
-              if (hookData.row.index === hookData.table.body.length - 1 && !products.length) {
+            didParseCell: hookData => {
+              if (
+                hookData.row.index === hookData.table.body.length - 1 &&
+                !products.length
+              ) {
                 hookData.cell.styles.fontStyle = 'bold';
               }
             },
-            didDrawPage: (hookData) => {
+            didDrawPage: hookData => {
               if (firstPageProdutos.length && products.length) {
                 pdfDoc.doc.addPage();
 
@@ -333,14 +480,14 @@ export class WorkOrderPreviewComponent implements OnInit {
                   columns: [
                     { header: 'Produto', dataKey: 'name' },
                     { header: 'Quantidade', dataKey: 'amount' },
-                    { header: 'Valor (R$)', dataKey: 'price' },
+                    { header: 'Valor (R$)', dataKey: 'price' }
                   ],
-                  didParseCell: (hookData) => {
+                  didParseCell: hookData => {
                     if (hookData.row.index === hookData.table.body.length - 1) {
                       hookData.cell.styles.fontStyle = 'bold';
                     }
                   },
-                  didDrawPage: (hookData) => {
+                  didDrawPage: hookData => {
                     this.buildFooterSection(hookData, pdfDoc);
                   }
                 });
@@ -353,7 +500,11 @@ export class WorkOrderPreviewComponent implements OnInit {
       }
     });
 
-    pdfDoc.doc.save(`${this.workOrder.type}${this.workOrder.id}_${now.toLocaleDateString().replace(new RegExp('/', 'g'), '-')}.pdf`);
+    pdfDoc.doc.save(
+      `${this.workOrder.type}${
+        this.workOrder.id
+      }_${now.toLocaleDateString().replace(new RegExp('/', 'g'), '-')}.pdf`
+    );
   }
 
   public breakPageAndSetStartY(height, pdfDoc, y: number) {
@@ -371,9 +522,16 @@ export class WorkOrderPreviewComponent implements OnInit {
 
     let startY = hookData.cursor.y + 15;
 
-    const splitTitle = pdfDoc.doc.splitTextToSize(this.workOrder.comments ? this.workOrder.comments : '', 180);
+    const splitTitle = pdfDoc.doc.splitTextToSize(
+      this.workOrder.comments ? this.workOrder.comments : '',
+      180
+    );
 
-    startY = this.breakPageAndSetStartY(((splitTitle.length - 1) * 6) + hookData.cursor.y + 50, pdfDoc, startY);
+    startY = this.breakPageAndSetStartY(
+      (splitTitle.length - 1) * 6 + hookData.cursor.y + 50,
+      pdfDoc,
+      startY
+    );
 
     const endY = startY + 5;
 
@@ -388,11 +546,14 @@ export class WorkOrderPreviewComponent implements OnInit {
 
     pdfDoc.addLabelAndValue({
       startX: 140,
-      startY: ((splitTitle.length - 1) * 6) + endY + 10,
+      startY: (splitTitle.length - 1) * 6 + endY + 10,
       endX: 155,
-      endY: ((splitTitle.length - 1) * 6) + endY + 10,
+      endY: (splitTitle.length - 1) * 6 + endY + 10,
       label: 'Total:',
-      value: this.currencyPipe.transform(this.totalValue ? this.totalValue.toString() : '', 'BRL')
+      value: this.currencyPipe.transform(
+        this.totalValue ? this.totalValue.toString() : '',
+        'BRL'
+      )
     });
   }
 }

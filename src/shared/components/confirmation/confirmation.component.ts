@@ -14,10 +14,10 @@ interface Data {
   styleUrls: ['./confirmation.component.scss']
 })
 export class ConfirmationComponent implements OnInit {
+  constructor(
+    public dialogRef: MatDialogRef<ConfirmationComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Data
+  ) {}
 
-  constructor(public dialogRef: MatDialogRef<ConfirmationComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Data) { }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 }

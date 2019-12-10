@@ -2,12 +2,12 @@ import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material';
 import { VehicleAddEditComponent } from './add-edit/vehicle-add-edit.component';
 import IVehicle from '../../shared/interfaces/vehicle.interface';
 import { DatabaseService } from '../../shared/services/database/database.service';
 import { VehicleEntity } from '../../shared/services/database/entities/vehicle.entity';
 import { ConfirmationComponent } from '../../shared/components/confirmation/confirmation.component';
-import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-vehicles-list',
@@ -26,7 +26,8 @@ export class VehiclesListComponent implements OnInit {
     'district',
     'chassis',
     'edit',
-    'delete'];
+    'delete'
+  ];
 
   public dataSource = new MatTableDataSource<IVehicle>();
 
@@ -37,7 +38,8 @@ export class VehiclesListComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private _databaseService: DatabaseService,
-    private _snackBar: MatSnackBar) { }
+    private _snackBar: MatSnackBar
+  ) {}
 
   async ngOnInit() {
     await this.getVehicles();
@@ -45,17 +47,17 @@ export class VehiclesListComponent implements OnInit {
 
   async getVehicles() {
     try {
-      await this._databaseService
-        .connection
-        .then(async () => {
-          const vehicles = await VehicleEntity.find({ where: { client: this.clientId } });
-          this.dataSource.data = vehicles;
-          this.dataSource.paginator = this.paginator;
+      await this._databaseService.connection.then(async () => {
+        const vehicles = await VehicleEntity.find({
+          where: { client: this.clientId }
         });
+        this.dataSource.data = vehicles;
+        this.dataSource.paginator = this.paginator;
+      });
     } catch (err) {
       console.error(err);
       this._snackBar.open('Não foi possível carregar o veículo.', 'OK', {
-        duration: 2000,
+        duration: 2000
       });
     }
   }
@@ -64,7 +66,9 @@ export class VehiclesListComponent implements OnInit {
     try {
       const confirmation = {
         message: 'Deseja ativar o veículo',
-        data: vehicle.carLicense.toUpperCase().substr(0, 3) + '-' + vehicle.carLicense.substr(3),
+        data: `${vehicle.carLicense
+          .toUpperCase()
+          .substr(0, 3)} - ${vehicle.carLicense.substr(3)}`,
         action: 'Ativar'
       };
 
@@ -74,20 +78,18 @@ export class VehiclesListComponent implements OnInit {
         data: { ...confirmation }
       });
 
-      dialogRef.afterClosed().subscribe(async (data) => {
+      dialogRef.afterClosed().subscribe(async data => {
         if (data) {
-          await this._databaseService
-            .connection
-            .then(async () => {
-              await VehicleEntity.update({ id: vehicle.id }, { status: true });
-              await this.getVehicles();
-            });
+          await this._databaseService.connection.then(async () => {
+            await VehicleEntity.update({ id: vehicle.id }, { status: true });
+            await this.getVehicles();
+          });
         }
       });
     } catch (err) {
       console.error(err);
       this._snackBar.open('Não foi possível ativar o veículo.', 'OK', {
-        duration: 2000,
+        duration: 2000
       });
     }
   }
@@ -96,7 +98,9 @@ export class VehiclesListComponent implements OnInit {
     try {
       const confirmation = {
         message: 'Deseja desativar o veículo',
-        data: vehicle.carLicense.toUpperCase().substr(0, 3) + '-' + vehicle.carLicense.substr(3),
+        data: `${vehicle.carLicense
+          .toUpperCase()
+          .substr(0, 3)} - ${vehicle.carLicense.substr(3)}`,
         action: 'Desativar'
       };
 
@@ -106,20 +110,18 @@ export class VehiclesListComponent implements OnInit {
         data: { ...confirmation }
       });
 
-      dialogRef.afterClosed().subscribe(async (data) => {
+      dialogRef.afterClosed().subscribe(async data => {
         if (data) {
-          await this._databaseService
-            .connection
-            .then(async () => {
-              await VehicleEntity.update({ id: vehicle.id }, { status: false });
-              await this.getVehicles();
-            });
+          await this._databaseService.connection.then(async () => {
+            await VehicleEntity.update({ id: vehicle.id }, { status: false });
+            await this.getVehicles();
+          });
         }
       });
     } catch (err) {
       console.error(err);
       this._snackBar.open('Não foi possível desativar o veículo.', 'OK', {
-        duration: 2000,
+        duration: 2000
       });
     }
   }
@@ -137,9 +139,15 @@ export class VehiclesListComponent implements OnInit {
       });
     } catch (err) {
       console.error(err);
-      this._snackBar.open(`Não foi possível ir para ${vehicle.id ? 'editar' : 'adicionar'} o veículo`, 'OK', {
-        duration: 2000,
-      });
+      this._snackBar.open(
+        `Não foi possível ir para ${
+          vehicle.id ? 'editar' : 'adicionar'
+        } o veículo`,
+        'OK',
+        {
+          duration: 2000
+        }
+      );
     }
   }
 }

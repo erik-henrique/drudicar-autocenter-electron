@@ -1,7 +1,7 @@
 export enum Status {
-    AwaitingApproval = 'Aguardando Aprovação',
-    Canceled = 'Cancelada',
-    Available = 'Disponível',
-    InProgress = 'Em Andamento',
-    Finished = 'Finalizado'
+  AWAITING_APPROVAL = 'Aguardando Aprovação',
+  CANCELED = 'Cancelada',
+  AVAILABLE = 'Disponível',
+  IN_PROGRESS = 'Em Andamento',
+  FINISHED = 'Finalizado'
 }
