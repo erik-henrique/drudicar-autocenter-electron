@@ -3,7 +3,7 @@ import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
 export default class PDF {
-  doc: any;
+  public doc: any;
   public titleFontSize: number;
   public textFontSize: number;
 
