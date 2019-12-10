@@ -1,4 +1,4 @@
-export default interface IPdfConfig {
+export default interface IPDFConfig {
   label?: string;
   value?: string;
   startX?: number;

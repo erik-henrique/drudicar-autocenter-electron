@@ -1,8 +1,8 @@
-import IPdfConfig from '../interfaces/pdfConfig.interface';
+import IPDFConfig from '../interfaces/pdfConfig.interface';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
-export default class Pdf {
+export default class PDF {
   doc: any;
   public titleFontSize: number;
   public textFontSize: number;
@@ -16,7 +16,7 @@ export default class Pdf {
     this.textFontSize = 12;
   }
 
-  public addLabelAndValue(config: IPdfConfig) {
+  public addLabelAndValue(config: IPDFConfig) {
     this.doc.setFontSize(this.titleFontSize);
     this.doc.setFontType('bold');
     this.doc.text(config.startX, config.startY, config.label);
@@ -26,7 +26,7 @@ export default class Pdf {
     this.doc.text(config.endX, config.endY, config.value);
   }
 
-  public addDot(config: IPdfConfig, lineDash: number = 2.5) {
+  public addDot(config: IPDFConfig, lineDash: number = 2.5) {
     this.doc.setLineDash([lineDash]);
     this.doc.line(config.startX, config.startY, config.endX, config.endY);
   }

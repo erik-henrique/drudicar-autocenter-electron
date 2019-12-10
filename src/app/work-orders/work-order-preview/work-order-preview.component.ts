@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import Pdf from '../../../shared/entities/pdf.entity';
+import PDF from '../../../shared/entities/pdf.entity';
 import { DatabaseService } from '../../../shared/services/database/database.service';
 import { WorkOrderEntity } from '../../../shared/services/database/entities/work-order.entity';
 import IWorkOrder from '../../../shared/interfaces/work-order.interface';
@@ -115,8 +115,8 @@ export class WorkOrderPreviewComponent implements OnInit {
     }
   }
 
-  public downloadWorkOrderPreview() {
-    const pdfDoc = new Pdf();
+  public downloadWorkOrderPDF() {
+    const pdfDoc = new PDF();
 
     pdfDoc.addLabelAndValue({
       startX: 10,
@@ -146,7 +146,9 @@ export class WorkOrderPreviewComponent implements OnInit {
     pdfDoc.doc.text(10, 40, 'AUTO CENTER DRUDICAR');
 
     pdfDoc.titleFontSize = 12;
+
     const now = new Date();
+
     pdfDoc.addLabelAndValue({
       startX: 160,
       startY: 40,
@@ -170,6 +172,7 @@ export class WorkOrderPreviewComponent implements OnInit {
           : ''
       )
     });
+
     pdfDoc.addLabelAndValue({
       startX: 10,
       startY: 55,
@@ -183,6 +186,7 @@ export class WorkOrderPreviewComponent implements OnInit {
         '000.000.000-00'
       )
     });
+
     pdfDoc.addLabelAndValue({
       startX: 75,
       startY: 55,
@@ -193,6 +197,7 @@ export class WorkOrderPreviewComponent implements OnInit {
         ? this.workOrder.vehicle.client.email
         : ''
     });
+
     pdfDoc.addLabelAndValue({
       startX: 10,
       startY: 60,
@@ -230,6 +235,7 @@ export class WorkOrderPreviewComponent implements OnInit {
         'AAA-0000'
       )
     });
+
     pdfDoc.addLabelAndValue({
       startX: 105,
       startY: 87,
@@ -253,6 +259,7 @@ export class WorkOrderPreviewComponent implements OnInit {
         ? this.workOrder.vehicle.model.toUpperCase()
         : ''
     });
+
     pdfDoc.addLabelAndValue({
       startX: 105,
       startY: 97,
@@ -276,6 +283,7 @@ export class WorkOrderPreviewComponent implements OnInit {
         ? this.workOrder.vehicle.year.getFullYear().toString()
         : ''
     });
+
     pdfDoc.addLabelAndValue({
       startX: 105,
       startY: 107,
@@ -326,6 +334,7 @@ export class WorkOrderPreviewComponent implements OnInit {
       name: 'Total',
       price: this.currencyPipe.transform(this.getTotalServicePrice(), 'BRL')
     });
+
     products.push({
       name: 'Total',
       price: this.currencyPipe.transform(this.getTotalProductsPrice(), 'BRL')
