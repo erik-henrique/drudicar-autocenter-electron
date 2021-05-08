@@ -52,7 +52,7 @@
     "ngx-mask": "^8.0.2",
     "ngx-spinner": "^8.0.3",
     "sqlite3": "^4.0.9",
-    "typeorm": "^0.2.18"
+    "typeorm": "^0.2.25"
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "^8.0.2",
